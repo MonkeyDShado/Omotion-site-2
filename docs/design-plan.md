@@ -1,6 +1,6 @@
 # Plan de design — Omotion
 
-Statut : **proposition, en attente de validation**. Aucun style n'est codé tant que ce plan n'est pas validé.
+Statut : **palette et typographie validées** (option A). Restent à trancher : orthographe du nom, version claire du logo, recadrage, grille et mouvement.
 
 ## 1. Analyse du logo
 
@@ -26,7 +26,7 @@ Couleurs relevées dans le fichier (médianes par famille de pixels) :
 2. **Pas de SVG ni de version claire.** Le logotype `#470F79` est illisible sur fond sombre (contraste 1,5:1). Il faut une version claire (logotype blanc) pour le hero vidéo et le pied de page, idéalement en SVG. `[À COMPLÉTER — fichiers à fournir]`
 3. **Marges transparentes importantes** : le logo n'occupe que ~46 % de la largeur du carré. Pour l'en-tête, il faudra soit un fichier recadré fourni par toi, soit mon accord pour recadrer uniquement les marges vides (sans toucher au dessin).
 
-## 2. Palette proposée (6 tokens)
+## 2. Palette (6 tokens) — validée
 
 | Token | Hex | Origine | Usage |
 |---|---|---|---|
@@ -49,14 +49,14 @@ Contrastes vérifiés (WCAG AA = 4,5:1 pour le texte courant) :
 
 **Le dégradé violet → rose** du symbole est la signature. Il apparaît à 2 ou 3 endroits maximum (soulignement du lien actif, barre de progression de la vidéo, survol du bouton devis), jamais en fond de section. Le fond reste neutre pour que les visuels clients, qui auront leurs propres couleurs, ne se battent pas avec la marque.
 
-## 3. Typographies (2 options, à choisir)
+## 3. Typographies — option A validée
 
 Aucune police de marque connue. Les deux options suivent le logotype (géométrique, arrondi) et sont gratuites, auto-hébergées via `@fontsource` (pas d'appel à Google Fonts : plus rapide et sans transfert de données vers Google, utile pour le RGPD).
 
 - **Option A — proche du logo** : *Outfit* (titres, 600) + *Instrument Sans* (texte, 400/500). Cohérence maximale avec le logotype, rendu propre et calme.
 - **Option B — plus de caractère** : *Bricolage Grotesque* (titres, 700) + *Figtree* (texte, 400/500). Titres plus expressifs qui contrastent avec les formes fluides du symbole, texte toujours très lisible sur mobile.
 
-Ma recommandation : **A**, parce que le travail doit rester la star et que le logo porte déjà toute la personnalité.
+**Choix retenu : A** — Outfit (titres) + Instrument Sans (texte).
 
 Échelle : base 16 px mobile / 18 px desktop, ratio ~1,25, titres en casse normale (pas de majuscules espacées).
 
@@ -87,7 +87,7 @@ Ma recommandation : **A**, parce que le travail doit rester la star et que le lo
 ## 7. À valider
 
 - [ ] Orthographe du nom : **Omotion** ou **O'Motion** ?
-- [ ] Palette des 6 tokens
-- [ ] Typographie : **A** ou **B**
+- [x] Palette des 6 tokens
+- [x] Typographie : **A** (Outfit + Instrument Sans)
 - [ ] Fourniture d'une version claire (et si possible SVG) du logo, ou accord pour recadrer les marges vides
 - [ ] Principes de grille et de mouvement
