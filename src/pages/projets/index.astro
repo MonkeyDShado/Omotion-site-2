@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout title="Projets" description="[À COMPLÉTER — meta description : Projets]">
+  <div class="container page">
+    <h1>Projets</h1>
+    {
+      projects.length === 0 ? (
+        <p class="placeholder">[À COMPLÉTER — aucun projet pour l'instant, à ajouter dans src/content/projects/]</p>
+      ) : (
+        <ul>
+          {projects.map((p) => (
+            <li>
+              <a href={`/projets/${p.id}`}>{p.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-12) var(--space-24);
+  }
+</style>

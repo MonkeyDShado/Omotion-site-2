@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import MobileQuoteBar from '../components/MobileQuoteBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Masque la barre de devis mobile (ex. sur la page contact elle-même) */
+  hideQuoteBar?: boolean;
+}
+
+const { title, description, hideQuoteBar = false } = Astro.props;
+const fullTitle = Astro.url.pathname === '/' ? title : `${title} · O’Motion`;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#150a22" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="O’Motion" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <!-- [À COMPLÉTER] og:image et og:url : nécessitent le domaine définitif et des visuels de projets -->
+  </head>
+  <body>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+    <SiteHeader />
+    <main id="contenu">
+      <slot />
+    </main>
+    <SiteFooter />
+    {!hideQuoteBar && <MobileQuoteBar />}
+  </body>
+</html>

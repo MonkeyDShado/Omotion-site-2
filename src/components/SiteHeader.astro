@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/omotion-logo-cropped.png';
+import symbol from '../assets/brand/omotion-symbol.png';
+import QuoteButton from './QuoteButton.astro';
+
+const links = [
+  { href: '/projets', label: 'Projets' },
+  { href: '/services', label: 'Services' },
+  { href: '/a-propos', label: 'À propos' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="site-header">
+  <div class="container inner">
+    <a href="/" class="brand" aria-label="O’Motion, accueil">
+      <Image src={symbol} densities={[1, 2]} alt="" width={40} height={35} class="brand-symbol" loading="eager" />
+      <Image src={logo} densities={[1, 2]} alt="" width={74} height={60} class="brand-logo" loading="eager" />
+    </a>
+
+    <nav aria-label="Navigation principale">
+      <ul>
+        {
+          links.map(({ href, label }) => (
+            <li class={href === '/contact' ? 'nav-contact' : undefined}>
+              <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header-quote">
+      <QuoteButton />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: var(--header-height);
+  }
+
+  .brand {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .brand-logo,
+  .header-quote,
+  .nav-contact {
+    display: none;
+  }
+
+  nav {
+    margin-left: auto;
+  }
+
+  ul {
+    display: flex;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    padding-block: var(--space-2);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  /* Signature : soulignement en dégradé sur le lien actif */
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.25rem;
+    height: 2px;
+    background: var(--gradient-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-fluid);
+  }
+
+  nav a:hover::after,
+  nav a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  @media (min-width: 48em) {
+    .brand-symbol {
+      display: none;
+    }
+
+    .brand-logo,
+    .header-quote {
+      display: block;
+    }
+
+    .nav-contact {
+      display: list-item;
+    }
+
+    ul {
+      gap: var(--space-6);
+    }
+  }
+</style>

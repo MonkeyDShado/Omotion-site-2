@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import logoLight from '../assets/brand/omotion-logo-light.png';
+---
+
+<BaseLayout
+  title="O’Motion — Key visuals et montage vidéo"
+  description="[À COMPLÉTER — meta description de l'accueil]"
+>
+  <section class="hero on-night" aria-label="Showreel">
+    <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={259} height={210} loading="eager" />
+    <p class="placeholder">[À COMPLÉTER — showreel plein écran, boucle muette]</p>
+  </section>
+
+  <section class="container section">
+    <h2>Projets</h2>
+    <p class="placeholder">[À COMPLÉTER — sélection de projets mis en avant]</p>
+  </section>
+
+  <section class="container section">
+    <h2>Services</h2>
+    <p class="placeholder">[À COMPLÉTER — Key visuals et Montage vidéo]</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-8);
+    min-height: calc(100svh - var(--header-height));
+    padding: var(--gutter);
+    text-align: center;
+  }
+
+  .section {
+    padding-block: var(--space-16);
+  }
+</style>

@@ -1,0 +1,68 @@
+/* Tokens de design O'Motion — valeurs validées dans docs/design-plan.md */
+
+:root {
+  /* Couleurs (relevées dans le logo) */
+  --color-ink: #470f79;
+  --color-violet: #9432ef;
+  --color-rose: #ed258a; /* jamais pour du texte courant sur fond clair (4,0:1) */
+  --color-magenta: #a31373;
+  --color-paper: #ffffff;
+  --color-night: #150a22;
+  --color-mist: #f4f2f8; /* variante de paper pour séparer les zones */
+
+  /* Signature : dégradé du symbole, 2 ou 3 usages maximum */
+  --gradient-brand: linear-gradient(90deg, var(--color-violet), var(--color-rose));
+
+  /* Typographies */
+  --font-display: 'Outfit Variable', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+
+  /* Échelle typographique, ratio ~1,25 ; base 16 px mobile, 18 px desktop */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: clamp(2.441rem, 6vw, 3.815rem);
+
+  /* Espacements */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Mise en page */
+  --gutter: var(--space-4);
+  --max-media: 1440px;
+  --max-text: 68ch;
+  --header-height: 4rem;
+
+  /* Mouvement : courbes souples, durées courtes */
+  --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+}
+
+@media (min-width: 48em) {
+  :root {
+    --gutter: var(--space-8);
+  }
+}
+
+@media (min-width: 64em) {
+  :root {
+    font-size: 112.5%; /* 18 px */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}
