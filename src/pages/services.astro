@@ -19,12 +19,19 @@ import { services } from '../data/services';
       services.map((service) => (
         <section class="service" id={service.id} aria-labelledby={`${service.id}-title`}>
           <h2 id={`${service.id}-title`}>{service.title}</h2>
-          <p>{service.summary}</p>
-          <ul>
-            {service.uses.map((use) => (
-              <li>{use}</li>
-            ))}
-          </ul>
+          {service.details.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          {service.formulas && (
+            <div class="formulas">
+              {service.formulas.map((formula) => (
+                <div class="formula">
+                  <h3>{formula.title}</h3>
+                  <p>{formula.description}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       ))
     }
@@ -32,9 +39,10 @@ import { services } from '../data/services';
     <section class="service" aria-labelledby="ai-title">
       <h2 id="ai-title">Ma façon de travailler avec l’IA</h2>
       <p>
-        J’utilise l’IA pour explorer plus de pistes, plus vite, et garder des coûts raisonnables. La
-        direction artistique, les choix et les finitions restent faits à la main. Chaque projet du portfolio
-        précise ce qu’a fait l’IA et ce que j’ai fait moi-même.
+        J’utilise l’IA pour explorer plus de pistes, plus vite, et garder des coûts raisonnables. Les
+        vidéos scénarisées sont entièrement générées par l’IA ; dans tous les cas, la direction artistique,
+        les choix et le montage final restent les miens. Chaque projet du portfolio précise ce qu’a fait
+        l’IA et ce que j’ai fait moi-même.
       </p>
     </section>
 
@@ -65,17 +73,30 @@ import { services } from '../data/services';
     border-top: 1px solid var(--color-mist);
   }
 
-  ul {
+  .formulas {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .formula {
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-violet);
+  }
+
+  .formula:last-child {
+    border-left-color: var(--color-rose);
+  }
+
+  .formula p {
     margin: 0;
-    padding-left: 1.25em;
   }
 
-  li + li {
-    margin-top: var(--space-1);
-  }
-
-  li::marker {
-    color: var(--color-violet);
+  @media (min-width: 48em) {
+    .formulas {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
   }
 
   .cta {

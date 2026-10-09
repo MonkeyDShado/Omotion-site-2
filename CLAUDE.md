@@ -8,8 +8,10 @@ O'Motion est le service d'un graphiste free-lance. Le site est un portfolio vitr
 
 Deux services, et seulement deux :
 
-- **Key visuals** : visuels clés pour campagnes, lancements produit, événements, pochettes, affiches, réseaux sociaux.
-- **Montage vidéo** : clips, teasers, contenus réseaux sociaux (formats verticaux et horizontaux), motion design léger.
+- **Key visuals** : un visuel fort et polyvalent pour promouvoir un nouveau produit ou un événement sans campagne coûteuse. Après la prise de contact, un questionnaire ciblé définit le ton et les supports de diffusion ; le visuel est pensé pour fonctionner sur chacun.
+- **Montage vidéo**, en deux formules :
+  - **Vidéo scénarisée** : entièrement générée par l'IA (ex. vidéo produit qui met en avant la gourmandise d'une barre de chocolat, scénario au rendu cinéma). Argument : pas de coût de tournage en studio.
+  - **Vidéo institutionnelle** : montage plus simple à partir de vidéos libres de droits, textes, images et animations (outils : CapCut, Canva).
 
 Le processus créatif est **assisté par l'IA** (génération d'images, retouche, montage). C'est un argument assumé : rapidité, volume d'exploration, coûts maîtrisés, avec une direction artistique humaine. Le site doit le dire clairement et honnêtement, sans en faire un gadget ni s'en excuser.
 
