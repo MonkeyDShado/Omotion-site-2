@@ -1,10 +1,10 @@
-# Plan de design — Omotion
+# Plan de design — O'Motion
 
-Statut : **palette et typographie validées** (option A). Restent à trancher : orthographe du nom, version claire du logo, recadrage, grille et mouvement.
+Statut : **validé.** Seul point ouvert : une version vectorielle (SVG) officielle du logo, à fournir plus tard.
 
 ## 1. Analyse du logo
 
-Fichier : `src/assets/brand/omotion-logo.png` (PNG 1080×1080, fond transparent, déposé tel quel, non modifié).
+Fichier source : `src/assets/brand/omotion-logo.png` (PNG 1080×1080, fond transparent, conservé tel quel).
 
 - **Symbole** : deux formes fluides entrelacées qui dessinent un « S » / un mouvement de rotation, avec deux petites gouttes satellites. Dégradé violet → rose, volumes doux, aucun angle vif.
 - **Logotype** : sans-serif géométrique, graisse semi-grasse, terminaisons arrondies, violet très profond uni.
@@ -20,11 +20,22 @@ Couleurs relevées dans le fichier (médianes par famille de pixels) :
 | Rose vif (haut du symbole) | `#ED258A` |
 | Magenta profond (ombres) | `#A31373` |
 
-### Points à trancher avant de coder
+### Décisions prises
 
-1. **Nom écrit « O'Motion » dans le logo**, alors que CLAUDE.md impose « Omotion » dans le texte. Je propose : le logo reste tel quel (on ne le modifie pas), et le texte courant suit la règle choisie. **Laquelle est la bonne : Omotion ou O'Motion ?**
-2. **Pas de SVG ni de version claire.** Le logotype `#470F79` est illisible sur fond sombre (contraste 1,5:1). Il faut une version claire (logotype blanc) pour le hero vidéo et le pied de page, idéalement en SVG. `[À COMPLÉTER — fichiers à fournir]`
-3. **Marges transparentes importantes** : le logo n'occupe que ~46 % de la largeur du carré. Pour l'en-tête, il faudra soit un fichier recadré fourni par toi, soit mon accord pour recadrer uniquement les marges vides (sans toucher au dessin).
+1. **Nom : « O'Motion »**, comme sur le logo. Dans les textes du site, on écrit « O’Motion » avec l'apostrophe typographique (’), la convention en français. Dans les noms de fichiers et le code, on garde `omotion`.
+2. **Recadrage autorisé** : seules les marges transparentes ont été retirées, le dessin n'a pas été touché.
+3. **Version claire** : tu n'en as pas et tu m'as laissé décider. J'ai créé une variante provisoire où **seul le logotype passe du violet au blanc**. Le symbole est intact : ses couleurs restent lisibles sur fond sombre (violet 3,6:1 et rose 4,8:1 sur `night`, au-delà du seuil de 3:1 exigé pour un élément graphique).
+
+Fichiers dans `src/assets/brand/` :
+
+| Fichier | Contenu | Usage |
+|---|---|---|
+| `omotion-logo.png` | original 1080×1080, intouché | archive, source |
+| `omotion-logo-cropped.png` | original sans les marges (518×420) | en-tête, fonds clairs |
+| `omotion-logo-light.png` | logotype blanc, symbole d'origine (518×420) | hero vidéo, pied de page, fonds sombres |
+| `omotion-symbol.png` | symbole seul (326×287) | favicon, en-tête mobile compact |
+
+Limite : ces fichiers sont des PNG d'environ 500 px de large. C'est suffisant pour l'en-tête et le pied de page, mais trop juste pour un logo géant. Le jour où tu as un SVG (demande-le à la personne qui a créé le logo), on remplacera ces fichiers sans rien changer d'autre. `[À COMPLÉTER — SVG du logo, plus tard]`
 
 ## 2. Palette (6 tokens) — validée
 
@@ -86,8 +97,10 @@ Aucune police de marque connue. Les deux options suivent le logotype (géométri
 
 ## 7. À valider
 
-- [ ] Orthographe du nom : **Omotion** ou **O'Motion** ?
+- [x] Orthographe du nom : **O'Motion**
 - [x] Palette des 6 tokens
 - [x] Typographie : **A** (Outfit + Instrument Sans)
-- [ ] Fourniture d'une version claire (et si possible SVG) du logo, ou accord pour recadrer les marges vides
-- [ ] Principes de grille et de mouvement
+- [x] Recadrage des marges vides
+- [x] Version claire provisoire (logotype blanc)
+- [ ] SVG officiel du logo, à fournir plus tard
+- [x] Principes de grille et de mouvement

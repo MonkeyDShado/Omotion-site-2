@@ -1,10 +1,10 @@
-# CLAUDE.md — Site Omotion
+# CLAUDE.md — Site O'Motion
 
 Ce fichier donne à Claude Code le contexte du projet. Lis-le en entier avant toute modification. Les éléments marqués `[À COMPLÉTER]` sont des informations que le propriétaire doit fournir : ne les invente pas, laisse un placeholder visible et signale-le.
 
 ## Le projet
 
-Omotion est le service d'un graphiste free-lance. Le site est un portfolio vitrine dont le seul but est de **transformer un visiteur en demande de devis**.
+O'Motion est le service d'un graphiste free-lance. Le site est un portfolio vitrine dont le seul but est de **transformer un visiteur en demande de devis**.
 
 Deux services, et seulement deux :
 
@@ -17,10 +17,10 @@ Cibles : `[À COMPLÉTER — ex. marques indépendantes, artistes musicaux, agen
 
 ## Identité de marque
 
-- Nom : **Omotion** (toujours avec cette casse, jamais "OMotion" ni "OMOTION" dans le texte courant).
-- Logo : fourni par le propriétaire, à placer dans `src/assets/brand/`. Formats attendus : SVG (prioritaire), PNG transparent, version claire et version foncée. `[À COMPLÉTER — déposer les fichiers]`
-- Palette : **à extraire du logo**. Avant de coder les styles, ouvre le logo, relève ses couleurs exactes, puis propose une palette de 4 à 6 tokens nommés et fais-la valider. Ne choisis pas une palette par défaut.
-- Typographies : `[À COMPLÉTER si une police de marque existe]`. Sinon, propose deux options cohérentes avec le logo et attends validation.
+- Nom : **O'Motion**, comme sur le logo. Dans le texte du site, écris « O’Motion » avec l'apostrophe typographique, jamais "Omotion", "O'motion" ni "O'MOTION". Dans les noms de fichiers et le code : `omotion`.
+- Logo : dans `src/assets/brand/` (voir `docs/design-plan.md`, section 1). `omotion-logo-light.png` est une variante claire provisoire, créée avec l'accord du propriétaire : seul le logotype est passé en blanc. N'en crée pas d'autres. SVG officiel : `[À COMPLÉTER — plus tard]`
+- Palette : validée, voir `docs/design-plan.md` section 2 (ink `#470F79`, violet `#9432EF`, rose `#ED258A`, magenta `#A31373`, paper `#FFFFFF`, night `#150A22`).
+- Typographies : validées, Outfit (titres) + Instrument Sans (texte), auto-hébergées via `@fontsource`.
 - Ton : direct, confiant, concret. Tutoiement ou vouvoiement : `[À COMPLÉTER]`. Phrases courtes, verbes d'action, aucun jargon marketing creux ("solutions innovantes", "sublimer votre image").
 
 ## Direction artistique
