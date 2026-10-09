@@ -1,0 +1,59 @@
+---
+import type { Process } from '../data/services';
+
+interface Props {
+  process: Process;
+}
+
+const { process } = Astro.props;
+---
+
+<div class="process">
+  <p class="delay"><strong>Délai :</strong> {process.delay}</p>
+  {
+    process.steps && (
+      <ol>
+        {process.steps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    )
+  }
+  {process.notes?.map((note) => <p class="note">{note}</p>)}
+</div>
+
+<style>
+  .process {
+    margin-top: var(--space-4);
+  }
+
+  .delay {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-mist);
+    font-family: var(--font-display);
+  }
+
+  .delay strong {
+    font-weight: 600;
+  }
+
+  ol {
+    margin: 0 0 var(--space-4);
+    padding-left: 1.5em;
+  }
+
+  li + li {
+    margin-top: var(--space-2);
+  }
+
+  li::marker {
+    color: var(--color-violet);
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .note {
+    font-size: var(--text-sm);
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteButton from '../components/QuoteButton.astro';
+import ServiceProcess from '../components/ServiceProcess.astro';
 import { services } from '../data/services';
 ---
 
@@ -22,12 +23,14 @@ import { services } from '../data/services';
           {service.details.map((paragraph) => (
             <p>{paragraph}</p>
           ))}
+          {service.process && <ServiceProcess process={service.process} />}
           {service.formulas && (
             <div class="formulas">
               {service.formulas.map((formula) => (
                 <div class="formula">
                   <h3>{formula.title}</h3>
                   <p>{formula.description}</p>
+                  <ServiceProcess process={formula.process} />
                 </div>
               ))}
             </div>
@@ -44,11 +47,6 @@ import { services } from '../data/services';
         les choix et le montage final restent les miens. Chaque projet du portfolio précise ce qu’a fait
         l’IA et ce que j’ai fait moi-même.
       </p>
-    </section>
-
-    <section class="service" aria-labelledby="process-title">
-      <h2 id="process-title">Déroulement et délais</h2>
-      <p class="placeholder">[À COMPLÉTER — étapes d’un projet et délais indicatifs]</p>
     </section>
 
     <section class="cta" aria-labelledby="cta-title">
@@ -86,10 +84,6 @@ import { services } from '../data/services';
 
   .formula:last-child {
     border-left-color: var(--color-rose);
-  }
-
-  .formula p {
-    margin: 0;
   }
 
   @media (min-width: 48em) {

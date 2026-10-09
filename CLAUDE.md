@@ -8,10 +8,10 @@ O'Motion est le service d'un graphiste free-lance. Le site est un portfolio vitr
 
 Deux services, et seulement deux :
 
-- **Key visuals** : un visuel fort et polyvalent pour promouvoir un nouveau produit ou un événement sans campagne coûteuse. Après la prise de contact, un questionnaire ciblé définit le ton et les supports de diffusion ; le visuel est pensé pour fonctionner sur chacun.
+- **Key visuals** : un visuel fort et polyvalent pour promouvoir un nouveau produit ou un événement sans campagne coûteuse. Après la prise de contact, un questionnaire ciblé définit le ton et les supports de diffusion ; le visuel est pensé pour fonctionner sur chacun. Délai : 48 h après les réponses (24 h de création, puis 24 h pour que le client demande ses retouches, 3 maximum).
 - **Montage vidéo**, en deux formules :
-  - **Vidéo scénarisée** : entièrement générée par l'IA (ex. vidéo produit qui met en avant la gourmandise d'une barre de chocolat, scénario au rendu cinéma). Argument : pas de coût de tournage en studio.
-  - **Vidéo institutionnelle** : montage plus simple à partir de vidéos libres de droits, textes, images et animations (outils : CapCut, Canva).
+  - **Vidéo scénarisée** : entièrement générée par l'IA (ex. vidéo produit qui met en avant la gourmandise d'une barre de chocolat, scénario au rendu cinéma). Argument : pas de coût de tournage en studio. Le client valide le scénario puis le storyboard ; ensuite 4 jours : 3 jours de création (retouches signalées le 3e jour), retouches et livraison le 4e. Une seule vidéo à la fois par client.
+  - **Vidéo institutionnelle** : montage plus simple à partir de vidéos libres de droits, textes, images et animations (outils : CapCut, Canva, non cités sur le site). Délai : 5 jours, recherche des contenus comprise. Retouches nombreuses (nombre exact `[À COMPLÉTER]`).
 
 Le processus créatif est **assisté par l'IA** (génération d'images, retouche, montage). C'est un argument assumé : rapidité, volume d'exploration, coûts maîtrisés, avec une direction artistique humaine. Le site doit le dire clairement et honnêtement, sans en faire un gadget ni s'en excuser.
 
