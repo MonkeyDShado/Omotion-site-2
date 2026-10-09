@@ -2,11 +2,12 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import logoLight from '../assets/brand/omotion-logo-light.png';
+import { services } from '../data/services';
 ---
 
 <BaseLayout
   title="O’Motion — Key visuals et montage vidéo"
-  description="[À COMPLÉTER — meta description de l'accueil]"
+  description="Key visuals et montage vidéo pour les PME et les entrepreneurs. Un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
 >
   <section class="hero on-night" aria-label="Showreel">
     <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={259} height={210} loading="eager" />
@@ -20,7 +21,18 @@ import logoLight from '../assets/brand/omotion-logo-light.png';
 
   <section class="container section">
     <h2>Services</h2>
-    <p class="placeholder">[À COMPLÉTER — Key visuals et Montage vidéo]</p>
+    <div class="services">
+      {
+        services.map((service) => (
+          <div>
+            <h3>
+              <a href={`/services#${service.id}`}>{service.title}</a>
+            </h3>
+            <p>{service.summary}</p>
+          </div>
+        ))
+      }
+    </div>
   </section>
 </BaseLayout>
 
@@ -37,5 +49,16 @@ import logoLight from '../assets/brand/omotion-logo-light.png';
 
   .section {
     padding-block: var(--space-16);
+  }
+
+  .services {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 48em) {
+    .services {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>

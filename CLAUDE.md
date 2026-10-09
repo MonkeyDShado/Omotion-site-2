@@ -13,7 +13,7 @@ Deux services, et seulement deux :
 
 Le processus créatif est **assisté par l'IA** (génération d'images, retouche, montage). C'est un argument assumé : rapidité, volume d'exploration, coûts maîtrisés, avec une direction artistique humaine. Le site doit le dire clairement et honnêtement, sans en faire un gadget ni s'en excuser.
 
-Cibles : `[À COMPLÉTER — ex. marques indépendantes, artistes musicaux, agences événementielles, créateurs de contenu]`.
+Cibles : **PME et entrepreneurs**, souvent avec un petit budget, mais qui veulent un rendu professionnel. Le site doit rassurer sur le sérieux et montrer que la qualité reste accessible, sans parler de « low cost ».
 
 ## Identité de marque
 
@@ -21,7 +21,7 @@ Cibles : `[À COMPLÉTER — ex. marques indépendantes, artistes musicaux, agen
 - Logo : dans `src/assets/brand/` (voir `docs/design-plan.md`, section 1). `omotion-logo-light.png` est une variante claire provisoire, créée avec l'accord du propriétaire : seul le logotype est passé en blanc. N'en crée pas d'autres. SVG officiel : `[À COMPLÉTER — plus tard]`
 - Palette : validée, voir `docs/design-plan.md` section 2 (ink `#470F79`, violet `#9432EF`, rose `#ED258A`, magenta `#A31373`, paper `#FFFFFF`, night `#150A22`).
 - Typographies : validées, Outfit (titres) + Instrument Sans (texte), auto-hébergées via `@fontsource`.
-- Ton : direct, confiant, concret. Tutoiement ou vouvoiement : `[À COMPLÉTER]`. Phrases courtes, verbes d'action, aucun jargon marketing creux ("solutions innovantes", "sublimer votre image").
+- Ton : direct, confiant, concret. **Vouvoiement** des visiteurs ; le graphiste parle à la première personne (« je »). Phrases courtes, verbes d'action, aucun jargon marketing creux ("solutions innovantes", "sublimer votre image").
 
 ## Direction artistique
 

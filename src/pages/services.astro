@@ -1,16 +1,86 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import QuoteButton from '../components/QuoteButton.astro';
+import { services } from '../data/services';
 ---
 
-<BaseLayout title="Services" description="[À COMPLÉTER — meta description : Services]">
+<BaseLayout
+  title="Services"
+  description="Key visuals et montage vidéo pour les PME et les entrepreneurs : un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
+>
   <div class="container page">
     <h1>Services</h1>
-    <p class="placeholder">[À COMPLÉTER — détail des 2 offres, processus, délais indicatifs]</p>
+    <p class="lead">
+      Deux services, pour les PME et les entrepreneurs qui veulent une image professionnelle sans budget
+      d’agence.
+    </p>
+
+    {
+      services.map((service) => (
+        <section class="service" id={service.id} aria-labelledby={`${service.id}-title`}>
+          <h2 id={`${service.id}-title`}>{service.title}</h2>
+          <p>{service.summary}</p>
+          <ul>
+            {service.uses.map((use) => (
+              <li>{use}</li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <section class="service" aria-labelledby="ai-title">
+      <h2 id="ai-title">Ma façon de travailler avec l’IA</h2>
+      <p>
+        J’utilise l’IA pour explorer plus de pistes, plus vite, et garder des coûts raisonnables. La
+        direction artistique, les choix et les finitions restent faits à la main. Chaque projet du portfolio
+        précise ce qu’a fait l’IA et ce que j’ai fait moi-même.
+      </p>
+    </section>
+
+    <section class="service" aria-labelledby="process-title">
+      <h2 id="process-title">Déroulement et délais</h2>
+      <p class="placeholder">[À COMPLÉTER — étapes d’un projet et délais indicatifs]</p>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <h2 id="cta-title">Vous avez un projet ?</h2>
+      <p>Décrivez-le en quelques lignes. Je vous réponds avec un devis.</p>
+      <QuoteButton />
+    </section>
   </div>
 </BaseLayout>
 
 <style>
   .page {
     padding-block: var(--space-12) var(--space-24);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+  }
+
+  .service {
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--color-mist);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.25em;
+  }
+
+  li + li {
+    margin-top: var(--space-1);
+  }
+
+  li::marker {
+    color: var(--color-violet);
+  }
+
+  .cta {
+    margin-top: var(--space-8);
+    padding: var(--space-8) var(--gutter);
+    background: var(--color-mist);
   }
 </style>
