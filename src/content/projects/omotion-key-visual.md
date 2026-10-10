@@ -1,6 +1,7 @@
 ---
 title: "Graphiste pour key visual"
 context: auto-promotion
+order: 9
 date: 2026-07-10
 category: key-visual
 theme: communication

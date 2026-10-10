@@ -1,25 +1,27 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import ProjectGrid from '../../components/ProjectGrid.astro';
+import CampaignStrip from '../../components/CampaignStrip.astro';
 import { themes, type Theme } from '../../data/themes';
-import { byThemeThenDate } from '../../data/projects';
+import { byOrder } from '../../data/projects';
 
-const projects = (await getCollection('projects')).sort(byThemeThenDate);
+const projects = (await getCollection('projects')).sort(byOrder);
 const usedThemes = (Object.keys(themes) as Theme[]).filter((t) => projects.some((p) => p.data.theme === t));
 const hasVideos = projects.some((p) => p.data.category === 'video');
 ---
 
 <BaseLayout
   title="Projets"
-  description="Key visuals et vidéos réalisés par O’Motion : restauration, boissons, beauté, mode et plus."
+  description="Les campagnes de key visuals et les vidéos d’O’Motion : restauration, boissons, beauté, mode et plus."
 >
-  <div class="container page">
+  <div class="container page-head">
     <h1>Projets</h1>
-    <p class="lead">Une sélection de campagnes et de visuels. Chaque fiche précise le contexte du projet et le rôle de l’IA.</p>
+    <p class="lead">
+      Chaque campagne est présentée en entier, dans le format d’origine de chaque visuel. Faites défiler pour voir
+      toutes les déclinaisons.
+    </p>
 
-    <div class="filters" role="group" aria-label="Filtrer par thème" data-filters hidden>
+    <div class="filters" role="group" aria-label="Filtrer les campagnes" data-filters hidden>
       <button type="button" aria-pressed="true" data-filter="all">Tout</button>
       {
         hasVideos && (
@@ -37,17 +39,17 @@ const hasVideos = projects.some((p) => p.data.category === 'video');
         ))
       }
     </div>
-
-    <ProjectGrid>
-      {projects.map((project, i) => <ProjectCard project={project} eager={i < 2} />)}
-    </ProjectGrid>
-    <p class="empty" data-empty hidden>Aucun projet dans cette catégorie pour l’instant.</p>
   </div>
+
+  <div class="campaigns">
+    {projects.map((project, i) => <CampaignStrip project={project} tone={i % 2 ? 'dark' : 'light'} eager={i === 0} />)}
+  </div>
+  <p class="container empty" data-empty hidden>Aucune campagne dans cette catégorie pour l’instant.</p>
 </BaseLayout>
 
 <script>
   const bar = document.querySelector<HTMLElement>('[data-filters]');
-  const cards = document.querySelectorAll<HTMLElement>('.card');
+  const campaigns = document.querySelectorAll<HTMLElement>('.campaign');
   const empty = document.querySelector<HTMLElement>('[data-empty]');
 
   if (bar) {
@@ -58,10 +60,14 @@ const hasVideos = projects.some((p) => p.data.category === 'video');
       const [key, value] = (button.dataset.filter ?? 'all').split(':');
       bar.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
       let shown = 0;
-      cards.forEach((card) => {
-        const match = key === 'all' || card.dataset[key as 'theme' | 'category'] === value;
-        card.hidden = !match;
-        if (match) shown++;
+      campaigns.forEach((campaign) => {
+        const match = key === 'all' || campaign.dataset[key as 'theme' | 'category'] === value;
+        campaign.hidden = !match;
+        if (match) {
+          // Garde l'alternance clair / sombre parmi les campagnes visibles
+          campaign.classList.toggle('on-night', shown % 2 === 1);
+          shown++;
+        }
       });
       if (empty) empty.hidden = shown > 0;
     });
@@ -69,8 +75,8 @@ const hasVideos = projects.some((p) => p.data.category === 'video');
 </script>
 
 <style>
-  .page {
-    padding-block: var(--space-12) var(--space-24);
+  .page-head {
+    padding-top: var(--space-12);
   }
 
   .lead {
@@ -81,7 +87,7 @@ const hasVideos = projects.some((p) => p.data.category === 'video');
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-block: var(--space-8);
+    margin-top: var(--space-8);
   }
 
   .filters[hidden] {
@@ -99,9 +105,6 @@ const hasVideos = projects.some((p) => p.data.category === 'video');
     font-size: var(--text-sm);
     font-weight: 500;
     cursor: pointer;
-    transition:
-      background var(--duration-fast),
-      color var(--duration-fast);
   }
 
   .filters button:hover {
@@ -115,7 +118,15 @@ const hasVideos = projects.some((p) => p.data.category === 'video');
     color: var(--color-paper);
   }
 
-  .page :global(.card[hidden]) {
+  .campaigns {
+    margin-top: var(--space-6);
+  }
+
+  .campaigns :global(.campaign[hidden]) {
     display: none;
+  }
+
+  .empty {
+    padding-block: var(--space-12);
   }
 </style>

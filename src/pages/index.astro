@@ -7,11 +7,10 @@ import Icon from '../components/Icon.astro';
 import HeroFilm from '../components/HeroFilm.astro';
 import { heroFilms } from '../data/hero';
 import { getCollection } from 'astro:content';
-import ProjectCard from '../components/ProjectCard.astro';
-import ProjectGrid from '../components/ProjectGrid.astro';
-import { byDateDesc } from '../data/projects';
+import CampaignStrip from '../components/CampaignStrip.astro';
+import { byOrder } from '../data/projects';
 
-const featured = (await getCollection('projects', (p) => p.data.featured)).sort(byDateDesc);
+const featured = (await getCollection('projects', (p) => p.data.featured)).sort(byOrder);
 ---
 
 <BaseLayout
@@ -37,12 +36,14 @@ const featured = (await getCollection('projects', (p) => p.data.featured)).sort(
     )
   }
 
-  <section class="container section">
-    <h2>Projets</h2>
-    <ProjectGrid>
-      {featured.map((project) => <ProjectCard project={project} />)}
-    </ProjectGrid>
-    <a href="/projets" class="all-projects">Voir tous les projets</a>
+  <section class="featured" aria-labelledby="featured-title">
+    <div class="container">
+      <h2 id="featured-title">Campagnes</h2>
+    </div>
+    {featured.map((project, i) => <CampaignStrip project={project} tone={i % 2 ? 'dark' : 'light'} />)}
+    <div class="container">
+      <a href="/projets" class="all-projects">Voir toutes les campagnes</a>
+    </div>
   </section>
 
   <section class="container section">
@@ -175,7 +176,13 @@ const featured = (await getCollection('projects', (p) => p.data.featured)).sort(
     padding-block: var(--space-16);
   }
 
+  .featured {
+    padding-top: var(--space-16);
+  }
+
   .all-projects {
+    display: inline-block;
+    margin-block: var(--space-8) var(--space-4);
     font-family: var(--font-display);
     font-weight: 600;
   }

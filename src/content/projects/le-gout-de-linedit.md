@@ -1,10 +1,10 @@
 ---
-title: "Le goût de l’inédit"
+title: "Boissons, le goût de l’inédit"
 context: concept
+order: 5
 date: 2026-07-09
 category: key-visual
 theme: boissons
-featured: true
 cover: ../../assets/projects/le-gout-de-linedit/01.jpg
 coverAlt: "Bouteille de bissap sur un lit de glace et de fleurs d’hibiscus, fond rose vif"
 gallery:

@@ -1,5 +1,4 @@
 import type { CollectionEntry } from 'astro:content';
-import { themeIds } from './themes';
 
 type Project = CollectionEntry<'projects'>;
 
@@ -18,6 +17,5 @@ export function countLabel({ data }: Project): string {
 
 export const byDateDesc = (a: Project, b: Project) => b.data.date.valueOf() - a.data.date.valueOf();
 
-/** Portfolio rangé par thème (ordre de themes.ts), puis du plus récent au plus ancien */
-export const byThemeThenDate = (a: Project, b: Project) =>
-  themeIds.indexOf(a.data.theme) - themeIds.indexOf(b.data.theme) || byDateDesc(a, b);
+/** Ordre choisi pour le portfolio (champ order), puis du plus récent au plus ancien */
+export const byOrder = (a: Project, b: Project) => a.data.order - b.data.order || byDateDesc(a, b);

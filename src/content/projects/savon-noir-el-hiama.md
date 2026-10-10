@@ -1,6 +1,7 @@
 ---
 title: "Savon noir El Hiama"
 context: concept
+order: 2
 date: 2026-06-24
 category: key-visual
 theme: beaute

@@ -100,7 +100,7 @@ Inventaire fourni par le propriétaire (les fichiers arrivent via Google Drive, 
 
 Musique : « Amour All » utilise « All I Know » (The Weeknd) sans licence. Sur le site, les extraits restent muets ; pour une version publique (YouTube), recommander une musique sous licence ou libre de droits.
 
-Key visuals en ligne (`src/content/projects/`), un fichier par campagne, classés par thème (`src/data/themes.ts`) : Chrysto (restauration, 9), Coco Flavours (restauration, 2), Le goût de l’inédit (boissons, 2), Top (boissons, vraie marque, 1), Savon noir El Hiama (beauté, 6), L’Interdit Givenchy (beauté, vraie marque, 3), Ochrysto (mode, 8 ; marque du propriétaire réutilisée pour ses démos), Your Money (finance, **seul vrai client**, 2), Graphiste pour key visual (auto-promotion, 2). Tous les autres sont des démos.
+Key visuals en ligne (`src/content/projects/`), un fichier par campagne, calqués sur les dossiers Drive du propriétaire. Page Projets : une bande par campagne (`CampaignStrip.astro`), visuels côte à côte à la même hauteur, ordre fixé par le champ `order`, filtres par thème (`src/data/themes.ts`). Campagnes : Ochrysto Fast-food (restauration, 9), Coco Flavours (restauration, 2), Le goût de l’inédit (boissons, 2), Top (boissons, vraie marque, 1), Savon noir El Hiama (beauté, 6), L’Interdit Givenchy (beauté, vraie marque, 3), Ochrysto Mode (mode, 8 ; Ochrysto est la marque du propriétaire, réutilisée pour ses démos), Your Money (finance, **seul vrai client**, 2), Graphiste pour key visual (auto-promotion, 2). Tous les autres sont des démos.
 
 Honnêteté : chaque projet indique son contexte (`context` : `client`, `auto-promotion` ou `concept`). Une création de démonstration est toujours affichée comme telle, jamais présentée comme une commande client. Afficher le nom d'un client suppose son accord.
 
@@ -116,6 +116,7 @@ date: 2026-05-01
 category: key-visual           # key-visual | video
 videoType: film                # optionnel : produit | motion-design | scenario | film | institutionnel
 campaign: "Nom de la campagne" # optionnel, regroupe des key visuals
+order: 1                       # position dans le portfolio
 featured: true                 # affiché sur l'accueil
 cover: ../../assets/projects/xxx/cover.jpg
 coverAlt: "Description précise du visuel"

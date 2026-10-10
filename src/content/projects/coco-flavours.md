@@ -1,6 +1,7 @@
 ---
 title: "Coco Flavours"
 context: concept
+order: 7
 date: 2026-06-30
 category: key-visual
 theme: restauration

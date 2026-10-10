@@ -14,6 +14,8 @@ const projects = defineCollection({
         client: z.string().optional(), // nom du client, seulement si context = client
         // Démo qui met en scène une marque existante : affiche « non commandé par la marque »
         realBrand: z.boolean().default(false),
+        // Position dans le portfolio (1 = en premier)
+        order: z.number().int().default(99),
         date: z.coerce.date(),
         category: z.enum(['key-visual', 'video']),
         theme: z.enum(themeIds),

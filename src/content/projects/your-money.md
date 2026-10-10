@@ -2,6 +2,7 @@
 title: "Your Money, grille tarifaire"
 context: client
 client: "Your Money"
+order: 6
 date: 2026-06-29
 category: key-visual
 theme: finance

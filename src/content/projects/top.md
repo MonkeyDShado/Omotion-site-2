@@ -2,6 +2,7 @@
 title: "Top, une explosion de plaisir"
 context: concept
 realBrand: true
+order: 8
 date: 2026-05-31
 category: key-visual
 theme: boissons
