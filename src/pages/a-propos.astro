@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import portrait from '../assets/about/portrait.jpg';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon, { type IconName } from '../components/Icon.astro';
 import QuoteButton from '../components/QuoteButton.astro';
@@ -12,6 +14,7 @@ const videos = projects.filter((p) => p.data.category === 'video').length;
 const clients = new Set(projects.filter((p) => p.data.context === 'client').map((p) => p.data.client)).size;
 
 const figures = [
+  { value: 2, label: 'ans de design graphique' }, // donnée fournie par le propriétaire
   { value: visuals, label: 'key visuals en ligne' },
   { value: campaigns.length, label: 'campagnes' },
   { value: videos, label: 'vidéos' },
@@ -35,17 +38,27 @@ const skills: { icon: IconName; title: string; text: string }[] = [
   <section class="intro on-night">
     <div class="container intro-grid">
       <div class="portrait">
-        <p class="placeholder">[À COMPLÉTER — ta photo]</p>
+        <Image
+          src={portrait}
+          alt="Doumaine Mayombot Christopher devant son ordinateur portable, entouré des logos de ses outils : Nano Banana, Canva, Gemini"
+          widths={[400, 700, 1000]}
+          sizes="(min-width: 48em) 420px, 100vw"
+          loading="eager"
+        />
       </div>
       <div class="intro-text">
         <p class="hello">Bonjour, je suis</p>
-        <h1><span class="placeholder">[À COMPLÉTER — prénom et nom]</span></h1>
+        <h1>Doumaine Mayombot Christopher</h1>
         <p class="role">Graphiste et vidéaste, derrière O’Motion</p>
         <p class="lead">
           Je crée des key visuals et des vidéos pour les PME et les entrepreneurs. L’IA me permet d’aller vite et de
           garder des prix accessibles ; la direction artistique, elle, reste la mienne.
         </p>
-        <p class="placeholder">[À COMPLÉTER — ton parcours en 2 ou 3 phrases : d’où tu viens, depuis quand tu crées, où tu travailles]</p>
+        <p>
+          Formé en marketing et en communication, je me suis lancé dans le graphisme en autodidacte. Pour parfaire ma
+          formation, j’ai travaillé à temps partiel aux côtés d’un graphiste professionnel. Cela fait maintenant deux ans
+          que je me consacre au design graphique.
+        </p>
       </div>
     </div>
   </section>
@@ -100,7 +113,8 @@ const skills: { icon: IconName; title: string; text: string }[] = [
     <h2 id="tools-title">Mes outils</h2>
     <ul class="tool-list">
       <li>Nano Banana (Google Gemini)</li>
-      <li class="placeholder">[À COMPLÉTER — tes autres outils à afficher]</li>
+      <li>Canva</li>
+      <li>CapCut</li>
     </ul>
   </section>
 
@@ -136,8 +150,10 @@ const skills: { icon: IconName; title: string; text: string }[] = [
       rgb(255 255 255 / 0.04);
   }
 
-  .portrait .placeholder {
-    margin: var(--space-6);
+  .portrait :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .hello {
@@ -316,7 +332,7 @@ const skills: { icon: IconName; title: string; text: string }[] = [
     }
 
     .figures {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
 
     .skills {
