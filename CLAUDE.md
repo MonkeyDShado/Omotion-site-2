@@ -155,7 +155,7 @@ Le champ `aiRole` est obligatoire : chaque projet explique en une ou deux phrase
 - Formulaire de devis : nom, email, type de service (Key visual / Vidéo / Les deux), budget indicatif, délai souhaité, message, lien de référence optionnel.
 - Après envoi : message de confirmation clair indiquant le délai de réponse : **sous 24 h**.
 - Protection anti-spam (honeypot), pas de reCAPTCHA intrusif.
-- Mentions légales (`/mentions-legales`, avec politique de confidentialité) rédigées : éditeur, hébergeur Netlify, propriété intellectuelle (démos de vraies marques), données du formulaire, cookies. Adresse (ville, pays) : `[À COMPLÉTER]`. Le propriétaire travaille en indépendant et n'a **pas de SIRET** pour l'instant. Rédige les mentions sans SIRET (identité de l'éditeur, contact, hébergeur, RGPD) et prévois un emplacement à ajouter si un SIRET est obtenu plus tard. N'invente jamais de numéro. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
+- Mentions légales (`/mentions-legales`, avec politique de confidentialité) rédigées : éditeur, hébergeur Netlify, propriété intellectuelle (démos de vraies marques), données du formulaire, cookies. Lieu d’exercice : Casablanca, Maroc. Le propriétaire travaille en indépendant et n'a **pas de SIRET** pour l'instant. Rédige les mentions sans SIRET (identité de l'éditeur, contact, hébergeur, RGPD) et prévois un emplacement à ajouter si un SIRET est obtenu plus tard. N'invente jamais de numéro. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
 
 ## À ne pas faire
 
