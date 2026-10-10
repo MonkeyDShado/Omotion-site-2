@@ -1,0 +1,347 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import portrait from '../assets/about/portrait.jpg';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon, { type IconName } from '../components/Icon.astro';
+import QuoteButton from '../components/QuoteButton.astro';
+
+// Chiffres calculés à partir du portfolio publié : jamais saisis à la main
+const projects = await getCollection('projects');
+const campaigns = projects.filter((p) => p.data.category === 'key-visual');
+const visuals = campaigns.reduce((n, p) => n + Math.max(p.data.gallery.length, 1), 0);
+const videos = projects.filter((p) => p.data.category === 'video').length;
+const clients = new Set(projects.filter((p) => p.data.context === 'client').map((p) => p.data.client)).size;
+
+const figures = [
+  { value: 2, label: 'ans de design graphique' }, // donnée fournie par le propriétaire
+  { value: visuals, label: 'key visuals en ligne' },
+  { value: campaigns.length, label: 'campagnes' },
+  { value: videos, label: 'vidéos' },
+  { value: clients, label: clients > 1 ? 'clients accompagnés' : 'client accompagné' },
+];
+
+const skills: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'key-visual', title: 'Key visuals', text: 'Un visuel fort, décliné pour l’affiche, les réseaux et le web.' },
+  { icon: 'video-scenarisee', title: 'Vidéo scénarisée', text: 'Une histoire, un storyboard, des images au rendu cinéma, sans tournage.' },
+  { icon: 'product', title: 'Vidéo produit', text: 'Le produit en gros plan, la matière, le geste : de quoi donner envie.' },
+  { icon: 'motion', title: 'Motion design 2D', text: 'Des messages clairs, animés aux couleurs de votre marque.' },
+  { icon: 'prompt', title: 'Direction artistique et prompt', text: 'Je définis chaque élément de l’image avant que l’IA ne la génère.' },
+  { icon: 'video-institutionnelle', title: 'Vidéo institutionnelle', text: 'Présenter votre entreprise ou votre application, simplement.' },
+];
+---
+
+<BaseLayout
+  title="À propos"
+  description="Graphiste et vidéaste, je crée des key visuals et des vidéos avec l’IA, sous ma direction artistique, pour les PME et les entrepreneurs."
+>
+  <section class="intro on-night">
+    <div class="container intro-grid">
+      <div class="portrait">
+        <Image
+          src={portrait}
+          alt="Doumaine Mayombot Christopher devant son ordinateur portable, entouré des logos de ses outils : Nano Banana, Canva, Gemini"
+          widths={[400, 700, 1000]}
+          sizes="(min-width: 48em) 420px, 100vw"
+          loading="eager"
+        />
+      </div>
+      <div class="intro-text">
+        <p class="hello">Bonjour, je suis</p>
+        <h1>Doumaine Mayombot Christopher</h1>
+        <p class="role">Graphiste et vidéaste, derrière O’Motion</p>
+        <p class="lead">
+          Je crée des key visuals et des vidéos pour les PME et les entrepreneurs. L’IA me permet d’aller vite et de
+          garder des prix accessibles ; la direction artistique, elle, reste la mienne.
+        </p>
+        <p>
+          Formé en marketing et en communication, je me suis lancé dans le graphisme en autodidacte. Pour parfaire ma
+          formation, j’ai travaillé à temps partiel aux côtés d’un graphiste professionnel. Cela fait maintenant deux ans
+          que je me consacre au design graphique.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container figures" aria-label="O’Motion en chiffres">
+    {
+      figures.map((f) => (
+        <p class="figure">
+          <span class="value">{f.value}</span>
+          <span class="label">{f.label}</span>
+        </p>
+      ))
+    }
+  </section>
+
+  <section class="container skills-section" aria-labelledby="skills-title">
+    <h2 id="skills-title">Ce que je fais</h2>
+    <ul class="skills">
+      {
+        skills.map((s) => (
+          <li class="has-icon">
+            <Icon name={s.icon} size={48} />
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="method" aria-labelledby="method-title">
+    <div class="container">
+      <h2 id="method-title">Ma méthode</h2>
+      <ol class="steps" data-reveal>
+        <li style="--step: 0">
+          <h3>Je pose la direction</h3>
+          <p>Le ton, les couleurs, les supports : je décris précisément chaque élément de l’image dans un prompt.</p>
+        </li>
+        <li style="--step: 1">
+          <h3>L’IA génère</h3>
+          <p>Images avec Nano Banana, de Google Gemini. J’explore plusieurs pistes en peu de temps.</p>
+        </li>
+        <li style="--step: 2">
+          <h3>Je finalise</h3>
+          <p>Textes, typographies, coordonnées, montage : la finition est faite à la main, jusqu’au rendu final.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="container tools" aria-labelledby="tools-title">
+    <h2 id="tools-title">Mes outils</h2>
+    <ul class="tool-list">
+      <li>Nano Banana (Google Gemini)</li>
+      <li>Canva</li>
+      <li>CapCut</li>
+    </ul>
+  </section>
+
+  <section class="container cta" aria-labelledby="cta-title">
+    <h2 id="cta-title">Travaillons ensemble</h2>
+    <p>Parlez-moi de votre projet. Je vous réponds sous 24 h avec un devis.</p>
+    <QuoteButton />
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-block: var(--space-12);
+  }
+
+  .intro-grid {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  /* Cadre portrait : la photo arrivera ici, au format 4:5 */
+  .portrait {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    max-width: 420px;
+    width: 100%;
+    background:
+      radial-gradient(circle at 30% 20%, rgb(148 50 239 / 0.45), transparent 60%),
+      radial-gradient(circle at 75% 85%, rgb(237 37 138 / 0.4), transparent 55%),
+      rgb(255 255 255 / 0.04);
+  }
+
+  .portrait :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hello {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    opacity: 0.85;
+  }
+
+  h1 {
+    margin-block: var(--space-2) var(--space-3);
+  }
+
+  .role {
+    display: inline-block;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-1);
+    border-bottom: 2px solid;
+    border-image: var(--gradient-brand) 1;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+  }
+
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    padding-block: var(--space-12);
+  }
+
+  .figure {
+    display: grid;
+    margin: 0;
+  }
+
+  .value {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    line-height: 1;
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .label {
+    font-size: var(--text-sm);
+  }
+
+  .skills-section {
+    padding-bottom: var(--space-16);
+  }
+
+  .skills {
+    display: grid;
+    gap: var(--space-8);
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .skills h3 {
+    margin: var(--space-3) 0 var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .skills p {
+    margin: 0;
+  }
+
+  .method {
+    padding-block: var(--space-16);
+    background: var(--color-mist);
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--space-8);
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .steps li {
+    counter-increment: step;
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-violet);
+  }
+
+  .steps li:nth-child(2) {
+    border-left-color: var(--color-magenta);
+  }
+
+  .steps li:nth-child(3) {
+    border-left-color: var(--color-rose);
+  }
+
+  .steps h3::before {
+    content: counter(step) '. ';
+    color: var(--color-violet);
+  }
+
+  .steps h3 {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .steps p {
+    margin: 0;
+  }
+
+  :global(.js) .steps[data-reveal] li {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 500ms var(--ease-fluid),
+      transform 500ms var(--ease-fluid);
+    transition-delay: calc(var(--step) * 150ms);
+  }
+
+  :global(.js) .steps[data-reveal].is-visible li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .tools {
+    padding-block: var(--space-16) var(--space-8);
+  }
+
+  .tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tool-list li:not(.placeholder) {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-violet);
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .cta {
+    margin-block: var(--space-12) var(--space-24);
+    padding: var(--space-8) var(--gutter);
+    background: var(--color-mist);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .steps[data-reveal] li {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (min-width: 48em) {
+    .intro {
+      padding-block: var(--space-16);
+    }
+
+    .intro-grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: var(--space-16);
+    }
+
+    .figures {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .skills {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-12) var(--space-8);
+    }
+
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

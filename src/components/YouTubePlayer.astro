@@ -1,0 +1,88 @@
+---
+/**
+ * Lecteur YouTube « léger » : affiche une image et ne charge YouTube qu'au clic.
+ * Avantages : page rapide, aucun cookie YouTube avant l'action du visiteur (youtube-nocookie).
+ */
+interface Props {
+  id: string;
+  title: string;
+  /** Ratio natif de la vidéo, ex. "16 / 9" ou "9 / 16" */
+  ratio?: string;
+  /** Image maison ; sinon la miniature YouTube */
+  posterSrc?: string;
+}
+
+const { id, title, ratio = '16 / 9', posterSrc } = Astro.props;
+const poster = posterSrc ?? `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+const embed = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+---
+
+<div class="yt" style={`--ratio: ${ratio}`} data-yt={embed} data-yt-title={title}>
+  <img src={poster} alt="" loading="lazy" decoding="async" />
+  <button type="button" class="play">
+    <svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><path d="M17 12l20 12-20 12z" fill="currentColor" /></svg>
+    <span>Lire la vidéo<span class="visually-hidden"> : {title}</span></span>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-yt]').forEach((box) => {
+    box.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = box.dataset.yt ?? '';
+      iframe.title = box.dataset.ytTitle ?? 'Vidéo';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      iframe.allowFullscreen = true;
+      box.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>
+
+<style>
+  .yt {
+    position: relative;
+    aspect-ratio: var(--ratio);
+    overflow: hidden;
+    background: var(--color-night);
+  }
+
+  .yt img,
+  .yt :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+
+  .play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    padding: var(--space-2) var(--space-6) var(--space-2) var(--space-4);
+    border: 0;
+    border-radius: 999px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 600;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: transform var(--duration-base) var(--ease-fluid);
+  }
+
+  .play svg {
+    color: var(--color-violet);
+  }
+
+  .yt:hover .play {
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+</style>

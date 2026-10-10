@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CampaignStrip from '../../components/CampaignStrip.astro';
+import VideoStrip from '../../components/VideoStrip.astro';
+import { videoGroups } from '../../data/videoTypes';
+import { themes, type Theme } from '../../data/themes';
+import { byOrder } from '../../data/projects';
+
+const projects = (await getCollection('projects')).sort(byOrder);
+const campaigns = projects.filter((p) => p.data.category === 'key-visual');
+const groups = videoGroups
+  .map((g) => ({ ...g, videos: projects.filter((p) => (g.types as readonly string[]).includes(p.data.videoType ?? '')) }))
+  .filter((g) => g.videos.length > 0);
+const usedThemes = (Object.keys(themes) as Theme[]).filter((t) => projects.some((p) => p.data.theme === t));
+const hasVideos = projects.some((p) => p.data.category === 'video');
+---
+
+<BaseLayout
+  title="Projets"
+  description="Les campagnes de key visuals et les vidéos d’O’Motion : restauration, boissons, beauté, mode et plus."
+>
+  <div class="container page-head">
+    <h1>Projets</h1>
+    <p class="lead">
+      Chaque campagne est présentée en entier, dans le format d’origine de chaque visuel. Faites défiler pour voir
+      toutes les déclinaisons.
+    </p>
+
+    <div class="filters" role="group" aria-label="Filtrer les campagnes" data-filters hidden>
+      <button type="button" aria-pressed="true" data-filter="all">Tout</button>
+      {
+        hasVideos && (
+          <>
+            <button type="button" aria-pressed="false" data-filter="category:key-visual">Key visuals</button>
+            <button type="button" aria-pressed="false" data-filter="category:video">Vidéos</button>
+          </>
+        )
+      }
+      {
+        usedThemes.map((t) => (
+          <button type="button" aria-pressed="false" data-filter={`theme:${t}`}>
+            {themes[t]}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="campaigns">
+    <div class="container part-head" data-part="key-visual">
+      <h2 class="part-title">Key visuals</h2>
+    </div>
+    {campaigns.map((project, i) => <CampaignStrip project={project} tone={i % 2 ? 'dark' : 'light'} eager={i === 0} />)}
+
+    {
+      groups.length > 0 && (
+        <div class="container part-head" data-part="video">
+          <h2 class="part-title" id="videos">Vidéos</h2>
+          <p>Des extraits muets en boucle. Ouvrez une vidéo pour en savoir plus.</p>
+        </div>
+      )
+    }
+    {groups.map((g, i) => <VideoStrip id={g.id} title={g.title} videos={g.videos} tone={i % 2 ? 'dark' : 'light'} />)}
+  </div>
+  <p class="container empty" data-empty hidden>Aucune campagne dans cette catégorie pour l’instant.</p>
+</BaseLayout>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-filters]');
+  const items = document.querySelectorAll<HTMLElement>('[data-filterable]');
+  const groups = document.querySelectorAll<HTMLElement>('[data-group]');
+  const parts = document.querySelectorAll<HTMLElement>('[data-part]');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  if (bar) {
+    bar.hidden = false;
+    bar.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest('button');
+      if (!button) return;
+      const [key, value] = (button.dataset.filter ?? 'all').split(':');
+      bar.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+
+      let shown = 0;
+      items.forEach((item) => {
+        const match = key === 'all' || item.dataset[key as 'theme' | 'category'] === value;
+        item.hidden = !match;
+        if (match) shown++;
+      });
+      // Une famille de vidéos sans vidéo visible disparaît
+      groups.forEach((g) => (g.hidden = !g.querySelector('[data-filterable]:not([hidden])')));
+      // Titres « Key visuals » / « Vidéos » masqués si leur partie est vide
+      parts.forEach((p) => {
+        const cat = p.dataset.part;
+        p.hidden = ![...items].some((i) => !i.hidden && i.dataset.category === cat);
+      });
+      // Alternance clair / sombre parmi les blocs visibles de chaque partie
+      for (const selector of ['.campaign:not(.video-group)', '.video-group']) {
+        let n = 0;
+        document.querySelectorAll<HTMLElement>(selector).forEach((block) => {
+          if (block.hidden) return;
+          block.classList.toggle('on-night', n % 2 === 1);
+          n++;
+        });
+      }
+      if (empty) empty.hidden = shown > 0;
+    });
+  }
+</script>
+
+<style>
+  .page-head {
+    padding-top: var(--space-12);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-8);
+  }
+
+  .filters[hidden] {
+    display: none;
+  }
+
+  .filters button {
+    min-height: 40px;
+    padding: var(--space-1) var(--space-4);
+    border: 1px solid var(--color-ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .filters button:hover {
+    border-color: var(--color-violet);
+    color: var(--color-violet);
+  }
+
+  .filters button[aria-pressed='true'] {
+    border-color: var(--color-violet);
+    background: var(--color-violet);
+    color: var(--color-paper);
+  }
+
+  .campaigns {
+    margin-top: var(--space-6);
+  }
+
+  .campaigns :global(.campaign[hidden]),
+  .part-head[hidden] {
+    display: none;
+  }
+
+  .part-head {
+    padding-top: var(--space-12);
+  }
+
+  .part-title {
+    margin: 0;
+    font-size: var(--text-3xl);
+  }
+
+  .empty {
+    padding-block: var(--space-12);
+  }
+</style>

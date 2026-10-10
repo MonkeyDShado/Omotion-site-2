@@ -1,0 +1,226 @@
+@import '@fontsource-variable/outfit';
+@import '@fontsource/instrument-sans/400.css';
+@import '@fontsource/instrument-sans/500.css';
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 var(--space-4);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+
+p {
+  margin: 0 0 var(--space-4);
+  max-width: var(--max-text);
+}
+
+a {
+  color: var(--color-violet);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--color-magenta);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 3px;
+}
+
+.on-night {
+  background: var(--color-night);
+  color: var(--color-paper);
+}
+
+.on-night :focus-visible {
+  outline-color: var(--color-paper);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-media);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Contenu manquant à fournir par le propriétaire : volontairement visible */
+.placeholder {
+  border: 2px dashed currentColor;
+  padding: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -100%;
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-paper);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+/* ===== Finitions « premium » (demande du propriétaire) ===== */
+
+/* Transitions entre les pages, sans JavaScript (navigateurs récents) */
+@view-transition {
+  navigation: auto;
+}
+
+.site-header {
+  view-transition-name: site-header;
+}
+
+::view-transition-old(root) {
+  animation: page-out 260ms var(--ease-fluid) both;
+}
+
+::view-transition-new(root) {
+  animation: page-in 520ms var(--ease-fluid) 80ms both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+/* Grain photographique sur les fonds sombres */
+.on-night {
+  background-color: var(--color-night);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Barre de progression de lecture en dégradé, liée au défilement */
+@supports (animation-timeline: scroll()) {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: 3px;
+    background: var(--gradient-brand);
+    transform-origin: left;
+    animation: read-progress linear both;
+    animation-timeline: scroll(root);
+    pointer-events: none;
+  }
+
+  @keyframes read-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* Titres révélés ligne par ligne */
+.reveal-lines .line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.reveal-lines .line > span {
+  display: block;
+}
+
+.js .reveal-lines[data-reveal] .line > span {
+  transform: translateY(105%);
+  transition: transform 900ms var(--ease-fluid);
+}
+
+.js .reveal-lines[data-reveal] .line:nth-child(2) > span {
+  transition-delay: 120ms;
+}
+
+.js .reveal-lines[data-reveal] .line:nth-child(3) > span {
+  transition-delay: 240ms;
+}
+
+.js .reveal-lines[data-reveal].is-visible .line > span {
+  transform: none;
+}
+
+/* Pendant l'intro d'accueil, le titre attend que le rideau se lève */
+.intro-pending .reveal-lines .line > span {
+  transition-delay: 1.6s !important;
+}
+
+/* Texte en dégradé de marque */
+.text-gradient {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  .js .reveal-lines[data-reveal] .line > span {
+    transform: none;
+    transition: none;
+  }
+}

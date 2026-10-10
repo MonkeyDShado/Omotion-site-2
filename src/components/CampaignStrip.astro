@@ -1,0 +1,236 @@
+---
+/**
+ * Une campagne présentée comme un ensemble : titre, puis tous ses visuels côte à côte
+ * à la même hauteur, chacun dans son format d'origine. Défilement horizontal au doigt.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { themes } from '../data/themes';
+import { contextLabel, countLabel } from '../data/projects';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  tone?: 'light' | 'dark';
+  eager?: boolean;
+}
+
+const { project, tone = 'light', eager = false } = Astro.props;
+const { data } = project;
+// Le visuel principal ouvre la bande, puis le reste de la campagne
+const rest = data.gallery.filter((item) => item.src.src !== data.cover.src);
+const gallery = [{ src: data.cover, alt: data.coverAlt }, ...rest];
+const href = `/projets/${project.id}`;
+const titleId = `campagne-${project.id}`;
+---
+
+<section
+  class:list={['campaign', tone === 'dark' && 'on-night']}
+  data-filterable
+  data-theme={data.theme ?? ''}
+  data-category={data.category}
+  aria-labelledby={titleId}
+>
+  <header class="container head">
+    <div>
+      <h2 id={titleId}><a href={href}>{data.title}</a></h2>
+      <p class="meta">
+        {data.theme && <span>{themes[data.theme]}</span>}
+        <span>{countLabel(project)}</span>
+      </p>
+      <p class="context">{contextLabel(project)}</p>
+    </div>
+    <div class="controls" data-strip-controls hidden>
+      <button type="button" data-dir="-1" aria-label={`Visuels précédents : ${data.title}`}>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
+      <button type="button" data-dir="1" aria-label={`Visuels suivants : ${data.title}`}>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+  </header>
+
+  <ul class="strip" data-strip tabindex="0" aria-label={`Visuels de la campagne ${data.title}`}>
+    {
+      gallery.map((item, i) => (
+        <li style={`--ratio: ${item.src.width / item.src.height}`}>
+          <a href={href} tabindex="-1">
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[300, 500, 800]}
+              sizes="(min-width: 64em) 420px, 300px"
+              loading={eager && i < 3 ? 'eager' : 'lazy'}
+            />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.campaign').forEach((section) => {
+    const strip = section.querySelector<HTMLElement>('[data-strip]');
+    const controls = section.querySelector<HTMLElement>('[data-strip-controls]');
+    if (!strip || !controls) return;
+
+    const update = () => {
+      controls.hidden = strip.scrollWidth <= strip.clientWidth + 1;
+    };
+    controls.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest('button');
+      if (!button) return;
+      strip.scrollBy({ left: Number(button.dataset.dir) * strip.clientWidth * 0.8, behavior: 'smooth' });
+    });
+    new ResizeObserver(update).observe(strip);
+  });
+</script>
+
+<style>
+  .campaign {
+    padding-block: var(--space-12);
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  h2 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-2xl);
+  }
+
+  h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-rose);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .meta span + span::before {
+    content: '·';
+    margin-right: var(--space-3);
+    color: var(--color-violet);
+  }
+
+  .context {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-magenta);
+  }
+
+  .on-night .context {
+    color: var(--color-paper);
+    opacity: 0.8;
+  }
+
+  .on-night h2 a {
+    color: var(--color-paper);
+  }
+
+  .controls {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--space-2);
+  }
+
+  .controls[hidden] {
+    display: none;
+  }
+
+  .controls button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .controls button:hover {
+    border-color: var(--color-violet);
+    background: var(--color-violet);
+    color: var(--color-paper);
+  }
+
+  .controls svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Bande de visuels : même hauteur, largeur selon le ratio de chaque œuvre */
+  .strip {
+    --strip-height: 340px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0 var(--gutter) var(--space-2);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+
+  /* Hauteur commune, sauf pour un visuel horizontal qui ne doit pas dépasser l'écran */
+  .strip li {
+    flex: none;
+    aspect-ratio: var(--ratio);
+    height: min(var(--strip-height), calc(85vw / var(--ratio)));
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+
+  .strip a {
+    display: block;
+    height: 100%;
+  }
+
+  .strip :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-fluid);
+  }
+
+  .strip li:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  @media (min-width: 48em) {
+    .strip {
+      --strip-height: 420px;
+      gap: var(--space-6);
+      padding-inline: max(var(--gutter), calc((100vw - var(--max-media)) / 2 + var(--gutter)));
+    }
+  }
+
+  @media (min-width: 90em) {
+    .strip {
+      --strip-height: 480px;
+    }
+  }
+</style>

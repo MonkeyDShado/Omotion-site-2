@@ -1,0 +1,95 @@
+<script>
+  /**
+   * Effets sonores des boutons, synthétisés avec la Web Audio API :
+   * aucun fichier à télécharger, aucun son avant une action du visiteur.
+   * Le visiteur peut les couper (bouton [data-sfx-toggle]) ; son choix est mémorisé.
+   */
+  type Kind = 'primary' | 'tap';
+
+  const KEY = 'omotion-sfx';
+  let ctx: AudioContext | null = null;
+
+  const isOn = () => {
+    try {
+      return localStorage.getItem(KEY) !== 'off';
+    } catch {
+      return true;
+    }
+  };
+
+  const audio = () => {
+    ctx ??= new AudioContext();
+    if (ctx.state === 'suspended') void ctx.resume();
+    return ctx;
+  };
+
+  /** Petite note qui glisse vers l'aigu : un « mouvement » sonore, très court */
+  const blip = (from: number, to: number, duration: number, volume: number, delay = 0) => {
+    const ac = audio();
+    const t = ac.currentTime + delay;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(from, t);
+    osc.frequency.exponentialRampToValueAtTime(to, t + duration);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(volume, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+    osc.connect(gain).connect(ac.destination);
+    osc.start(t);
+    osc.stop(t + duration + 0.02);
+  };
+
+  const play = (kind: Kind) => {
+    if (!isOn()) return;
+    if (kind === 'primary') {
+      // Deux notes montantes, pour l'action principale (demande de devis)
+      blip(440, 660, 0.12, 0.08);
+      blip(660, 990, 0.16, 0.06, 0.07);
+    } else {
+      blip(520, 780, 0.08, 0.05);
+    }
+  };
+
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-sfx-toggle]');
+  const renderToggles = () => {
+    const on = isOn();
+    toggles.forEach((t) => {
+      t.setAttribute('aria-pressed', String(on));
+      t.setAttribute('aria-label', on ? 'Couper les sons' : 'Activer les sons');
+    });
+  };
+
+  toggles.forEach((t) =>
+    t.addEventListener('click', () => {
+      const next = !isOn();
+      try {
+        localStorage.setItem(KEY, next ? 'on' : 'off');
+      } catch {
+        /* stockage indisponible : le réglage vaut pour cette page */
+      }
+      renderToggles();
+      if (next) play('tap');
+    }),
+  );
+  renderToggles();
+
+  document.addEventListener('click', (event) => {
+    const target = (event.target as HTMLElement).closest<HTMLElement>('button, .quote-button, .whatsapp-button');
+    if (!target || target.hasAttribute('data-sfx-toggle')) return;
+    const primary = target.classList.contains('quote-button') || target.classList.contains('whatsapp-button');
+    play(primary ? 'primary' : 'tap');
+
+    // Un lien quitte la page : on laisse le son démarrer avant de partir
+    if (
+      target instanceof HTMLAnchorElement &&
+      isOn() &&
+      event.button === 0 &&
+      !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) &&
+      target.target !== '_blank'
+    ) {
+      event.preventDefault();
+      window.setTimeout(() => (window.location.href = target.href), 160);
+    }
+  });
+</script>

@@ -1,0 +1,82 @@
+---
+/** Bandeau de texte géant qui défile : les savoir-faire d'O'Motion */
+const words = ['Key visuals', 'Vidéos scénarisées', 'Vidéos produit', 'Motion design', 'Direction artistique', 'Cinématiques'];
+---
+
+<div class="marquee" aria-hidden="true">
+  {
+    [0, 1].map(() => (
+      <ul class="track">
+        {words.map((w, i) => (
+          <li class:list={{ outline: i % 2 === 1 }}>
+            {w}
+            <span class="star">✦</span>
+          </li>
+        ))}
+      </ul>
+    ))
+  }
+</div>
+
+<style>
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    padding-block: var(--space-6);
+    background: var(--color-night);
+    color: var(--color-paper);
+    border-block: 1px solid rgb(255 255 255 / 0.08);
+    user-select: none;
+  }
+
+  .track {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0 var(--space-8) 0 0;
+    list-style: none;
+    animation: scroll-x 38s linear infinite;
+  }
+
+  .marquee:hover .track {
+    animation-play-state: paused;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 7vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.75);
+  }
+
+  .star {
+    font-size: 0.5em;
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 0;
+  }
+
+  @keyframes scroll-x {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+/** Une famille de vidéos : vignettes animées côte à côte, chacune dans son format d'origine */
+import type { CollectionEntry } from 'astro:content';
+import VideoLoop from './VideoLoop.astro';
+import { contextLabel } from '../data/projects';
+
+interface Props {
+  id: string;
+  title: string;
+  videos: CollectionEntry<'projects'>[];
+  tone?: 'light' | 'dark';
+}
+
+const { id, title, videos, tone = 'light' } = Astro.props;
+---
+
+<section class:list={['video-group', 'campaign', tone === 'dark' && 'on-night']} data-group aria-labelledby={`videos-${id}`}>
+  <header class="container head">
+    <h2 id={`videos-${id}`}>{title}</h2>
+    <p class="count">{videos.length} {videos.length > 1 ? 'vidéos' : 'vidéo'}</p>
+  </header>
+  <ul class="strip" tabindex="0" aria-label={title}>
+    {
+      videos.map((video) => (
+        <li
+          style={`--ratio: ${video.data.cover.width / video.data.cover.height}`}
+          data-filterable
+          data-category="video"
+          data-theme={video.data.theme ?? ''}
+        >
+          <a href={`/projets/${video.id}`} aria-label={`${video.data.title}, ${contextLabel(video)}`}>
+            <VideoLoop src={video.data.videoPreview!} poster={video.data.cover} width={600} hoverOnly />
+          </a>
+          <p class="title">{video.data.title}</p>
+          <p class="context">{contextLabel(video)}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .video-group {
+    padding-block: var(--space-12);
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--text-2xl);
+  }
+
+  .count {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .strip {
+    --strip-height: 300px;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0 var(--gutter) var(--space-2);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+  }
+
+  .strip li {
+    flex: none;
+    width: calc(min(var(--strip-height), 85vw / var(--ratio)) * var(--ratio));
+    scroll-snap-align: start;
+  }
+
+  .strip li[hidden] {
+    display: none;
+  }
+
+  .strip a {
+    display: block;
+    overflow: hidden;
+  }
+
+  .strip a :global(video) {
+    transition: transform var(--duration-slow) var(--ease-fluid);
+  }
+
+  .strip a:hover :global(video) {
+    transform: scale(1.03);
+  }
+
+  .title {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .context {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-magenta);
+  }
+
+  .on-night .context {
+    color: var(--color-paper);
+    opacity: 0.8;
+  }
+
+  @media (min-width: 48em) {
+    .strip {
+      --strip-height: 380px;
+      gap: var(--space-6);
+      padding-inline: max(var(--gutter), calc((100vw - var(--max-media)) / 2 + var(--gutter)));
+    }
+  }
+</style>

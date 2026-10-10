@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { whatsapp } from '../data/contact';
+
+const updated = '10 octobre 2026';
+---
+
+<BaseLayout
+  title="Mentions légales"
+  description="Mentions légales et politique de confidentialité du site O’Motion : éditeur, hébergeur, données personnelles, cookies."
+>
+  <article class="container page legal">
+    <h1>Mentions légales</h1>
+    <p class="updated">Dernière mise à jour : {updated}</p>
+
+    <section>
+      <h2>Éditeur du site</h2>
+      <p>
+        Le site O’Motion est édité par <strong>Doumaine Mayombot Christopher</strong>, graphiste et vidéaste
+        indépendant, exerçant sous le nom commercial O’Motion.
+      </p>
+      <ul>
+        <li>Statut : indépendant, immatriculation en cours. Le numéro d’identification sera ajouté dès son obtention.</li>
+        <li>Lieu d’exercice : Casablanca, Maroc</li>
+        <li>Téléphone et WhatsApp : {whatsapp.number}</li>
+        <li>E-mail : mayombotchristo [arobase] gmail.com</li>
+      </ul>
+      <p>Directeur de la publication : Doumaine Mayombot Christopher.</p>
+    </section>
+
+    <section>
+      <h2>Hébergement</h2>
+      <p>
+        Le site est hébergé par <strong>Netlify, Inc.</strong>, San Francisco, Californie, États-Unis
+        (<a href="https://www.netlify.com" rel="noopener" target="_blank">www.netlify.com</a>).
+      </p>
+    </section>
+
+    <section>
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Les visuels, vidéos, textes et le logo présentés sur ce site sont la propriété de leur auteur, sauf mention
+        contraire. Toute reproduction sans autorisation écrite est interdite.
+      </p>
+      <p>
+        Certaines créations de démonstration mettent en scène des marques existantes (par exemple Zara, Givenchy,
+        Nike, Under Armour, Sprite, Milka, Top). Elles sont présentées comme telles, à titre d’exercice de style : elles
+        n’ont pas été commandées par ces marques, qui restent propriétaires de leurs noms et logos. Toute marque
+        concernée peut demander le retrait d’un visuel via le formulaire de contact.
+      </p>
+      <p>
+        Les travaux réalisés pour des clients sont présentés avec leur accord, à titre de références.
+      </p>
+    </section>
+
+    <h1 class="second" id="confidentialite">Politique de confidentialité</h1>
+
+    <section>
+      <h2>Données collectées</h2>
+      <p>
+        Le site ne collecte des données personnelles que lorsque vous remplissez le formulaire de demande de devis :
+        nom, adresse e-mail, service souhaité, budget, délai, description du projet et, si vous le souhaitez, un lien
+        d’inspiration.
+      </p>
+      <p>
+        Ces informations servent uniquement à répondre à votre demande et à établir un devis. Elles ne sont ni
+        vendues, ni cédées, ni utilisées à des fins publicitaires.
+      </p>
+    </section>
+
+    <section>
+      <h2>Transmission et conservation</h2>
+      <p>
+        Le formulaire est transmis par le service <strong>Web3Forms</strong>, qui l’achemine vers la boîte e-mail de
+        l’éditeur (Gmail). Les échanges sont conservés le temps nécessaire au suivi de votre projet, puis au maximum
+        trois ans après le dernier contact.
+      </p>
+      <p>
+        Si vous écrivez sur WhatsApp, Instagram, Facebook ou LinkedIn, les règles de confidentialité de ces services
+        s’appliquent.
+      </p>
+    </section>
+
+    <section>
+      <h2>Vos droits</h2>
+      <p>
+        Vous pouvez à tout moment demander l’accès à vos données, leur correction ou leur suppression, en écrivant à
+        l’adresse e-mail ci-dessus ou sur WhatsApp. Une réponse vous sera apportée sous un mois au plus.
+      </p>
+    </section>
+
+    <section>
+      <h2>Cookies et mesure d’audience</h2>
+      <p>Ce site n’utilise aucun cookie publicitaire ni outil de suivi.</p>
+      <ul>
+        <li>
+          Votre navigateur mémorise seulement deux réglages, sur votre appareil : votre choix d’activer ou non les
+          sons, et le fait que l’animation d’accueil a déjà été vue.
+        </li>
+        <li>
+          Les vidéos YouTube ne sont chargées que si vous appuyez sur « Lire la vidéo », depuis le domaine
+          youtube-nocookie.com. YouTube peut alors appliquer ses propres règles.
+        </li>
+        <li>L’hébergeur conserve des journaux techniques de connexion, nécessaires au bon fonctionnement du site.</li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-12) var(--space-24);
+    max-width: 52rem;
+  }
+
+  .updated {
+    font-size: var(--text-sm);
+  }
+
+  section {
+    margin-top: var(--space-8);
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+  }
+
+  .second {
+    margin-top: var(--space-16);
+    padding-top: var(--space-12);
+    border-top: 1px solid var(--color-mist);
+  }
+
+  ul {
+    padding-left: 1.25em;
+  }
+
+  li + li {
+    margin-top: var(--space-2);
+  }
+
+  li::marker {
+    color: var(--color-violet);
+  }
+</style>

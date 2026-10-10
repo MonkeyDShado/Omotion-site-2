@@ -1,0 +1,232 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import logoLight from '../assets/brand/omotion-logo-light.png';
+import { services } from '../data/services';
+import Icon from '../components/Icon.astro';
+import HeroFilm from '../components/HeroFilm.astro';
+import Marquee from '../components/Marquee.astro';
+import Intro from '../components/Intro.astro';
+import { heroFilms } from '../data/hero';
+import { getCollection } from 'astro:content';
+import CampaignStrip from '../components/CampaignStrip.astro';
+import { byOrder } from '../data/projects';
+
+import { socials, whatsapp } from '../data/contact';
+import portrait from '../assets/about/portrait.jpg';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'O’Motion',
+  description: 'Key visuals et montage vidéo pour les PME et les entrepreneurs, créés avec l’IA et une direction artistique humaine.',
+  url: Astro.site?.href,
+  image: new URL(portrait.src, Astro.site).href,
+  telephone: whatsapp.number.replace(/\s/g, ''),
+  founder: { '@type': 'Person', name: 'Doumaine Mayombot Christopher' },
+  sameAs: socials.map((s) => s.href),
+  serviceType: ['Key visual', 'Vidéo scénarisée', 'Vidéo produit', 'Motion design', 'Vidéo institutionnelle'],
+};
+
+const featured = (await getCollection('projects', (p) => p.data.featured)).sort(byOrder);
+---
+
+<BaseLayout
+  jsonLd={jsonLd}
+  title="O’Motion — Key visuals et montage vidéo"
+  description="Key visuals et montage vidéo pour les PME et les entrepreneurs. Un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
+>
+  <Intro />
+  <h1 class="visually-hidden">O’Motion, key visuals et montage vidéo</h1>
+  {
+    heroFilms ? (
+      <HeroFilm films={heroFilms} />
+    ) : (
+      <section class="hero on-night" aria-label="Showreel">
+        <div class="hero-motion" aria-hidden="true">
+          <span class="blob blob-violet"></span>
+          <span class="blob blob-rose"></span>
+          <span class="drop drop-1"></span>
+          <span class="drop drop-2"></span>
+          <span class="drop drop-3"></span>
+        </div>
+        <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={259} height={210} loading="eager" />
+        <p class="placeholder">[À COMPLÉTER — film d’accueil]</p>
+      </section>
+    )
+  }
+
+  <Marquee />
+
+  <section class="featured" aria-labelledby="featured-title">
+    <div class="container">
+      <h2 id="featured-title">Campagnes</h2>
+    </div>
+    {featured.map((project, i) => <CampaignStrip project={project} tone={i % 2 ? 'dark' : 'light'} />)}
+    <div class="container">
+      <a href="/projets" class="all-projects">Voir toutes les campagnes</a>
+    </div>
+  </section>
+
+  <section class="container section">
+    <h2>Services</h2>
+    <div class="services">
+      {
+        services.map((service) => (
+          <div class="service-teaser has-icon">
+            <Icon name={service.icon} />
+            <h3>
+              <a href={`/services#${service.id}`}>{service.title}</a>
+            </h3>
+            <p>{service.summary}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-8);
+    min-height: calc(100svh - var(--header-height));
+    padding: var(--gutter);
+    text-align: center;
+  }
+
+  /* Formes fluides du symbole, en mouvement lent derrière le logo */
+  .hero-motion {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .blob {
+    position: absolute;
+    width: min(70vw, 520px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.45;
+  }
+
+  .blob-violet {
+    top: 10%;
+    left: 50%;
+    background: var(--color-violet);
+    animation: drift-violet 18s ease-in-out infinite alternate;
+  }
+
+  .blob-rose {
+    bottom: 5%;
+    right: 50%;
+    background: var(--color-rose);
+    animation: drift-rose 22s ease-in-out infinite alternate;
+  }
+
+  .drop {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    animation: float 7s ease-in-out infinite alternate;
+  }
+
+  .drop-1 {
+    width: 14px;
+    aspect-ratio: 1;
+    top: 22%;
+    left: 18%;
+  }
+
+  .drop-2 {
+    width: 9px;
+    aspect-ratio: 1;
+    top: 30%;
+    right: 20%;
+    animation-delay: -2s;
+  }
+
+  .drop-3 {
+    width: 18px;
+    aspect-ratio: 1;
+    bottom: 22%;
+    right: 28%;
+    animation-delay: -4s;
+  }
+
+  @keyframes drift-violet {
+    from {
+      transform: translate(-60%, 0) rotate(0);
+    }
+    to {
+      transform: translate(-20%, 25%) rotate(180deg);
+    }
+  }
+
+  @keyframes drift-rose {
+    from {
+      transform: translate(60%, 0);
+    }
+    to {
+      transform: translate(20%, -25%);
+    }
+  }
+
+  @keyframes float {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-24px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob,
+    .drop {
+      animation: none;
+    }
+  }
+
+  .section {
+    padding-block: var(--space-16);
+  }
+
+  .featured {
+    padding-top: var(--space-16);
+  }
+
+  .featured h2 {
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .all-projects {
+    display: inline-block;
+    margin-block: var(--space-8) var(--space-4);
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .service-teaser h3 {
+    margin-top: var(--space-4);
+  }
+
+  .services {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 48em) {
+    .services {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

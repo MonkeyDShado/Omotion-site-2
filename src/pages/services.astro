@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuoteButton from '../components/QuoteButton.astro';
+import ServiceProcess from '../components/ServiceProcess.astro';
+import Icon from '../components/Icon.astro';
+import { services } from '../data/services';
+---
+
+<BaseLayout
+  title="Services"
+  description="Key visuals et montage vidéo pour les PME et les entrepreneurs : un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
+>
+  <div class="container page">
+    <h1>Services</h1>
+    <p class="lead">
+      Deux services, pour les PME et les entrepreneurs qui veulent une image professionnelle sans budget
+      d’agence.
+    </p>
+
+    {
+      services.map((service) => (
+        <section class:list={['service', { 'has-icon': !service.formulas }]} id={service.id} aria-labelledby={`${service.id}-title`}>
+          <div class="heading">
+            {!service.formulas && <Icon name={service.icon} />}
+            <h2 id={`${service.id}-title`}>{service.title}</h2>
+          </div>
+          {service.details.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          {service.process && <ServiceProcess process={service.process} />}
+          {service.formulas && (
+            <div class="formulas">
+              {service.formulas.map((formula) => (
+                <div class="formula has-icon">
+                  <div class="heading">
+                    <Icon name={formula.icon} size={44} />
+                    <h3>{formula.title}</h3>
+                  </div>
+                  <p>{formula.description}</p>
+                  <ServiceProcess process={formula.process} />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      ))
+    }
+
+    <section class="service has-icon" aria-labelledby="ai-title">
+      <div class="heading">
+        <Icon name="ai" />
+        <h2 id="ai-title">Ma façon de travailler avec l’IA</h2>
+      </div>
+      <p>
+        J’utilise l’IA pour explorer plus de pistes, plus vite, et garder des coûts raisonnables. Les
+        vidéos scénarisées sont entièrement générées par l’IA ; dans tous les cas, la direction artistique,
+        les choix et le montage final restent les miens. Chaque projet du portfolio précise ce qu’a fait
+        l’IA et ce que j’ai fait moi-même.
+      </p>
+    </section>
+
+    <section class="cta has-icon" aria-labelledby="cta-title">
+      <div class="heading">
+        <Icon name="message" />
+        <h2 id="cta-title">Vous avez un projet ?</h2>
+      </div>
+      <p>Décrivez-le en quelques lignes. Je vous réponds sous 24 h avec un devis.</p>
+      <QuoteButton />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-12) var(--space-24);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+  }
+
+  .service {
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .heading :is(h2, h3) {
+    margin: 0;
+  }
+
+  .formulas {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .formula {
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-violet);
+  }
+
+  .formula:last-child {
+    border-left-color: var(--color-rose);
+  }
+
+  @media (min-width: 48em) {
+    .heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .heading :is(h2, h3) {
+    margin: 0;
+  }
+
+  .formulas {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .cta {
+    margin-top: var(--space-8);
+    padding: var(--space-8) var(--gutter);
+    background: var(--color-mist);
+  }
+</style>

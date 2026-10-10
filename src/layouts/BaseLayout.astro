@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import MobileQuoteBar from '../components/MobileQuoteBar.astro';
+import RevealScript from '../components/RevealScript.astro';
+import SoundFx from '../components/SoundFx.astro';
+import Cursor from '../components/Cursor.astro';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import defaultShare from '../assets/hero/hero-film-landscape-poster.jpg';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Masque la barre de devis mobile (ex. sur la page contact elle-même) */
+  hideQuoteBar?: boolean;
+  /** Visuel affiché quand la page est partagée (WhatsApp, Instagram, LinkedIn…) */
+  shareImage?: ImageMetadata;
+  /** Données structurées (JSON-LD) propres à la page */
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, hideQuoteBar = false, shareImage = defaultShare, jsonLd } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const share = await getImage({ src: shareImage, width: 1200, format: 'jpg' });
+const shareUrl = new URL(share.src, Astro.site);
+const fullTitle = Astro.url.pathname === '/' ? title : `${title} · O’Motion`;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    {
+      Astro.url.pathname === '/' && (
+        <script is:inline>
+          {`try {
+            if (!sessionStorage.getItem('omotion-intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              var h = document.documentElement;
+              h.classList.add('intro-pending');
+              sessionStorage.setItem('omotion-intro', '1');
+              setTimeout(function () { h.classList.add('intro-done'); }, 1500);
+              setTimeout(function () { h.classList.remove('intro-pending', 'intro-done'); }, 2400);
+            }
+          } catch (e) {}`}
+        </script>
+      )
+    }
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#150a22" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="O’Motion" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={shareUrl} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+    <SiteHeader />
+    <main id="contenu">
+      <slot />
+    </main>
+    <SiteFooter />
+    {!hideQuoteBar && <MobileQuoteBar />}
+    <RevealScript />
+    <SoundFx />
+    <Cursor />
+  </body>
+</html>

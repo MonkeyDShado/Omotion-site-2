@@ -1,0 +1,88 @@
+---
+import type { Process } from '../data/services';
+import Icon from './Icon.astro';
+
+interface Props {
+  process: Process;
+}
+
+const { process } = Astro.props;
+---
+
+<div class="process">
+  <p class="delay">
+    <Icon name="clock" size={22} />
+    <span><strong>Délai :</strong> {process.delay}</span>
+  </p>
+  {
+    process.steps && (
+      <ol data-reveal>
+        {process.steps.map((step, index) => (
+          <li style={`--step: ${index}`}>{step}</li>
+        ))}
+      </ol>
+    )
+  }
+  {process.notes?.map((note) => <p class="note">{note}</p>)}
+</div>
+
+<style>
+  .process {
+    margin-top: var(--space-4);
+  }
+
+  .delay {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-mist);
+    font-family: var(--font-display);
+  }
+
+  .delay strong {
+    font-weight: 600;
+  }
+
+  ol {
+    margin: 0 0 var(--space-4);
+    padding-left: 1.5em;
+  }
+
+  li + li {
+    margin-top: var(--space-2);
+  }
+
+  li::marker {
+    color: var(--color-violet);
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* Les étapes apparaissent l'une après l'autre */
+  :global(.js) ol[data-reveal] li {
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 500ms var(--ease-fluid),
+      transform 500ms var(--ease-fluid);
+    transition-delay: calc(var(--step) * 120ms);
+  }
+
+  :global(.js) ol[data-reveal].is-visible li {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) ol[data-reveal] li {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .note {
+    font-size: var(--text-sm);
+  }
+</style>

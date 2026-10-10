@@ -1,0 +1,134 @@
+<div class="cursor" aria-hidden="true" data-cursor>
+  <span class="cursor-label" data-cursor-label></span>
+</div>
+
+<script>
+  /**
+   * Curseur personnalisé (ordinateur uniquement) : un anneau qui suit la souris avec souplesse,
+   * grossit sur les liens et affiche « Voir » sur les visuels. Les boutons principaux sont « aimantés ».
+   */
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cursor = document.querySelector<HTMLElement>('[data-cursor]');
+  const label = document.querySelector<HTMLElement>('[data-cursor-label]');
+
+  if (fine && !reduced && cursor && label) {
+    document.documentElement.classList.add('has-cursor');
+    let x = innerWidth / 2;
+    let y = innerHeight / 2;
+    let cx = x;
+    let cy = y;
+
+    addEventListener('pointermove', (e) => {
+      x = e.clientX;
+      y = e.clientY;
+      cursor.classList.add('is-active');
+    });
+    document.addEventListener('pointerleave', () => cursor.classList.remove('is-active'));
+
+    const loop = () => {
+      cx += (x - cx) * 0.2;
+      cy += (y - cy) * 0.2;
+      cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+
+    document.addEventListener('pointerover', (e) => {
+      const target = e.target as HTMLElement;
+      const media = target.closest<HTMLElement>('.strip li, .player, figure, [data-cursor-text]');
+      const link = target.closest('a, button, label, select');
+      cursor.classList.toggle('is-media', Boolean(media));
+      cursor.classList.toggle('is-link', !media && Boolean(link));
+      label.textContent = media ? (media.dataset.cursorText ?? 'Voir') : '';
+    });
+
+    // Boutons aimantés : ils suivent légèrement la souris
+    document.querySelectorAll<HTMLElement>('.quote-button, .whatsapp-button:not(.compact)').forEach((el) => {
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width / 2) * 0.25;
+        const dy = (e.clientY - r.top - r.height / 2) * 0.35;
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+      });
+      el.addEventListener('pointerleave', () => (el.style.transform = ''));
+    });
+  }
+</script>
+
+<style>
+  .cursor {
+    display: none;
+  }
+
+  :global(.has-cursor) .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  :global(.has-cursor) .cursor::before {
+    content: '';
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--color-violet);
+    border-radius: 50%;
+    opacity: 0;
+    transition:
+      width 300ms var(--ease-fluid),
+      height 300ms var(--ease-fluid),
+      background 300ms var(--ease-fluid),
+      border-color 300ms var(--ease-fluid),
+      opacity 200ms;
+  }
+
+  :global(.has-cursor) .cursor.is-active::before {
+    opacity: 1;
+  }
+
+  :global(.has-cursor) .cursor.is-link::before {
+    width: 56px;
+    height: 56px;
+    background: rgb(148 50 239 / 0.12);
+    border-color: var(--color-rose);
+  }
+
+  :global(.has-cursor) .cursor.is-media::before {
+    width: 96px;
+    height: 96px;
+    border-color: transparent;
+    background: var(--gradient-brand);
+  }
+
+  .cursor-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    color: var(--color-paper);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  :global(.has-cursor) .cursor.is-media .cursor-label {
+    opacity: 1;
+  }
+
+  :global(.has-cursor .quote-button),
+  :global(.has-cursor .whatsapp-button) {
+    transition:
+      transform 250ms var(--ease-fluid),
+      background var(--duration-base) var(--ease-fluid),
+      color var(--duration-base) var(--ease-fluid);
+  }
+</style>

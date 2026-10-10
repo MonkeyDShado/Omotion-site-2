@@ -1,0 +1,38 @@
+---
+import QuoteButton from './QuoteButton.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+---
+
+<div class="mobile-quote-bar">
+  <QuoteButton class="mobile-quote" />
+  <WhatsAppButton compact />
+</div>
+
+<style>
+  /* Sur mobile, le bouton devis reste à portée de pouce, en bas de l'écran */
+  .mobile-quote-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 10;
+    padding: var(--space-3) var(--gutter) calc(var(--space-3) + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .mobile-quote-bar {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .mobile-quote-bar :global(.mobile-quote) {
+    flex: 1;
+    justify-content: center;
+  }
+
+  @media (min-width: 48em) {
+    .mobile-quote-bar {
+      display: none;
+    }
+  }
+</style>

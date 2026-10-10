@@ -1,0 +1,65 @@
+---
+import BrandIcon from './BrandIcon.astro';
+import { whatsapp } from '../data/contact';
+
+interface Props {
+  /** compact : bouton rond, icône seule (barre mobile) */
+  compact?: boolean;
+  class?: string;
+}
+
+const { compact = false, class: className } = Astro.props;
+---
+
+<a
+  href={whatsapp.href}
+  target="_blank"
+  rel="noopener"
+  class:list={['whatsapp-button', { compact }, className]}
+  aria-label={compact ? 'Écrire sur WhatsApp' : undefined}
+>
+  <BrandIcon name="whatsapp" size={compact ? 24 : 20} />
+  {!compact && <span>Écrire sur WhatsApp</span>}
+</a>
+
+<style>
+  .whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-2) var(--space-6);
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background var(--duration-base) var(--ease-fluid),
+      color var(--duration-base) var(--ease-fluid);
+  }
+
+  .whatsapp-button:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  :global(.on-night) .whatsapp-button {
+    color: var(--color-paper);
+  }
+
+  :global(.on-night) .whatsapp-button:hover {
+    background: var(--color-paper);
+    color: var(--color-night);
+  }
+
+  .compact {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+  }
+</style>

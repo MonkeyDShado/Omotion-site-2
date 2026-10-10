@@ -1,0 +1,79 @@
+---
+/**
+ * Extrait vidéo muet en boucle, dans son format d'origine.
+ * Lecture seulement quand il est visible (et au survol sur ordinateur si hoverOnly).
+ */
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: string;
+  poster: ImageMetadata;
+  width?: number;
+  /** Sur ordinateur, ne lire qu'au survol (les vignettes) */
+  hoverOnly?: boolean;
+  class?: string;
+}
+
+const { src, poster, width = 720, hoverOnly = false, class: className } = Astro.props;
+const posterImg = await getImage({ src: poster, width, format: 'webp' });
+---
+
+<video
+  class:list={['video-loop', className]}
+  style={`aspect-ratio: ${poster.width} / ${poster.height}`}
+  muted
+  loop
+  playsinline
+  preload="none"
+  poster={posterImg.src}
+  width={poster.width}
+  height={poster.height}
+  data-video-loop
+  data-hover-only={hoverOnly ? '' : undefined}
+  aria-hidden="true"
+>
+  <source src={src} type="video/mp4" />
+</video>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const videos = document.querySelectorAll<HTMLVideoElement>('[data-video-loop]');
+
+  if (!reduced) {
+    const play = (v: HTMLVideoElement) => v.play().catch(() => {});
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const { target, isIntersecting } of entries) {
+          const v = target as HTMLVideoElement;
+          const hoverOnly = canHover && v.hasAttribute('data-hover-only');
+          if (isIntersecting && !hoverOnly) play(v);
+          else v.pause();
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    videos.forEach((v) => {
+      observer.observe(v);
+      if (canHover && v.hasAttribute('data-hover-only')) {
+        const zone = v.closest('a, li') ?? v;
+        zone.addEventListener('mouseenter', () => play(v));
+        zone.addEventListener('mouseleave', () => v.pause());
+        zone.addEventListener('focusin', () => play(v));
+        zone.addEventListener('focusout', () => v.pause());
+      }
+    });
+  }
+</script>
+
+<style>
+  .video-loop {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--color-night);
+    object-fit: cover;
+  }
+</style>

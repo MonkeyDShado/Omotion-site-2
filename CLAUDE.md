@@ -1,35 +1,39 @@
-# CLAUDE.md — Site Omotion
+# CLAUDE.md — Site O'Motion
 
 Ce fichier donne à Claude Code le contexte du projet. Lis-le en entier avant toute modification. Les éléments marqués `[À COMPLÉTER]` sont des informations que le propriétaire doit fournir : ne les invente pas, laisse un placeholder visible et signale-le.
 
 ## Le projet
 
-Omotion est le service d'un graphiste free-lance. Le site est un portfolio vitrine dont le seul but est de **transformer un visiteur en demande de devis**.
+O'Motion est le service d'un graphiste free-lance, **Doumaine Mayombot Christopher** : formé en marketing et communication, graphiste autodidacte, deux ans de design graphique, a travaillé à temps partiel avec un graphiste professionnel. Photo : `src/assets/about/portrait.jpg`. Le site est un portfolio vitrine dont le seul but est de **transformer un visiteur en demande de devis**.
 
 Deux services, et seulement deux :
 
-- **Key visuals** : visuels clés pour campagnes, lancements produit, événements, pochettes, affiches, réseaux sociaux.
-- **Montage vidéo** : clips, teasers, contenus réseaux sociaux (formats verticaux et horizontaux), motion design léger.
+- **Key visuals** : un visuel fort et polyvalent pour promouvoir un nouveau produit ou un événement sans campagne coûteuse. Après la prise de contact, un questionnaire ciblé définit le ton et les supports de diffusion ; le visuel est pensé pour fonctionner sur chacun. Délai : 48 h après les réponses (24 h de création, puis 24 h pour que le client demande ses retouches, 3 maximum).
+- **Montage vidéo**, en deux formules :
+  - **Vidéo scénarisée** : entièrement générée par l'IA (ex. vidéo produit qui met en avant la gourmandise d'une barre de chocolat, scénario au rendu cinéma). Argument : pas de coût de tournage en studio. Le client valide le scénario puis le storyboard ; ensuite 4 jours : 3 jours de création (retouches signalées le 3e jour), retouches et livraison le 4e. Une seule vidéo à la fois par client.
+  - **Vidéo institutionnelle** : montage plus simple à partir de vidéos libres de droits, textes, images et animations (outils : CapCut, Canva ; non cités dans les Services, mais affichés dans « Mes outils » sur À propos, à la demande du propriétaire). Délai : 5 jours, recherche des contenus comprise. Retouches nombreuses (nombre exact `[À COMPLÉTER]`).
 
 Le processus créatif est **assisté par l'IA** (génération d'images, retouche, montage). C'est un argument assumé : rapidité, volume d'exploration, coûts maîtrisés, avec une direction artistique humaine. Le site doit le dire clairement et honnêtement, sans en faire un gadget ni s'en excuser.
 
-Cibles : `[À COMPLÉTER — ex. marques indépendantes, artistes musicaux, agences événementielles, créateurs de contenu]`.
+Cibles : **PME et entrepreneurs**, souvent avec un petit budget, mais qui veulent un rendu professionnel. Le site doit rassurer sur le sérieux et montrer que la qualité reste accessible, sans parler de « low cost ».
 
 ## Identité de marque
 
-- Nom : **Omotion** (toujours avec cette casse, jamais "OMotion" ni "OMOTION" dans le texte courant).
-- Logo : fourni par le propriétaire, à placer dans `src/assets/brand/`. Formats attendus : SVG (prioritaire), PNG transparent, version claire et version foncée. `[À COMPLÉTER — déposer les fichiers]`
-- Palette : **à extraire du logo**. Avant de coder les styles, ouvre le logo, relève ses couleurs exactes, puis propose une palette de 4 à 6 tokens nommés et fais-la valider. Ne choisis pas une palette par défaut.
-- Typographies : `[À COMPLÉTER si une police de marque existe]`. Sinon, propose deux options cohérentes avec le logo et attends validation.
-- Ton : direct, confiant, concret. Tutoiement ou vouvoiement : `[À COMPLÉTER]`. Phrases courtes, verbes d'action, aucun jargon marketing creux ("solutions innovantes", "sublimer votre image").
+- Nom : **O'Motion**, comme sur le logo. Dans le texte du site, écris « O’Motion » avec l'apostrophe typographique, jamais "Omotion", "O'motion" ni "O'MOTION". Dans les noms de fichiers et le code : `omotion`.
+- Logo : dans `src/assets/brand/` (voir `docs/design-plan.md`, section 1). `omotion-logo-light.png` est une variante claire provisoire, créée avec l'accord du propriétaire : seul le logotype est passé en blanc. N'en crée pas d'autres. SVG officiel : `[À COMPLÉTER — plus tard]`
+- Palette : validée, voir `docs/design-plan.md` section 2 (ink `#470F79`, violet `#9432EF`, rose `#ED258A`, magenta `#A31373`, paper `#FFFFFF`, night `#150A22`).
+- Typographies : validées, Outfit (titres) + Instrument Sans (texte), auto-hébergées via `@fontsource`.
+- Ton : direct, confiant, concret. **Vouvoiement** des visiteurs ; le graphiste parle à la première personne (« je »). Phrases courtes, verbes d'action, aucun jargon marketing creux ("solutions innovantes", "sublimer votre image").
 
 ## Direction artistique
 
 Le nom contient "motion" : le mouvement est le fil conducteur, mais il doit servir le travail, pas le décorer.
 
 - **Le travail est la star.** Les visuels et vidéos occupent l'espace ; l'interface reste sobre autour.
-- **Un seul moment fort** : le hero ouvre sur le showreel ou un key visual animé, plein écran. Pas d'animations d'entrée sur chaque section.
+- **Un moment fort** : le hero ouvre sur le showreel ou un key visual animé, plein écran, avec des formes fluides en mouvement inspirées du symbole. Ailleurs, le mouvement reste discret.
 - Les animations répondent aux actions de l'utilisateur (survol d'une miniature qui lance un aperçu vidéo, ouverture d'un projet). Respecte toujours `prefers-reduced-motion`.
+- **Icônes animées** (demande du propriétaire) : icônes maison dans `src/components/Icon.astro`, trait arrondi en dégradé violet → rose comme le symbole. Elles se dessinent une fois à l'apparition et bougent légèrement au survol de leur bloc (`.has-icon`). Les étapes des offres apparaissent l'une après l'autre. Pas de bibliothèque d'icônes génériques, pas d'animation en boucle hors du hero.
+- **Finitions premium** (demande du propriétaire : « inspiré des sites à plusieurs milliers d'euros ») : intro d'accueil une fois par session, titre d'accueil révélé ligne par ligne, bandeau de texte géant qui défile sous le film, transitions entre pages (`@view-transition`), grain sur les fonds sombres, barre de progression en dégradé, curseur personnalisé et boutons aimantés sur ordinateur. Tout se désactive avec `prefers-reduced-motion`.
 - À éviter, car ces choix font "site généré" : fond crème avec accent terracotta, fond quasi-noir avec un unique accent vert acide, grilles de cartes identiques arrondies avec la même ombre grise, labels en MAJUSCULES espacées au-dessus de chaque titre, numérotation 01/02/03 sur du contenu qui n'est pas une séquence, flèches "→" ajoutées à tous les liens.
 - Avant de coder le design, rédige un court plan (couleurs, typos, grille, principes) dans `docs/design-plan.md` et fais-le valider.
 
@@ -40,7 +44,7 @@ Le nom contient "motion" : le mouvement est le fil conducteur, mais il doit serv
 /projets          Portfolio filtrable (Key visual / Vidéo)
 /projets/[slug]   Fiche projet : contexte, brief, livrables, visuels, rôle de l'IA
 /services         Détail des 2 offres, processus, délais indicatifs
-/a-propos         Le graphiste, l'approche, la place de l'IA dans le processus
+/a-propos         Personal branding : photo, présentation, chiffres calculés depuis le portfolio, compétences, méthode, outils
 /contact          Formulaire de demande de devis
 /mentions-legales Mentions légales + politique de confidentialité
 ```
@@ -53,9 +57,10 @@ Navigation principale : Projets, Services, À propos, Contact. Le bouton "Demand
 - **TypeScript** en mode strict
 - **CSS** : variables CSS pour les tokens de design + Tailwind si souhaité `[À CONFIRMER]`
 - **Content Collections** d'Astro pour les projets (Markdown/MDX + frontmatter typé)
-- Vidéos : hébergement externe (`[À COMPLÉTER — Vimeo, Bunny Stream, Cloudflare Stream…]`) pour les longues ; fichiers locaux MP4/WebM courts et muets pour les aperçus en boucle
-- Formulaire : `[À COMPLÉTER — Formspree, Netlify Forms, Resend…]`
-- Hébergement : `[À COMPLÉTER — Netlify, Vercel, Cloudflare Pages]`
+- Vidéos : **YouTube** pour les vidéos complètes (champ `youtubeId`), affichées avec `YouTubePlayer.astro` : image d'abord, YouTube chargé seulement au clic, domaine `youtube-nocookie.com`. Pas de synchronisation automatique de la chaîne : le portfolio reste une sélection, chaque vidéo a sa fiche (contexte, rôle de l'IA). Les extraits muets en boucle (film d'accueil, aperçus au survol) restent des MP4/WebM courts et compressés dans `public/videos/`, découpés à partir des originaux.
+- Échange de fichiers : le propriétaire partage un **dossier Google Drive** en lien public (« Tous les utilisateurs disposant du lien », lecteur). Télécharger avec `gdown` (pip), puis optimiser et ranger ; ne jamais committer les originaux lourds.
+- Formulaire : **Web3Forms** (`QuoteForm.astro`), envoi vers mayombotchristo@gmail.com, sans serveur, piège à robots `botcheck`, page de confirmation `/merci`. Clé d'accès dans `src/data/contact.ts` (formulaire « Devis O’Motion » créé pour omotion.netlify.app/contact).
+- Hébergement : **Netlify**, offre gratuite (`netlify.toml`), adresse gratuite `*.netlify.app` en attendant un nom de domaine. Site Netlify « omotion » relié au dépôt, branche `claude/logo-design-plan-4gr2m1` : **https://omotion.netlify.app**. `site` défini dans `astro.config.mjs` ; sitemap (@astrojs/sitemap) et `robots.txt`.
 
 Si une autre stack te semble plus adaptée, propose-la avec ses raisons avant d'initialiser le projet.
 
@@ -86,20 +91,40 @@ public/videos/         aperçus vidéo courts
 docs/                  plan de design, notes
 ```
 
+## Portfolio disponible
+
+Inventaire fourni par le propriétaire (les fichiers arrivent via Google Drive, à optimiser puis ranger) :
+
+- **Key visuals** (~20) : 4 pour des clients (2 clients, 2 visuels chacun), 2 d'auto-promotion, ~14 créations de démonstration (dont une dizaine en campagnes, le reste en visuels indépendants).
+- **Vidéos** (~10) : 1 pour un client, 1 d'auto-promotion, 2 vidéos produit, 2 en motion design 2D, 2 scénarisées, 2 films (les plus travaillés, sans visée publicitaire, pour montrer le savoir-faire).
+- **Films d'accueil** (`src/data/hero.ts`) : plein écran, sans cadre ni texte superposé (choix du propriétaire). Écran horizontal : extrait du court métrage « Amour All », 16:9. Écran vertical : extrait de « Tempête d’ambre », publicité concept (démo, non commandée) pour le parfum Zara #Tobacco, vertical. Texte et bouton devis sous le film.
+
+Musique : « Amour All » utilise « All I Know » (The Weeknd) sans licence. Sur le site, les extraits restent muets ; pour une version publique (YouTube), recommander une musique sous licence ou libre de droits.
+
+Key visuals en ligne (`src/content/projects/`), un fichier par campagne, calqués sur les dossiers Drive du propriétaire. Page Projets : une bande par campagne (`CampaignStrip.astro`), visuels côte à côte à la même hauteur, ordre fixé par le champ `order`, filtres par thème (`src/data/themes.ts`). Campagnes : Ochrysto Fast-food (restauration, 9), Coco Flavours (restauration, 2), Le goût de l’inédit (boissons, 2), Top (boissons, vraie marque, 1), Savon noir El Hiama (beauté, 6), L’Interdit Givenchy (beauté, vraie marque, 3), Ochrysto Mode (mode, 8 ; Ochrysto est la marque du propriétaire, réutilisée pour ses démos), Your Money (finance, **seul vrai client**, 2), Graphiste pour key visual (auto-promotion, 2). Tous les autres sont des démos.
+
+Vidéos en ligne (16 fiches, `category: video`) : extraits muets de 8 s dans `public/videos/*-preview.mp4`, image dans `src/assets/videos/`. Page Projets, partie « Vidéos » : une bande par famille (`src/data/videoTypes.ts` : films et cinématiques, scénarisées, produit, motion design, institutionnelles) ; lecture au survol sur ordinateur, à l'écran sur mobile. Clients : Koulshy Service (motion design), Your Money (présentation d'application). Auto-promotion : O’Motion motion design, post animé. Démos : O’Cookies, O’Grills, O’Céréals, Sprite (scénarisées) ; Tempête d’ambre, O’Miss, Milka Oreo, Nike, Under Armour (produit — Tempête d’ambre reste aussi film d’accueil) ; cinématiques : L’envol de l’ange, Le Roi inconnu (dossier « Empereur Dieu ») ; court métrage : Amour All. Rôle de l'IA (films, cinématiques, scénarisées, produit) : « image to video » — l'IA anime les images en plans, puis montage, son et textes dans CapCut. Motion design et institutionnel : rôle de l'IA `[À COMPLÉTER]`. Liens YouTube : `[À COMPLÉTER]` (vidéos en cours de remise en ligne).
+
+Honnêteté : chaque projet indique son contexte (`context` : `client`, `auto-promotion` ou `concept`). Une création de démonstration est toujours affichée comme telle, jamais présentée comme une commande client. Afficher le nom d'un client suppose son accord.
+
 ## Modèle de contenu d'un projet
 
 Frontmatter de `src/content/projects/*.md` :
 
 ```yaml
 title: "Nom du projet"
-client: "Nom du client"        # ou "Projet personnel"
+context: client                # client | auto-promotion | concept
+client: "Nom du client"        # seulement si context = client
 date: 2026-05-01
 category: key-visual           # key-visual | video
+videoType: film                # optionnel : produit | motion-design | scenario | film | institutionnel
+campaign: "Nom de la campagne" # optionnel, regroupe des key visuals
+order: 1                       # position dans le portfolio
 featured: true                 # affiché sur l'accueil
 cover: ../../assets/projects/xxx/cover.jpg
 coverAlt: "Description précise du visuel"
 videoPreview: /videos/xxx-preview.mp4   # optionnel, boucle muette
-videoUrl: "https://..."                  # optionnel, vidéo complète
+youtubeId: "dQw4w9WgXcQ"                # optionnel, vidéo complète sur YouTube
 formats: ["16:9", "9:16", "1:1"]
 tools: ["Midjourney", "Photoshop", "Premiere Pro"]
 aiRole: "Exploration des pistes visuelles et génération des fonds, composition et retouches finales à la main."
@@ -123,14 +148,14 @@ Le champ `aiRole` est obligatoire : chaque projet explique en une ou deux phrase
 - Chaque page : `title` unique, meta description, balises Open Graph avec un visuel de projet.
 - Données structurées JSON-LD `ProfessionalService` sur l'accueil.
 - Sitemap et `robots.txt` générés au build.
-- Liens réseaux sociaux : `[À COMPLÉTER — Instagram, Behance, LinkedIn, TikTok, YouTube…]`.
+- Réseaux et contact : `src/data/contact.ts` — Instagram @omotion_off, Facebook O’Motion, LinkedIn (Christopher Doumaine Mayombot), WhatsApp +212 778 749 311 (bouton « Écrire sur WhatsApp » : pied de page, barre mobile, page Contact). E-mail de réception des devis : mayombotchristo@gmail.com (non affiché en clair).
 
 ## Contact et légal
 
 - Formulaire de devis : nom, email, type de service (Key visual / Vidéo / Les deux), budget indicatif, délai souhaité, message, lien de référence optionnel.
-- Après envoi : message de confirmation clair indiquant le délai de réponse `[À COMPLÉTER]`.
+- Après envoi : message de confirmation clair indiquant le délai de réponse : **sous 24 h**.
 - Protection anti-spam (honeypot), pas de reCAPTCHA intrusif.
-- Mentions légales conformes au droit français : statut `[À COMPLÉTER — ex. micro-entreprise]`, SIRET, hébergeur, RGPD. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
+- Mentions légales (`/mentions-legales`, avec politique de confidentialité) rédigées : éditeur, hébergeur Netlify, propriété intellectuelle (démos de vraies marques), données du formulaire, cookies. Lieu d’exercice : Casablanca, Maroc. Le propriétaire travaille en indépendant et n'a **pas de SIRET** pour l'instant. Rédige les mentions sans SIRET (identité de l'éditeur, contact, hébergeur, RGPD) et prévois un emplacement à ajouter si un SIRET est obtenu plus tard. N'invente jamais de numéro. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
 
 ## À ne pas faire
 
