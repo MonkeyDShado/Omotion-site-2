@@ -6,6 +6,12 @@ import { services } from '../data/services';
 import Icon from '../components/Icon.astro';
 import HeroFilm from '../components/HeroFilm.astro';
 import { heroFilms } from '../data/hero';
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import { byDateDesc } from '../data/projects';
+
+const featured = (await getCollection('projects', (p) => p.data.featured)).sort(byDateDesc);
 ---
 
 <BaseLayout
@@ -33,7 +39,10 @@ import { heroFilms } from '../data/hero';
 
   <section class="container section">
     <h2>Projets</h2>
-    <p class="placeholder">[À COMPLÉTER — sélection de projets mis en avant]</p>
+    <ProjectGrid>
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </ProjectGrid>
+    <a href="/projets" class="all-projects">Voir tous les projets</a>
   </section>
 
   <section class="container section">
@@ -164,6 +173,11 @@ import { heroFilms } from '../data/hero';
 
   .section {
     padding-block: var(--space-16);
+  }
+
+  .all-projects {
+    font-family: var(--font-display);
+    font-weight: 600;
   }
 
   .service-teaser h3 {

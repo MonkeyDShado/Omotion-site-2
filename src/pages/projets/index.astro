@@ -1,33 +1,121 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { themes, type Theme } from '../../data/themes';
+import { byThemeThenDate } from '../../data/projects';
 
-const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const projects = (await getCollection('projects')).sort(byThemeThenDate);
+const usedThemes = (Object.keys(themes) as Theme[]).filter((t) => projects.some((p) => p.data.theme === t));
+const hasVideos = projects.some((p) => p.data.category === 'video');
 ---
 
-<BaseLayout title="Projets" description="[À COMPLÉTER — meta description : Projets]">
+<BaseLayout
+  title="Projets"
+  description="Key visuals et vidéos réalisés par O’Motion : restauration, boissons, beauté, mode et plus."
+>
   <div class="container page">
     <h1>Projets</h1>
-    {
-      projects.length === 0 ? (
-        <p class="placeholder">[À COMPLÉTER — aucun projet pour l'instant, à ajouter dans src/content/projects/]</p>
-      ) : (
-        <ul>
-          {projects.map((p) => (
-            <li>
-              <a href={`/projets/${p.id}`}>{p.data.title}</a>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    <p class="lead">Une sélection de campagnes et de visuels. Chaque fiche précise le contexte du projet et le rôle de l’IA.</p>
+
+    <div class="filters" role="group" aria-label="Filtrer par thème" data-filters hidden>
+      <button type="button" aria-pressed="true" data-filter="all">Tout</button>
+      {
+        hasVideos && (
+          <>
+            <button type="button" aria-pressed="false" data-filter="category:key-visual">Key visuals</button>
+            <button type="button" aria-pressed="false" data-filter="category:video">Vidéos</button>
+          </>
+        )
+      }
+      {
+        usedThemes.map((t) => (
+          <button type="button" aria-pressed="false" data-filter={`theme:${t}`}>
+            {themes[t]}
+          </button>
+        ))
+      }
+    </div>
+
+    <ProjectGrid>
+      {projects.map((project, i) => <ProjectCard project={project} eager={i < 2} />)}
+    </ProjectGrid>
+    <p class="empty" data-empty hidden>Aucun projet dans cette catégorie pour l’instant.</p>
   </div>
 </BaseLayout>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-filters]');
+  const cards = document.querySelectorAll<HTMLElement>('.card');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  if (bar) {
+    bar.hidden = false;
+    bar.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest('button');
+      if (!button) return;
+      const [key, value] = (button.dataset.filter ?? 'all').split(':');
+      bar.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = key === 'all' || card.dataset[key as 'theme' | 'category'] === value;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    });
+  }
+</script>
 
 <style>
   .page {
     padding-block: var(--space-12) var(--space-24);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block: var(--space-8);
+  }
+
+  .filters[hidden] {
+    display: none;
+  }
+
+  .filters button {
+    min-height: 40px;
+    padding: var(--space-1) var(--space-4);
+    border: 1px solid var(--color-ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background var(--duration-fast),
+      color var(--duration-fast);
+  }
+
+  .filters button:hover {
+    border-color: var(--color-violet);
+    color: var(--color-violet);
+  }
+
+  .filters button[aria-pressed='true'] {
+    border-color: var(--color-violet);
+    background: var(--color-violet);
+    color: var(--color-paper);
+  }
+
+  .page :global(.card[hidden]) {
+    display: none;
   }
 </style>

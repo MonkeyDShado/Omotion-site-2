@@ -1,6 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import QuoteButton from '../../components/QuoteButton.astro';
+import YouTubePlayer from '../../components/YouTubePlayer.astro';
+import { themes } from '../../data/themes';
+import { contextLabel, countLabel } from '../../data/projects';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -12,29 +18,129 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const { data } = project;
 const { Content } = await render(project);
-
-const contextLabels = {
-  client: project.data.client,
-  'auto-promotion': 'Auto-promotion O’Motion',
-  concept: 'Création de démonstration',
-} as const;
+const gallery = data.gallery.length > 0 ? data.gallery : [{ src: data.cover, alt: data.coverAlt }];
+const aiPending = data.aiRole.startsWith('[À COMPLÉTER');
 ---
 
-<BaseLayout title={project.data.title} description={project.data.coverAlt}>
+<BaseLayout title={data.title} description={`${data.title} : ${data.coverAlt}`}>
   <article class="container page">
-    <h1>{project.data.title}</h1>
-    <p>{contextLabels[project.data.context]}</p>
-    <Content />
-    <section aria-labelledby="ai-role">
-      <h2 id="ai-role">Rôle de l’IA</h2>
-      <p>{project.data.aiRole}</p>
+    <a href="/projets" class="back">Tous les projets</a>
+    <header>
+      <h1>{data.title}</h1>
+      <p class="meta">
+        <span>{themes[data.theme]}</span>
+        <span>{countLabel(project)}</span>
+      </p>
+      <p class="context">{contextLabel(project)}</p>
+    </header>
+
+    <div class="intro">
+      <div class="text"><Content /></div>
+      <aside class="ai" aria-labelledby="ai-role">
+        <h2 id="ai-role">Rôle de l’IA</h2>
+        <p class:list={{ placeholder: aiPending }}>{data.aiRole}</p>
+      </aside>
+    </div>
+
+    {data.youtubeId && <YouTubePlayer id={data.youtubeId} title={data.title} />}
+
+    <ProjectGrid>
+      {
+        gallery.map((item, i) => (
+          <figure>
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[500, 900, 1400]}
+              sizes="(min-width: 64em) 30vw, (min-width: 40em) 45vw, 100vw"
+              loading={i < 2 ? 'eager' : 'lazy'}
+            />
+          </figure>
+        ))
+      }
+    </ProjectGrid>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <h2 id="cta-title">Un projet dans le même esprit ?</h2>
+      <p>Décrivez-le en quelques lignes. Je vous réponds sous 24 h avec un devis.</p>
+      <QuoteButton />
     </section>
   </article>
 </BaseLayout>
 
 <style>
   .page {
-    padding-block: var(--space-12) var(--space-24);
+    padding-block: var(--space-8) var(--space-24);
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+  }
+
+  .meta,
+  .context {
+    margin: 0;
+  }
+
+  .meta {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .meta span + span::before {
+    content: '·';
+    margin-right: var(--space-3);
+    color: var(--color-violet);
+  }
+
+  .context {
+    color: var(--color-magenta);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-6);
+    margin-block: var(--space-8) var(--space-12);
+  }
+
+  .ai {
+    padding: var(--space-6);
+    background: var(--color-mist);
+  }
+
+  .ai h2 {
+    font-size: var(--text-lg);
+  }
+
+  .ai p {
+    margin: 0;
+  }
+
+  figure {
+    break-inside: avoid;
+    margin: 0 0 var(--space-6);
+  }
+
+  figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .cta {
+    margin-top: var(--space-12);
+    padding: var(--space-8) var(--gutter);
+    background: var(--color-mist);
+  }
+
+  @media (min-width: 48em) {
+    .intro {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
   }
 </style>

@@ -1,0 +1,25 @@
+---
+/** Grille « maçonnerie » : chaque visuel garde son ratio d'origine */
+---
+
+<div class="grid"><slot /></div>
+
+<style>
+  .grid {
+    columns: 1;
+    column-gap: var(--space-6);
+  }
+
+  @media (min-width: 40em) {
+    .grid {
+      columns: 2;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .grid {
+      columns: 3;
+      column-gap: var(--space-8);
+    }
+  }
+</style>
