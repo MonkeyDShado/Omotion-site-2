@@ -30,8 +30,9 @@ Cibles : **PME et entrepreneurs**, souvent avec un petit budget, mais qui veulen
 Le nom contient "motion" : le mouvement est le fil conducteur, mais il doit servir le travail, pas le décorer.
 
 - **Le travail est la star.** Les visuels et vidéos occupent l'espace ; l'interface reste sobre autour.
-- **Un seul moment fort** : le hero ouvre sur le showreel ou un key visual animé, plein écran. Pas d'animations d'entrée sur chaque section.
+- **Un moment fort** : le hero ouvre sur le showreel ou un key visual animé, plein écran, avec des formes fluides en mouvement inspirées du symbole. Ailleurs, le mouvement reste discret.
 - Les animations répondent aux actions de l'utilisateur (survol d'une miniature qui lance un aperçu vidéo, ouverture d'un projet). Respecte toujours `prefers-reduced-motion`.
+- **Icônes animées** (demande du propriétaire) : icônes maison dans `src/components/Icon.astro`, trait arrondi en dégradé violet → rose comme le symbole. Elles se dessinent une fois à l'apparition et bougent légèrement au survol de leur bloc (`.has-icon`). Les étapes des offres apparaissent l'une après l'autre. Pas de bibliothèque d'icônes génériques, pas d'animation en boucle hors du hero.
 - À éviter, car ces choix font "site généré" : fond crème avec accent terracotta, fond quasi-noir avec un unique accent vert acide, grilles de cartes identiques arrondies avec la même ombre grise, labels en MAJUSCULES espacées au-dessus de chaque titre, numérotation 01/02/03 sur du contenu qui n'est pas une séquence, flèches "→" ajoutées à tous les liens.
 - Avant de coder le design, rédige un court plan (couleurs, typos, grille, principes) dans `docs/design-plan.md` et fais-le valider.
 
@@ -130,7 +131,7 @@ Le champ `aiRole` est obligatoire : chaque projet explique en une ou deux phrase
 ## Contact et légal
 
 - Formulaire de devis : nom, email, type de service (Key visual / Vidéo / Les deux), budget indicatif, délai souhaité, message, lien de référence optionnel.
-- Après envoi : message de confirmation clair indiquant le délai de réponse `[À COMPLÉTER]`.
+- Après envoi : message de confirmation clair indiquant le délai de réponse : **sous 24 h**.
 - Protection anti-spam (honeypot), pas de reCAPTCHA intrusif.
 - Mentions légales conformes au droit français : le propriétaire travaille en indépendant et n'a **pas de SIRET** pour l'instant. Rédige les mentions sans SIRET (identité de l'éditeur, contact, hébergeur, RGPD) et prévois un emplacement à ajouter si un SIRET est obtenu plus tard. N'invente jamais de numéro. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
 

@@ -1,0 +1,187 @@
+---
+/**
+ * Icônes maison, au trait arrondi et en dégradé violet → rose comme le symbole du logo.
+ * Chaque tracé se dessine à l'apparition (data-reveal) ; un groupe .motion bouge au survol.
+ */
+export type IconName = 'key-visual' | 'video-scenarisee' | 'video-institutionnelle' | 'ai' | 'clock' | 'message';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 56, class: className } = Astro.props;
+const gradientId = `icon-gradient-${name}-${Math.random().toString(36).slice(2, 8)}`;
+const stroke = `url(#${gradientId})`;
+---
+
+<svg
+  class:list={['icon', `icon-${name}`, className]}
+  width={size}
+  height={size}
+  viewBox="0 0 48 48"
+  fill="none"
+  stroke={stroke}
+  stroke-width="2.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  data-reveal
+>
+  <defs>
+    <linearGradient id={gradientId} x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="var(--color-violet)" />
+      <stop offset="1" stop-color="var(--color-rose)" />
+    </linearGradient>
+  </defs>
+
+  {
+    name === 'key-visual' && (
+      <>
+        <rect class="draw" pathLength="1" x="5" y="10" width="34" height="32" rx="6" />
+        <circle class="draw" pathLength="1" cx="16" cy="21" r="4" />
+        <path class="draw" pathLength="1" d="M5 36l10-10 8 8 5-5 11 11" />
+        <g class="motion">
+          <path class="draw" pathLength="1" d="M40 3v10M35 8h10" />
+        </g>
+      </>
+    )
+  }
+  {
+    name === 'video-scenarisee' && (
+      <>
+        <rect class="draw" pathLength="1" x="5" y="19" width="38" height="24" rx="4" />
+        <g class="motion">
+          <path class="draw" pathLength="1" d="M5 19l-1-6 36-7 3 7z" />
+        </g>
+        <path class="draw" pathLength="1" d="M21 26l8 5-8 5z" />
+      </>
+    )
+  }
+  {
+    name === 'video-institutionnelle' && (
+      <>
+        <rect class="draw" pathLength="1" x="4" y="7" width="40" height="28" rx="4" />
+        <path class="draw" pathLength="1" d="M17 43h14M24 35v8" />
+        <g class="motion">
+          <path class="draw" pathLength="1" d="M13 28v-5M20 28v-10M27 28v-7M34 28v-13" />
+        </g>
+      </>
+    )
+  }
+  {
+    name === 'ai' && (
+      <>
+        <g class="motion">
+          <path
+            class="draw"
+            pathLength="1"
+            d="M22 6c1.6 9.5 5 13 14.5 14.5C27 22 23.6 25.5 22 35c-1.6-9.5-5-13-14.5-14.5C17 19 20.4 15.5 22 6z"
+          />
+        </g>
+        <path class="draw" pathLength="1" d="M38 32c.6 3.4 1.6 4.4 5 5-3.4.6-4.4 1.6-5 5-.6-3.4-1.6-4.4-5-5 3.4-.6 4.4-1.6 5-5z" />
+      </>
+    )
+  }
+  {
+    name === 'clock' && (
+      <>
+        <circle class="draw" pathLength="1" cx="24" cy="24" r="18" />
+        <g class="motion hand">
+          <path d="M24 24V13" />
+        </g>
+        <path d="M24 24l7 4" />
+      </>
+    )
+  }
+  {
+    name === 'message' && (
+      <>
+        <path
+          class="draw"
+          pathLength="1"
+          d="M10 9h28a5 5 0 015 5v15a5 5 0 01-5 5H22l-9 8v-8h-3a5 5 0 01-5-5V14a5 5 0 015-5z"
+        />
+        <g class="motion">
+          <path d="M16 21.5h.01M24 21.5h.01M32 21.5h.01" stroke-width="4" />
+        </g>
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .icon {
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  .icon :global(.motion) {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--duration-slow) var(--ease-fluid);
+  }
+
+  /* Le tracé se dessine quand l'icône entre dans l'écran (script dans BaseLayout) */
+  :global(.js) .icon[data-reveal] :global(.draw) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 900ms var(--ease-fluid);
+  }
+
+  :global(.js) .icon[data-reveal].is-visible :global(.draw) {
+    stroke-dashoffset: 0;
+  }
+
+  /* Micro-mouvements au survol du bloc parent (.has-icon) */
+  :global(.has-icon:hover) .icon-key-visual :global(.motion) {
+    transform: rotate(90deg) scale(1.2);
+  }
+
+  :global(.has-icon:hover) .icon-video-scenarisee :global(.motion) {
+    transform-origin: 10% 100%;
+    transform: rotate(-12deg);
+  }
+
+  :global(.has-icon:hover) .icon-video-institutionnelle :global(.motion) {
+    transform-origin: bottom;
+    transform: scaleY(1.25);
+  }
+
+  :global(.has-icon:hover) .icon-ai :global(.motion) {
+    transform: rotate(45deg);
+  }
+
+  :global(.has-icon:hover) .icon-message :global(.motion) {
+    transform: translateY(-2px);
+  }
+
+  .icon-clock :global(.hand) {
+    transform-origin: 50% 100%;
+  }
+
+  :global(.js) .icon-clock.is-visible :global(.hand) {
+    animation: clock-turn 1.2s var(--ease-fluid) 300ms both;
+  }
+
+  @keyframes clock-turn {
+    from {
+      transform: rotate(-360deg);
+    }
+    to {
+      transform: rotate(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .icon[data-reveal] :global(.draw) {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+
+    :global(.js) .icon-clock.is-visible :global(.hand) {
+      animation: none;
+    }
+  }
+</style>

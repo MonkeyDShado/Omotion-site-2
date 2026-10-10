@@ -1,3 +1,5 @@
+import type { IconName } from '../components/Icon.astro';
+
 /** Déroulement et délai d'une offre, tels que fixés par le propriétaire */
 export interface Process {
   delay: string;
@@ -7,6 +9,7 @@ export interface Process {
 
 export interface Formula {
   title: string;
+  icon: IconName;
   description: string;
   process: Process;
 }
@@ -14,6 +17,7 @@ export interface Formula {
 export interface Service {
   id: 'key-visual' | 'video';
   title: string;
+  icon: IconName;
   /** Résumé court, repris sur l'accueil */
   summary: string;
   /** Paragraphes détaillés de la page Services */
@@ -26,6 +30,7 @@ export const services: Service[] = [
   {
     id: 'key-visual',
     title: 'Key visuals',
+    icon: 'key-visual',
     summary:
       'Un visuel fort et polyvalent pour lancer un produit ou annoncer un événement, sans le coût d’une campagne complète. Livré en 48 h.',
     details: [
@@ -44,12 +49,14 @@ export const services: Service[] = [
   {
     id: 'video',
     title: 'Montage vidéo',
+    icon: 'video-scenarisee',
     summary:
       'Deux formules selon votre projet : une vidéo scénarisée au rendu studio en 4 jours, ou une vidéo institutionnelle en 5 jours.',
     details: ['Deux formules, selon votre projet et votre budget.'],
     formulas: [
       {
         title: 'Vidéo scénarisée',
+        icon: 'video-scenarisee',
         description:
           'Une vraie mise en scène, entièrement générée par l’IA. Par exemple, une vidéo produit qui fait ressentir la gourmandise d’une barre de chocolat, ou un court scénario au rendu cinéma. Vous obtenez des images dignes d’un studio, sans payer de tournage.',
         process: {
@@ -65,6 +72,7 @@ export const services: Service[] = [
       },
       {
         title: 'Vidéo institutionnelle',
+        icon: 'video-institutionnelle',
         description:
           'Un montage soigné pour présenter votre entreprise ou votre offre : vidéos libres de droits, textes, images et animations.',
         process: {

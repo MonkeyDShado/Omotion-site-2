@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import logoLight from '../assets/brand/omotion-logo-light.png';
 import { services } from '../data/services';
+import Icon from '../components/Icon.astro';
 ---
 
 <BaseLayout
@@ -10,6 +11,13 @@ import { services } from '../data/services';
   description="Key visuals et montage vidéo pour les PME et les entrepreneurs. Un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
 >
   <section class="hero on-night" aria-label="Showreel">
+    <div class="hero-motion" aria-hidden="true">
+      <span class="blob blob-violet"></span>
+      <span class="blob blob-rose"></span>
+      <span class="drop drop-1"></span>
+      <span class="drop drop-2"></span>
+      <span class="drop drop-3"></span>
+    </div>
     <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={259} height={210} loading="eager" />
     <p class="placeholder">[À COMPLÉTER — showreel plein écran, boucle muette]</p>
   </section>
@@ -24,7 +32,8 @@ import { services } from '../data/services';
     <div class="services">
       {
         services.map((service) => (
-          <div>
+          <div class="service-teaser has-icon">
+            <Icon name={service.icon} />
             <h3>
               <a href={`/services#${service.id}`}>{service.title}</a>
             </h3>
@@ -38,6 +47,9 @@ import { services } from '../data/services';
 
 <style>
   .hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     display: grid;
     place-content: center;
     justify-items: center;
@@ -47,8 +59,106 @@ import { services } from '../data/services';
     text-align: center;
   }
 
+  /* Formes fluides du symbole, en mouvement lent derrière le logo */
+  .hero-motion {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .blob {
+    position: absolute;
+    width: min(70vw, 520px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.45;
+  }
+
+  .blob-violet {
+    top: 10%;
+    left: 50%;
+    background: var(--color-violet);
+    animation: drift-violet 18s ease-in-out infinite alternate;
+  }
+
+  .blob-rose {
+    bottom: 5%;
+    right: 50%;
+    background: var(--color-rose);
+    animation: drift-rose 22s ease-in-out infinite alternate;
+  }
+
+  .drop {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    animation: float 7s ease-in-out infinite alternate;
+  }
+
+  .drop-1 {
+    width: 14px;
+    aspect-ratio: 1;
+    top: 22%;
+    left: 18%;
+  }
+
+  .drop-2 {
+    width: 9px;
+    aspect-ratio: 1;
+    top: 30%;
+    right: 20%;
+    animation-delay: -2s;
+  }
+
+  .drop-3 {
+    width: 18px;
+    aspect-ratio: 1;
+    bottom: 22%;
+    right: 28%;
+    animation-delay: -4s;
+  }
+
+  @keyframes drift-violet {
+    from {
+      transform: translate(-60%, 0) rotate(0);
+    }
+    to {
+      transform: translate(-20%, 25%) rotate(180deg);
+    }
+  }
+
+  @keyframes drift-rose {
+    from {
+      transform: translate(60%, 0);
+    }
+    to {
+      transform: translate(20%, -25%);
+    }
+  }
+
+  @keyframes float {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-24px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob,
+    .drop {
+      animation: none;
+    }
+  }
+
   .section {
     padding-block: var(--space-16);
+  }
+
+  .service-teaser h3 {
+    margin-top: var(--space-4);
   }
 
   .services {

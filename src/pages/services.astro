@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteButton from '../components/QuoteButton.astro';
 import ServiceProcess from '../components/ServiceProcess.astro';
+import Icon from '../components/Icon.astro';
 import { services } from '../data/services';
 ---
 
@@ -18,8 +19,11 @@ import { services } from '../data/services';
 
     {
       services.map((service) => (
-        <section class="service" id={service.id} aria-labelledby={`${service.id}-title`}>
-          <h2 id={`${service.id}-title`}>{service.title}</h2>
+        <section class:list={['service', { 'has-icon': !service.formulas }]} id={service.id} aria-labelledby={`${service.id}-title`}>
+          <div class="heading">
+            {!service.formulas && <Icon name={service.icon} />}
+            <h2 id={`${service.id}-title`}>{service.title}</h2>
+          </div>
           {service.details.map((paragraph) => (
             <p>{paragraph}</p>
           ))}
@@ -27,8 +31,11 @@ import { services } from '../data/services';
           {service.formulas && (
             <div class="formulas">
               {service.formulas.map((formula) => (
-                <div class="formula">
-                  <h3>{formula.title}</h3>
+                <div class="formula has-icon">
+                  <div class="heading">
+                    <Icon name={formula.icon} size={44} />
+                    <h3>{formula.title}</h3>
+                  </div>
                   <p>{formula.description}</p>
                   <ServiceProcess process={formula.process} />
                 </div>
@@ -39,8 +46,11 @@ import { services } from '../data/services';
       ))
     }
 
-    <section class="service" aria-labelledby="ai-title">
-      <h2 id="ai-title">Ma façon de travailler avec l’IA</h2>
+    <section class="service has-icon" aria-labelledby="ai-title">
+      <div class="heading">
+        <Icon name="ai" />
+        <h2 id="ai-title">Ma façon de travailler avec l’IA</h2>
+      </div>
       <p>
         J’utilise l’IA pour explorer plus de pistes, plus vite, et garder des coûts raisonnables. Les
         vidéos scénarisées sont entièrement générées par l’IA ; dans tous les cas, la direction artistique,
@@ -49,9 +59,12 @@ import { services } from '../data/services';
       </p>
     </section>
 
-    <section class="cta" aria-labelledby="cta-title">
-      <h2 id="cta-title">Vous avez un projet ?</h2>
-      <p>Décrivez-le en quelques lignes. Je vous réponds avec un devis.</p>
+    <section class="cta has-icon" aria-labelledby="cta-title">
+      <div class="heading">
+        <Icon name="message" />
+        <h2 id="cta-title">Vous avez un projet ?</h2>
+      </div>
+      <p>Décrivez-le en quelques lignes. Je vous réponds sous 24 h avec un devis.</p>
       <QuoteButton />
     </section>
   </div>
@@ -71,6 +84,17 @@ import { services } from '../data/services';
     border-top: 1px solid var(--color-mist);
   }
 
+  .heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .heading :is(h2, h3) {
+    margin: 0;
+  }
+
   .formulas {
     display: grid;
     gap: var(--space-6);
@@ -87,7 +111,18 @@ import { services } from '../data/services';
   }
 
   @media (min-width: 48em) {
-    .formulas {
+    .heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .heading :is(h2, h3) {
+    margin: 0;
+  }
+
+  .formulas {
       grid-template-columns: 1fr 1fr;
       gap: var(--space-8);
     }

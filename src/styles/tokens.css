@@ -46,6 +46,7 @@
   --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 150ms;
   --duration-base: 250ms;
+  --duration-slow: 450ms;
 }
 
 @media (min-width: 48em) {
@@ -64,5 +65,6 @@
   :root {
     --duration-fast: 0ms;
     --duration-base: 0ms;
+    --duration-slow: 0ms;
   }
 }
