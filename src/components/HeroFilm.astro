@@ -29,8 +29,8 @@ const poster = await getImage({ src: film.poster, width: 1600, format: 'webp' })
     <h2>{film.title}</h2>
     <div class="hero-actions">
       {
-        film.fullUrl ? (
-          <a class="watch" href={film.fullUrl} target="_blank" rel="noopener">
+        film.youtubeId ? (
+          <a class="watch" href={`https://www.youtube.com/watch?v=${film.youtubeId}`} target="_blank" rel="noopener">
             Voir le film en entier
           </a>
         ) : (

@@ -11,8 +11,8 @@ export interface HeroFilm {
   loopWebm?: string;
   /** Image affichée avant la lecture et si les animations sont réduites */
   poster: ImageMetadata;
-  /** Film complet, hébergé à l'extérieur (YouTube, Vimeo…) */
-  fullUrl?: string;
+  /** Identifiant YouTube du film complet (les 11 caractères après « v= ») */
+  youtubeId?: string;
 }
 
 export const heroFilm: HeroFilm | null = null;

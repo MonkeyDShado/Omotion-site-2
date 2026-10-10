@@ -56,7 +56,8 @@ Navigation principale : Projets, Services, À propos, Contact. Le bouton "Demand
 - **TypeScript** en mode strict
 - **CSS** : variables CSS pour les tokens de design + Tailwind si souhaité `[À CONFIRMER]`
 - **Content Collections** d'Astro pour les projets (Markdown/MDX + frontmatter typé)
-- Vidéos : hébergement externe (`[À COMPLÉTER — Vimeo, Bunny Stream, Cloudflare Stream…]`) pour les longues ; fichiers locaux MP4/WebM courts et muets pour les aperçus en boucle
+- Vidéos : **YouTube** pour les vidéos complètes (champ `youtubeId`), affichées avec `YouTubePlayer.astro` : image d'abord, YouTube chargé seulement au clic, domaine `youtube-nocookie.com`. Pas de synchronisation automatique de la chaîne : le portfolio reste une sélection, chaque vidéo a sa fiche (contexte, rôle de l'IA). Les extraits muets en boucle (film d'accueil, aperçus au survol) restent des MP4/WebM courts et compressés dans `public/videos/`, découpés à partir des originaux.
+- Échange de fichiers : le propriétaire partage un **dossier Google Drive** en lien public (« Tous les utilisateurs disposant du lien », lecteur). Télécharger avec `gdown` (pip), puis optimiser et ranger ; ne jamais committer les originaux lourds.
 - Formulaire : `[À COMPLÉTER — Formspree, Netlify Forms, Resend…]`
 - Hébergement : `[À COMPLÉTER — Netlify, Vercel, Cloudflare Pages]`
 
@@ -91,7 +92,7 @@ docs/                  plan de design, notes
 
 ## Portfolio disponible
 
-Inventaire fourni par le propriétaire (les fichiers arrivent dans `a-trier/`, à optimiser puis ranger) :
+Inventaire fourni par le propriétaire (les fichiers arrivent via Google Drive, à optimiser puis ranger) :
 
 - **Key visuals** (~20) : 4 pour des clients (2 clients, 2 visuels chacun), 2 d'auto-promotion, ~14 créations de démonstration (dont une dizaine en campagnes, le reste en visuels indépendants).
 - **Vidéos** (~10) : 1 pour un client, 1 d'auto-promotion, 2 vidéos produit, 2 en motion design 2D, 2 scénarisées, 2 films (les plus travaillés, sans visée publicitaire, pour montrer le savoir-faire).
@@ -115,7 +116,7 @@ featured: true                 # affiché sur l'accueil
 cover: ../../assets/projects/xxx/cover.jpg
 coverAlt: "Description précise du visuel"
 videoPreview: /videos/xxx-preview.mp4   # optionnel, boucle muette
-videoUrl: "https://..."                  # optionnel, vidéo complète
+youtubeId: "dQw4w9WgXcQ"                # optionnel, vidéo complète sur YouTube
 formats: ["16:9", "9:16", "1:1"]
 tools: ["Midjourney", "Photoshop", "Premiere Pro"]
 aiRole: "Exploration des pistes visuelles et génération des fonds, composition et retouches finales à la main."

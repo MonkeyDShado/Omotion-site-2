@@ -18,7 +18,7 @@ const projects = defineCollection({
       cover: image(),
       coverAlt: z.string().min(1),
       videoPreview: z.string().startsWith('/videos/').optional(),
-      videoUrl: z.url().optional(),
+      youtubeId: z.string().regex(/^[\w-]{11}$/).optional(), // vidéo complète hébergée sur YouTube
       formats: z.array(z.string()).default([]),
       tools: z.array(z.string()).default([]),
       // Obligatoire : ce qu'a fait l'IA, ce qui relève du travail humain
