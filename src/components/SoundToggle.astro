@@ -1,0 +1,52 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<button type="button" class:list={['sfx-toggle', className]} data-sfx-toggle aria-pressed="true" aria-label="Couper les sons">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path class="speaker" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+    <path class="waves" d="M15.5 9a4 4 0 010 6M18 6.5a7.5 7.5 0 010 11" />
+    <path class="mute" d="M16 9.5l5 5M21 9.5l-5 5" />
+  </svg>
+</button>
+
+<style>
+  .sfx-toggle {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .sfx-toggle:hover {
+    background: var(--color-mist);
+    color: var(--color-violet);
+  }
+
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mute,
+  .sfx-toggle[aria-pressed='false'] .waves {
+    display: none;
+  }
+
+  .sfx-toggle[aria-pressed='false'] .mute {
+    display: block;
+  }
+</style>

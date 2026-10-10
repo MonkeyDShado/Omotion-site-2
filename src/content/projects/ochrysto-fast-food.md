@@ -18,7 +18,8 @@ gallery:
   - { src: ../../assets/projects/ochrysto-fast-food/07.jpg, alt: "Visuel carré bleu : burger et slogan « Le fast-food à prix raisonnable »" }
   - { src: ../../assets/projects/ochrysto-fast-food/08.jpg, alt: "Visuel carré bleu : wrap et slogan « Le fast-food à prix raisonnable »" }
   - { src: ../../assets/projects/ochrysto-fast-food/09.jpg, alt: "Bannière horizontale bleue : pizza entière et slogan « Le fast-food à prix raisonnable »" }
-aiRole: "[À COMPLÉTER — rôle de l’IA dans ce projet]"
+tools: ["Nano Banana (Google Gemini)", "Canva"]
+aiRole: "Je décris dans un prompt les éléments visuels que je veux voir apparaître ; l’IA (Nano Banana, de Google Gemini) génère l’image. J’ajoute ensuite moi-même les textes, les coordonnées et les typographies."
 ---
 
 Campagne pour Ochrysto, une enseigne de restauration rapide imaginaire. Un même univers graphique, bleu, turquoise et sable, décliné en bannières horizontales, affiches verticales et visuels carrés pour les réseaux sociaux.

@@ -10,7 +10,8 @@ coverAlt: "Affiche « Graphiste pour key visual » : homme en costume volant au-
 gallery:
   - { src: ../../assets/projects/omotion-key-visual/01.jpg, alt: "Affiche « Je vole au secours de votre communication » : homme en costume en plein vol, titre « Key visual »" }
   - { src: ../../assets/projects/omotion-key-visual/02.jpg, alt: "Affiche « Key visual, graphiste » : graphiste à son bureau entouré de personnages de dessins animés" }
-aiRole: "[À COMPLÉTER — rôle de l’IA dans ce projet]"
+tools: ["Nano Banana (Google Gemini)", "Canva"]
+aiRole: "Je décris dans un prompt les éléments visuels que je veux voir apparaître ; l’IA (Nano Banana, de Google Gemini) génère l’image. J’ajoute ensuite moi-même les textes, les coordonnées et les typographies."
 ---
 
 Mes propres affiches pour présenter le service key visual sur les réseaux sociaux.

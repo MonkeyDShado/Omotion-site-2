@@ -15,7 +15,8 @@ gallery:
   - { src: ../../assets/projects/savon-noir-el-hiama/04.jpg, alt: "Pot de savon noir au citron posé dans une salle de bain carrelée, titre « Citron » sur le mur" }
   - { src: ../../assets/projects/savon-noir-el-hiama/05.jpg, alt: "Pot de savon noir au miel sur une étagère en pierre, titre « Miel » gravé" }
   - { src: ../../assets/projects/savon-noir-el-hiama/06.jpg, alt: "« Savon noir » : pot au miel dans une coulée de miel doré, grand titre ambré" }
-aiRole: "[À COMPLÉTER — rôle de l’IA dans ce projet]"
+tools: ["Nano Banana (Google Gemini)", "Canva"]
+aiRole: "Je décris dans un prompt les éléments visuels que je veux voir apparaître ; l’IA (Nano Banana, de Google Gemini) génère l’image. J’ajoute ensuite moi-même les textes, les coordonnées et les typographies."
 ---
 
 Campagne pour une gamme de savon noir en deux parfums, miel et citron. Chaque parfum a sa couleur et ses visuels : portrait, produit seul, mise en scène dans la salle de bain.

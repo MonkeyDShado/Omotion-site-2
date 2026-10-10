@@ -12,7 +12,8 @@ gallery:
   - { src: ../../assets/projects/givenchy-linterdit/01.jpg, alt: "Portrait d’une femme portant un flacon rouge à son visage, pétales de rose au premier plan" }
   - { src: ../../assets/projects/givenchy-linterdit/02.jpg, alt: "Couple enlacé, la femme tenant le flacon rouge, titre « L’Interdit »" }
   - { src: ../../assets/projects/givenchy-linterdit/03.jpg, alt: "Deux mains tenant le flacon rouge au milieu de pétales de rose sur fond noir" }
-aiRole: "[À COMPLÉTER — rôle de l’IA dans ce projet]"
+tools: ["Nano Banana (Google Gemini)", "Canva"]
+aiRole: "Je décris dans un prompt les éléments visuels que je veux voir apparaître ; l’IA (Nano Banana, de Google Gemini) génère l’image. J’ajoute ensuite moi-même les textes, les coordonnées et les typographies."
 ---
 
 Série de trois visuels autour d’un parfum : rouge profond, peau dorée, pétales de rose. Un exercice de style sur l’univers du luxe.

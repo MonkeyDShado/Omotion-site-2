@@ -10,7 +10,8 @@ coverAlt: "Bouteille de bissap sur un lit de glace et de fleurs d’hibiscus, fo
 gallery:
   - { src: ../../assets/projects/le-gout-de-linedit/01.jpg, alt: "Affiche « Bissap » : bouteille rouge sombre sur glace pilée et fleurs d’hibiscus, fond rose vif" }
   - { src: ../../assets/projects/le-gout-de-linedit/02.jpg, alt: "Affiche « Lait caillé » : bouteille givrée entourée de glaçons, fond bleu glacé" }
-aiRole: "[À COMPLÉTER — rôle de l’IA dans ce projet]"
+tools: ["Nano Banana (Google Gemini)", "Canva"]
+aiRole: "Je décris dans un prompt les éléments visuels que je veux voir apparaître ; l’IA (Nano Banana, de Google Gemini) génère l’image. J’ajoute ensuite moi-même les textes, les coordonnées et les typographies."
 ---
 
 Deux boissons locales, une même signature : « le goût de l’inédit ». Chaque affiche joue sur la fraîcheur, avec sa propre couleur.

@@ -17,7 +17,8 @@ gallery:
   - { src: ../../assets/projects/ochrysto-mode/06.jpg, alt: "Veste en daim sur un mannequin entre des colonnes antiques" }
   - { src: ../../assets/projects/ochrysto-mode/07.jpg, alt: "Veste en daim présentée entre des colonnes, variante de cadrage" }
   - { src: ../../assets/projects/ochrysto-mode/08.jpg, alt: "Femme aux cheveux bouclés près d’une colonne, signature Ochrysto" }
-aiRole: "[À COMPLÉTER — rôle de l’IA dans ce projet]"
+tools: ["Nano Banana (Google Gemini)", "Canva"]
+aiRole: "Je décris dans un prompt les éléments visuels que je veux voir apparaître ; l’IA (Nano Banana, de Google Gemini) génère l’image. J’ajoute ensuite moi-même les textes, les coordonnées et les typographies."
 ---
 
 Campagne de mode autour d’une veste en daim : portraits, couple et produit seul, dans une lumière de studio et un décor de colonnes.
