@@ -16,3 +16,13 @@ export const socials = [
 ] as const;
 
 export type SocialId = (typeof socials)[number]['id'] | 'whatsapp';
+
+/** Adresse qui reçoit les demandes (non affichée en clair sur le site, pour limiter le spam) */
+export const quoteEmail = 'mayombotchristo@gmail.com';
+
+/**
+ * Clé Web3Forms : le service transmet le formulaire par e-mail, sans serveur.
+ * Elle s'obtient gratuitement sur web3forms.com avec l'adresse ci-dessus ; elle peut être publique.
+ * Vide = formulaire affiché mais envoi désactivé.
+ */
+export const web3formsKey = '';

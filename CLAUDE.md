@@ -58,7 +58,7 @@ Navigation principale : Projets, Services, À propos, Contact. Le bouton "Demand
 - **Content Collections** d'Astro pour les projets (Markdown/MDX + frontmatter typé)
 - Vidéos : **YouTube** pour les vidéos complètes (champ `youtubeId`), affichées avec `YouTubePlayer.astro` : image d'abord, YouTube chargé seulement au clic, domaine `youtube-nocookie.com`. Pas de synchronisation automatique de la chaîne : le portfolio reste une sélection, chaque vidéo a sa fiche (contexte, rôle de l'IA). Les extraits muets en boucle (film d'accueil, aperçus au survol) restent des MP4/WebM courts et compressés dans `public/videos/`, découpés à partir des originaux.
 - Échange de fichiers : le propriétaire partage un **dossier Google Drive** en lien public (« Tous les utilisateurs disposant du lien », lecteur). Télécharger avec `gdown` (pip), puis optimiser et ranger ; ne jamais committer les originaux lourds.
-- Formulaire : `[À COMPLÉTER — Formspree, Netlify Forms, Resend…]`
+- Formulaire : **Web3Forms** (`QuoteForm.astro`), envoi vers mayombotchristo@gmail.com, sans serveur, piège à robots `botcheck`, page de confirmation `/merci`. Clé d'accès dans `src/data/contact.ts` : `[À COMPLÉTER]` (envoi désactivé tant qu'elle est vide).
 - Hébergement : `[À COMPLÉTER — Netlify, Vercel, Cloudflare Pages]`
 
 Si une autre stack te semble plus adaptée, propose-la avec ses raisons avant d'initialiser le projet.
@@ -147,7 +147,7 @@ Le champ `aiRole` est obligatoire : chaque projet explique en une ou deux phrase
 - Chaque page : `title` unique, meta description, balises Open Graph avec un visuel de projet.
 - Données structurées JSON-LD `ProfessionalService` sur l'accueil.
 - Sitemap et `robots.txt` générés au build.
-- Réseaux et contact : `src/data/contact.ts` — Instagram @omotion_off, Facebook O’Motion, LinkedIn (Christopher Doumaine Mayombot), WhatsApp +212 778 749 311 (bouton « Écrire sur WhatsApp » : pied de page, barre mobile, page Contact). E-mail de réception des devis : `[À COMPLÉTER]`.
+- Réseaux et contact : `src/data/contact.ts` — Instagram @omotion_off, Facebook O’Motion, LinkedIn (Christopher Doumaine Mayombot), WhatsApp +212 778 749 311 (bouton « Écrire sur WhatsApp » : pied de page, barre mobile, page Contact). E-mail de réception des devis : mayombotchristo@gmail.com (non affiché en clair).
 
 ## Contact et légal
 
