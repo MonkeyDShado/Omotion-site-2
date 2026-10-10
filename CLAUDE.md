@@ -33,6 +33,7 @@ Le nom contient "motion" : le mouvement est le fil conducteur, mais il doit serv
 - **Un moment fort** : le hero ouvre sur le showreel ou un key visual animé, plein écran, avec des formes fluides en mouvement inspirées du symbole. Ailleurs, le mouvement reste discret.
 - Les animations répondent aux actions de l'utilisateur (survol d'une miniature qui lance un aperçu vidéo, ouverture d'un projet). Respecte toujours `prefers-reduced-motion`.
 - **Icônes animées** (demande du propriétaire) : icônes maison dans `src/components/Icon.astro`, trait arrondi en dégradé violet → rose comme le symbole. Elles se dessinent une fois à l'apparition et bougent légèrement au survol de leur bloc (`.has-icon`). Les étapes des offres apparaissent l'une après l'autre. Pas de bibliothèque d'icônes génériques, pas d'animation en boucle hors du hero.
+- **Finitions premium** (demande du propriétaire : « inspiré des sites à plusieurs milliers d'euros ») : intro d'accueil une fois par session, titre d'accueil révélé ligne par ligne, bandeau de texte géant qui défile sous le film, transitions entre pages (`@view-transition`), grain sur les fonds sombres, barre de progression en dégradé, curseur personnalisé et boutons aimantés sur ordinateur. Tout se désactive avec `prefers-reduced-motion`.
 - À éviter, car ces choix font "site généré" : fond crème avec accent terracotta, fond quasi-noir avec un unique accent vert acide, grilles de cartes identiques arrondies avec la même ombre grise, labels en MAJUSCULES espacées au-dessus de chaque titre, numérotation 01/02/03 sur du contenu qui n'est pas une séquence, flèches "→" ajoutées à tous les liens.
 - Avant de coder le design, rédige un court plan (couleurs, typos, grille, principes) dans `docs/design-plan.md` et fais-le valider.
 
@@ -59,7 +60,7 @@ Navigation principale : Projets, Services, À propos, Contact. Le bouton "Demand
 - Vidéos : **YouTube** pour les vidéos complètes (champ `youtubeId`), affichées avec `YouTubePlayer.astro` : image d'abord, YouTube chargé seulement au clic, domaine `youtube-nocookie.com`. Pas de synchronisation automatique de la chaîne : le portfolio reste une sélection, chaque vidéo a sa fiche (contexte, rôle de l'IA). Les extraits muets en boucle (film d'accueil, aperçus au survol) restent des MP4/WebM courts et compressés dans `public/videos/`, découpés à partir des originaux.
 - Échange de fichiers : le propriétaire partage un **dossier Google Drive** en lien public (« Tous les utilisateurs disposant du lien », lecteur). Télécharger avec `gdown` (pip), puis optimiser et ranger ; ne jamais committer les originaux lourds.
 - Formulaire : **Web3Forms** (`QuoteForm.astro`), envoi vers mayombotchristo@gmail.com, sans serveur, piège à robots `botcheck`, page de confirmation `/merci`. Clé d'accès dans `src/data/contact.ts` (formulaire « Devis O’Motion » créé avec l'URL localhost ; à mettre à jour avec le vrai domaine).
-- Hébergement : `[À COMPLÉTER — Netlify, Vercel, Cloudflare Pages]`
+- Hébergement : **Netlify**, offre gratuite (`netlify.toml`), adresse gratuite `*.netlify.app` en attendant un nom de domaine. Compte Netlify à créer par le propriétaire et à relier au dépôt GitHub `[À COMPLÉTER]`.
 
 Si une autre stack te semble plus adaptée, propose-la avec ses raisons avant d'initialiser le projet.
 

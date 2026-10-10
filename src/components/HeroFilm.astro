@@ -42,7 +42,11 @@ const youtube = (film: HeroFilm) => film.youtubeId && `https://www.youtube.com/w
   </div>
 
   <div class="intro container">
-    <h2 id="hero-title">Des images au rendu studio, sans le budget d’un tournage.</h2>
+    <h2 id="hero-title" class="reveal-lines" data-reveal>
+      <span class="line"><span>Des images</span></span>
+      <span class="line"><span>au <span class="text-gradient">rendu studio,</span></span></span>
+      <span class="line"><span>sans le budget d’un tournage.</span></span>
+    </h2>
     <p class="lead">
       Key visuals et vidéos pour les PME et les entrepreneurs, créés avec l’IA et une vraie direction artistique.
     </p>
@@ -183,8 +187,10 @@ const youtube = (film: HeroFilm) => film.youtubeId && `https://www.youtube.com/w
   }
 
   h2 {
-    font-size: var(--text-3xl);
-    max-width: 18ch;
+    font-size: clamp(2.6rem, 8vw, 6.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
   }
 
   .lead {

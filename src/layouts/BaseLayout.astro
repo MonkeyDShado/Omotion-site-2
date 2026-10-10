@@ -5,6 +5,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import MobileQuoteBar from '../components/MobileQuoteBar.astro';
 import RevealScript from '../components/RevealScript.astro';
 import SoundFx from '../components/SoundFx.astro';
+import Cursor from '../components/Cursor.astro';
 
 interface Props {
   title: string;
@@ -22,6 +23,21 @@ const fullTitle = Astro.url.pathname === '/' ? title : `${title} · O’Motion`;
   <head>
     <meta charset="utf-8" />
     <script is:inline>document.documentElement.classList.add('js');</script>
+    {
+      Astro.url.pathname === '/' && (
+        <script is:inline>
+          {`try {
+            if (!sessionStorage.getItem('omotion-intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              var h = document.documentElement;
+              h.classList.add('intro-pending');
+              sessionStorage.setItem('omotion-intro', '1');
+              setTimeout(function () { h.classList.add('intro-done'); }, 1500);
+              setTimeout(function () { h.classList.remove('intro-pending', 'intro-done'); }, 2400);
+            }
+          } catch (e) {}`}
+        </script>
+      )
+    }
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -44,5 +60,6 @@ const fullTitle = Astro.url.pathname === '/' ? title : `${title} · O’Motion`;
     {!hideQuoteBar && <MobileQuoteBar />}
     <RevealScript />
     <SoundFx />
+    <Cursor />
   </body>
 </html>

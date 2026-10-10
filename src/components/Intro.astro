@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import symbol from '../assets/brand/omotion-symbol.png';
+---
+
+<!-- Intro d'accueil : le symbole apparaît, puis un rideau se lève. Une fois par session (script dans BaseLayout). -->
+
+<div class="intro-screen" aria-hidden="true">
+  <Image src={symbol} alt="" width={120} densities={[1, 2]} loading="eager" class="intro-symbol" />
+  <span class="intro-bar"></span>
+</div>
+
+<style>
+  .intro-screen {
+    display: none;
+  }
+
+  :global(.intro-pending) .intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-8);
+    background: var(--color-night);
+    transition: transform 850ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  :global(.intro-done) .intro-screen {
+    transform: translateY(-100%);
+  }
+
+  .intro-symbol {
+    animation: intro-symbol 1100ms var(--ease-fluid) both;
+  }
+
+  .intro-bar {
+    width: 160px;
+    height: 2px;
+    background: var(--gradient-brand);
+    transform-origin: left;
+    animation: intro-bar 1200ms var(--ease-fluid) 150ms both;
+  }
+
+  @keyframes intro-symbol {
+    from {
+      opacity: 0;
+      transform: scale(0.6) rotate(-90deg);
+    }
+  }
+
+  @keyframes intro-bar {
+    from {
+      transform: scaleX(0);
+    }
+  }
+</style>
