@@ -58,7 +58,7 @@ Navigation principale : Projets, Services, À propos, Contact. Le bouton "Demand
 - **Content Collections** d'Astro pour les projets (Markdown/MDX + frontmatter typé)
 - Vidéos : **YouTube** pour les vidéos complètes (champ `youtubeId`), affichées avec `YouTubePlayer.astro` : image d'abord, YouTube chargé seulement au clic, domaine `youtube-nocookie.com`. Pas de synchronisation automatique de la chaîne : le portfolio reste une sélection, chaque vidéo a sa fiche (contexte, rôle de l'IA). Les extraits muets en boucle (film d'accueil, aperçus au survol) restent des MP4/WebM courts et compressés dans `public/videos/`, découpés à partir des originaux.
 - Échange de fichiers : le propriétaire partage un **dossier Google Drive** en lien public (« Tous les utilisateurs disposant du lien », lecteur). Télécharger avec `gdown` (pip), puis optimiser et ranger ; ne jamais committer les originaux lourds.
-- Formulaire : **Web3Forms** (`QuoteForm.astro`), envoi vers mayombotchristo@gmail.com, sans serveur, piège à robots `botcheck`, page de confirmation `/merci`. Clé d'accès dans `src/data/contact.ts` : `[À COMPLÉTER]` (envoi désactivé tant qu'elle est vide).
+- Formulaire : **Web3Forms** (`QuoteForm.astro`), envoi vers mayombotchristo@gmail.com, sans serveur, piège à robots `botcheck`, page de confirmation `/merci`. Clé d'accès dans `src/data/contact.ts` (formulaire « Devis O’Motion » créé avec l'URL localhost ; à mettre à jour avec le vrai domaine).
 - Hébergement : `[À COMPLÉTER — Netlify, Vercel, Cloudflare Pages]`
 
 Si une autre stack te semble plus adaptée, propose-la avec ses raisons avant d'initialiser le projet.
