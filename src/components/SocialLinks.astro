@@ -1,0 +1,46 @@
+---
+import BrandIcon from './BrandIcon.astro';
+import { socials } from '../data/contact';
+---
+
+<ul class="socials">
+  {
+    socials.map((s) => (
+      <li>
+        <a href={s.href} target="_blank" rel="noopener me" aria-label={`${s.label} : ${s.handle}`}>
+          <BrandIcon name={s.id} />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .socials {
+    display: flex;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: inherit;
+    transition:
+      background var(--duration-base) var(--ease-fluid),
+      transform var(--duration-base) var(--ease-fluid);
+  }
+
+  a:hover {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: var(--color-paper);
+    transform: translateY(-2px);
+  }
+</style>

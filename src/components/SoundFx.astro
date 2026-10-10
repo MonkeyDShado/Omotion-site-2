@@ -75,9 +75,9 @@
   renderToggles();
 
   document.addEventListener('click', (event) => {
-    const target = (event.target as HTMLElement).closest<HTMLElement>('button, .quote-button');
+    const target = (event.target as HTMLElement).closest<HTMLElement>('button, .quote-button, .whatsapp-button');
     if (!target || target.hasAttribute('data-sfx-toggle')) return;
-    const primary = target.classList.contains('quote-button');
+    const primary = target.classList.contains('quote-button') || target.classList.contains('whatsapp-button');
     play(primary ? 'primary' : 'tap');
 
     // Un lien quitte la page : on laisse le son démarrer avant de partir

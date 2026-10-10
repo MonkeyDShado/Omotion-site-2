@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import logoLight from '../assets/brand/omotion-logo-light.png';
+import SocialLinks from './SocialLinks.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
 
 const year = new Date().getFullYear();
 ---
@@ -9,7 +11,11 @@ const year = new Date().getFullYear();
   <div class="container inner">
     <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={111} height={90} />
 
-    <p class="placeholder">[À COMPLÉTER — liens réseaux sociaux : Instagram, Behance, TikTok…]</p>
+    <div class="contact">
+      <p class="tagline">Un projet ? Écrivez-moi, je réponds sous 24 h.</p>
+      <WhatsAppButton />
+      <SocialLinks />
+    </div>
 
     <nav aria-label="Liens secondaires">
       <a href="/contact">Contact</a>
@@ -28,6 +34,18 @@ const year = new Date().getFullYear();
   .inner {
     display: grid;
     gap: var(--space-6);
+  }
+
+  .contact {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+  }
+
+  .tagline {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
   }
 
   nav {

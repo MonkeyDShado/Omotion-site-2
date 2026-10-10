@@ -1,9 +1,11 @@
 ---
 import QuoteButton from './QuoteButton.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
 ---
 
 <div class="mobile-quote-bar">
   <QuoteButton class="mobile-quote" />
+  <WhatsAppButton compact />
 </div>
 
 <style>
@@ -18,8 +20,13 @@ import QuoteButton from './QuoteButton.astro';
     border-top: 1px solid var(--color-mist);
   }
 
+  .mobile-quote-bar {
+    display: flex;
+    gap: var(--space-3);
+  }
+
   .mobile-quote-bar :global(.mobile-quote) {
-    width: 100%;
+    flex: 1;
     justify-content: center;
   }
 

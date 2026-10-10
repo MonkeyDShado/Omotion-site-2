@@ -147,7 +147,7 @@ Le champ `aiRole` est obligatoire : chaque projet explique en une ou deux phrase
 - Chaque page : `title` unique, meta description, balises Open Graph avec un visuel de projet.
 - Données structurées JSON-LD `ProfessionalService` sur l'accueil.
 - Sitemap et `robots.txt` générés au build.
-- Liens réseaux sociaux : `[À COMPLÉTER — Instagram, Behance, LinkedIn, TikTok, YouTube…]`.
+- Réseaux et contact : `src/data/contact.ts` — Instagram @omotion_off, Facebook O’Motion, LinkedIn (Christopher Doumaine Mayombot), WhatsApp +212 778 749 311 (bouton « Écrire sur WhatsApp » : pied de page, barre mobile, page Contact). E-mail de réception des devis : `[À COMPLÉTER]`.
 
 ## Contact et légal
 
