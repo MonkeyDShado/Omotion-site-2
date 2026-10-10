@@ -25,4 +25,4 @@ export const quoteEmail = 'mayombotchristo@gmail.com';
  * Elle s'obtient gratuitement sur web3forms.com avec l'adresse ci-dessus ; elle peut être publique.
  * Vide = formulaire affiché mais envoi désactivé.
  */
-export const web3formsKey = 'b827a005-7b29-4737-9140-002ea61c7158';
+export const web3formsKey = '016fa2a2-374c-496f-b890-0cfd5a089619';
