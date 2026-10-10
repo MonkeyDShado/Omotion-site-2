@@ -1,5 +1,6 @@
 ---
 import { getImage } from 'astro:assets';
+import QuoteButton from './QuoteButton.astro';
 import type { HeroFilm } from '../data/hero';
 
 interface Props {
@@ -7,37 +8,47 @@ interface Props {
 }
 
 const { film } = Astro.props;
-const poster = await getImage({ src: film.poster, width: 1600, format: 'webp' });
+const poster = await getImage({ src: film.poster, width: 720, format: 'webp' });
+const backdrop = await getImage({ src: film.poster, width: 64, format: 'webp' });
 ---
 
-<section class="hero-film on-night" aria-label={`Film : ${film.title}`}>
-  <video
-    class="hero-video"
-    muted
-    loop
-    playsinline
-    preload="metadata"
-    poster={poster.src}
-    data-hero-video
-    aria-hidden="true"
-  >
-    {film.loopWebm && <source src={film.loopWebm} type="video/webm" />}
-    <source src={film.loopMp4} type="video/mp4" />
-  </video>
-
-  <div class="hero-content container">
-    <h2>{film.title}</h2>
-    <div class="hero-actions">
-      {
-        film.youtubeId ? (
-          <a class="watch" href={`https://www.youtube.com/watch?v=${film.youtubeId}`} target="_blank" rel="noopener">
-            Voir le film en entier
-          </a>
-        ) : (
-          <span class="placeholder">[À COMPLÉTER — lien du film complet]</span>
-        )
-      }
+<section class="hero-film on-night" style={`--backdrop: url(${backdrop.src})`} aria-labelledby="hero-title">
+  <div class="inner container">
+    <figure class="film" style={`aspect-ratio: ${film.width} / ${film.height}`}>
+      <video
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster={poster.src}
+        width={film.width}
+        height={film.height}
+        data-hero-video
+        aria-hidden="true"
+      >
+        {film.loopWebm && <source src={film.loopWebm} type="video/webm" />}
+        <source src={film.loopMp4} type="video/mp4" />
+      </video>
       <button type="button" class="toggle" data-hero-toggle aria-pressed="false">Pause</button>
+    </figure>
+
+    <div class="text">
+      <h2 id="hero-title">Des images au rendu studio, sans le budget d’un tournage.</h2>
+      <p class="lead">Key visuals et vidéos pour les PME et les entrepreneurs, créés avec l’IA et une vraie direction artistique.</p>
+      <div class="actions">
+        <QuoteButton />
+        {
+          film.youtubeId && (
+            <a class="watch" href={`https://www.youtube.com/watch?v=${film.youtubeId}`} target="_blank" rel="noopener">
+              Voir le film en entier
+            </a>
+          )
+        }
+      </div>
+      <p class="credit">
+        {film.title ?? <span class="placeholder">[À COMPLÉTER — titre du film]</span>}
+        <span>{film.credit}</span>
+      </p>
     </div>
   </div>
 </section>
@@ -64,7 +75,7 @@ const poster = await getImage({ src: film.poster, width: 1600, format: 'webp' })
       render();
     });
 
-    // Lecture uniquement quand le film est visible, jamais si l'utilisateur l'a mis en pause
+    // Lecture uniquement quand le film est visible, jamais si le visiteur l'a mis en pause
     new IntersectionObserver(([entry]) => {
       if (entry?.isIntersecting && !userPaused) play();
       else video.pause();
@@ -78,81 +89,113 @@ const poster = await getImage({ src: film.poster, width: 1600, format: 'webp' })
 <style>
   .hero-film {
     position: relative;
-    display: grid;
-    align-items: end;
-    min-height: calc(100svh - var(--header-height));
     overflow: hidden;
+    isolation: isolate;
+    padding-block: var(--space-6) calc(var(--space-12) + 4.5rem);
   }
 
-  .hero-video {
+  /* Fond : l'image du film, très floutée, pour prolonger son ambiance */
+  .hero-film::before {
+    content: '';
     position: absolute;
-    inset: 0;
+    inset: -10%;
+    z-index: -1;
+    background: var(--backdrop) center / cover;
+    filter: blur(40px) brightness(0.45) saturate(1.2);
+  }
+
+  .inner {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .film {
+    position: relative;
+    margin: 0;
+    /* sur mobile, le film laisse apparaître le début du titre */
+    width: min(100%, 480px, 60svh * 720 / 894);
+    justify-self: center;
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.6);
+  }
+
+  video {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  /* Dégradé night pour garder le texte lisible sur n'importe quelle image */
-  .hero-film::after {
-    content: '';
+  .toggle {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, var(--color-night) 0%, transparent 55%);
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    /* sur mobile, laisse la place à la barre « Demander un devis » */
-    padding-bottom: calc(var(--space-12) + 4.5rem);
-  }
-
-  @media (min-width: 48em) {
-    .hero-content {
-      padding-bottom: var(--space-16);
-    }
+    right: var(--space-3);
+    bottom: var(--space-3);
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    border-radius: 999px;
+    background: rgb(21 10 34 / 0.6);
+    color: var(--color-paper);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
   }
 
   h2 {
-    max-width: 18ch;
     font-size: var(--text-3xl);
-    color: var(--color-paper);
+    max-width: 16ch;
   }
 
-  .hero-actions {
+  .lead {
+    font-size: var(--text-lg);
+  }
+
+  .actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-4);
-  }
-
-  .watch,
-  .toggle {
-    min-height: 44px;
-    padding: var(--space-2) var(--space-6);
-    border-radius: 999px;
-    font-family: var(--font-display);
-    font-size: var(--text-base);
-    font-weight: 600;
+    margin-block: var(--space-6);
   }
 
   .watch {
-    display: inline-flex;
-    align-items: center;
-    background: var(--color-paper);
-    color: var(--color-ink);
-    text-decoration: none;
+    color: var(--color-paper);
+    font-family: var(--font-display);
+    font-weight: 600;
   }
 
   .watch:hover {
-    background: var(--color-mist);
-    color: var(--color-ink);
+    color: var(--color-paper);
+    text-decoration-color: var(--color-rose);
   }
 
-  .toggle {
-    border: 2px solid var(--color-paper);
-    background: transparent;
-    color: var(--color-paper);
-    cursor: pointer;
+  .credit {
+    display: grid;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    opacity: 0.85;
+  }
+
+  @media (min-width: 48em) {
+    .hero-film {
+      min-height: calc(100svh - var(--header-height));
+      display: grid;
+      align-items: center;
+      padding-block: var(--space-12);
+    }
+
+    .inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: var(--space-16);
+    }
+
+    .film {
+      order: 2;
+      max-width: none;
+      max-height: calc(100svh - var(--header-height) - var(--space-24));
+      width: auto;
+      height: calc(100svh - var(--header-height) - var(--space-24));
+    }
   }
 </style>
