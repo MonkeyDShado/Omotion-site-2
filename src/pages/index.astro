@@ -12,10 +12,27 @@ import { getCollection } from 'astro:content';
 import CampaignStrip from '../components/CampaignStrip.astro';
 import { byOrder } from '../data/projects';
 
+import { socials, whatsapp } from '../data/contact';
+import portrait from '../assets/about/portrait.jpg';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'O’Motion',
+  description: 'Key visuals et montage vidéo pour les PME et les entrepreneurs, créés avec l’IA et une direction artistique humaine.',
+  url: Astro.site?.href,
+  image: new URL(portrait.src, Astro.site).href,
+  telephone: whatsapp.number.replace(/\s/g, ''),
+  founder: { '@type': 'Person', name: 'Doumaine Mayombot Christopher' },
+  sameAs: socials.map((s) => s.href),
+  serviceType: ['Key visual', 'Vidéo scénarisée', 'Vidéo produit', 'Motion design', 'Vidéo institutionnelle'],
+};
+
 const featured = (await getCollection('projects', (p) => p.data.featured)).sort(byOrder);
 ---
 
 <BaseLayout
+  jsonLd={jsonLd}
   title="O’Motion — Key visuals et montage vidéo"
   description="Key visuals et montage vidéo pour les PME et les entrepreneurs. Un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
 >

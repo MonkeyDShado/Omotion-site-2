@@ -26,7 +26,7 @@ const gallery = data.gallery.length > 0 ? data.gallery : [{ src: data.cover, alt
 const aiPending = data.aiRole.startsWith('[À COMPLÉTER');
 ---
 
-<BaseLayout title={data.title} description={`${data.title} : ${data.coverAlt}`}>
+<BaseLayout title={data.title} description={`${data.title} : ${data.coverAlt}`} shareImage={data.cover}>
   <article class="container page">
     <a href="/projets" class="back">Tous les projets</a>
     <header>

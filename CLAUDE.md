@@ -60,7 +60,7 @@ Navigation principale : Projets, Services, À propos, Contact. Le bouton "Demand
 - Vidéos : **YouTube** pour les vidéos complètes (champ `youtubeId`), affichées avec `YouTubePlayer.astro` : image d'abord, YouTube chargé seulement au clic, domaine `youtube-nocookie.com`. Pas de synchronisation automatique de la chaîne : le portfolio reste une sélection, chaque vidéo a sa fiche (contexte, rôle de l'IA). Les extraits muets en boucle (film d'accueil, aperçus au survol) restent des MP4/WebM courts et compressés dans `public/videos/`, découpés à partir des originaux.
 - Échange de fichiers : le propriétaire partage un **dossier Google Drive** en lien public (« Tous les utilisateurs disposant du lien », lecteur). Télécharger avec `gdown` (pip), puis optimiser et ranger ; ne jamais committer les originaux lourds.
 - Formulaire : **Web3Forms** (`QuoteForm.astro`), envoi vers mayombotchristo@gmail.com, sans serveur, piège à robots `botcheck`, page de confirmation `/merci`. Clé d'accès dans `src/data/contact.ts` (formulaire « Devis O’Motion » créé avec l'URL localhost ; à mettre à jour avec le vrai domaine).
-- Hébergement : **Netlify**, offre gratuite (`netlify.toml`), adresse gratuite `*.netlify.app` en attendant un nom de domaine. Compte Netlify à créer par le propriétaire et à relier au dépôt GitHub `[À COMPLÉTER]`.
+- Hébergement : **Netlify**, offre gratuite (`netlify.toml`), adresse gratuite `*.netlify.app` en attendant un nom de domaine. Site Netlify « omotion » relié au dépôt, branche `claude/logo-design-plan-4gr2m1` : **https://omotion.netlify.app**. `site` défini dans `astro.config.mjs` ; sitemap (@astrojs/sitemap) et `robots.txt`.
 
 Si une autre stack te semble plus adaptée, propose-la avec ses raisons avant d'initialiser le projet.
 
@@ -155,7 +155,7 @@ Le champ `aiRole` est obligatoire : chaque projet explique en une ou deux phrase
 - Formulaire de devis : nom, email, type de service (Key visual / Vidéo / Les deux), budget indicatif, délai souhaité, message, lien de référence optionnel.
 - Après envoi : message de confirmation clair indiquant le délai de réponse : **sous 24 h**.
 - Protection anti-spam (honeypot), pas de reCAPTCHA intrusif.
-- Mentions légales conformes au droit français : le propriétaire travaille en indépendant et n'a **pas de SIRET** pour l'instant. Rédige les mentions sans SIRET (identité de l'éditeur, contact, hébergeur, RGPD) et prévois un emplacement à ajouter si un SIRET est obtenu plus tard. N'invente jamais de numéro. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
+- Mentions légales (`/mentions-legales`, avec politique de confidentialité) rédigées : éditeur, hébergeur Netlify, propriété intellectuelle (démos de vraies marques), données du formulaire, cookies. Adresse (ville, pays) : `[À COMPLÉTER]`. Le propriétaire travaille en indépendant et n'a **pas de SIRET** pour l'instant. Rédige les mentions sans SIRET (identité de l'éditeur, contact, hébergeur, RGPD) et prévois un emplacement à ajouter si un SIRET est obtenu plus tard. N'invente jamais de numéro. Pas de cookies de tracking sans consentement ; préfère une analytique sans cookies (Plausible, Umami).
 
 ## À ne pas faire
 
