@@ -2,7 +2,7 @@
 title: "Under Armour"
 context: concept
 realBrand: true
-order: 10
+order: 12
 date: 2026-08-01
 category: video
 videoType: produit

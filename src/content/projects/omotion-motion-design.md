@@ -1,7 +1,7 @@
 ---
 title: "O’Motion, motion design"
 context: auto-promotion
-order: 11
+order: 13
 date: 2026-08-01
 category: video
 videoType: motion-design

@@ -2,7 +2,7 @@
 title: "Koulshy Service"
 context: client
 client: "Koulshy Service"
-order: 12
+order: 14
 date: 2026-08-01
 category: video
 videoType: motion-design

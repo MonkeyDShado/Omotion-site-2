@@ -1,7 +1,7 @@
 ---
 title: "O’Miss"
 context: concept
-order: 7
+order: 9
 date: 2026-08-01
 category: video
 videoType: produit

@@ -2,7 +2,7 @@
 title: "Sprite, goûter à l’inédit"
 context: concept
 realBrand: true
-order: 6
+order: 7
 date: 2026-08-01
 category: video
 videoType: scenario

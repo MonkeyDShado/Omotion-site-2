@@ -43,7 +43,7 @@ Le nom contient "motion" : le mouvement est le fil conducteur, mais il doit serv
 /projets          Portfolio filtrable (Key visual / Vidéo)
 /projets/[slug]   Fiche projet : contexte, brief, livrables, visuels, rôle de l'IA
 /services         Détail des 2 offres, processus, délais indicatifs
-/a-propos         Le graphiste, l'approche, la place de l'IA dans le processus
+/a-propos         Personal branding : photo, présentation, chiffres calculés depuis le portfolio, compétences, méthode, outils
 /contact          Formulaire de demande de devis
 /mentions-legales Mentions légales + politique de confidentialité
 ```
@@ -102,7 +102,7 @@ Musique : « Amour All » utilise « All I Know » (The Weeknd) sans licence. Su
 
 Key visuals en ligne (`src/content/projects/`), un fichier par campagne, calqués sur les dossiers Drive du propriétaire. Page Projets : une bande par campagne (`CampaignStrip.astro`), visuels côte à côte à la même hauteur, ordre fixé par le champ `order`, filtres par thème (`src/data/themes.ts`). Campagnes : Ochrysto Fast-food (restauration, 9), Coco Flavours (restauration, 2), Le goût de l’inédit (boissons, 2), Top (boissons, vraie marque, 1), Savon noir El Hiama (beauté, 6), L’Interdit Givenchy (beauté, vraie marque, 3), Ochrysto Mode (mode, 8 ; Ochrysto est la marque du propriétaire, réutilisée pour ses démos), Your Money (finance, **seul vrai client**, 2), Graphiste pour key visual (auto-promotion, 2). Tous les autres sont des démos.
 
-Vidéos en ligne (14 fiches, `category: video`) : extraits muets de 8 s dans `public/videos/*-preview.mp4`, image dans `src/assets/videos/`. Page Projets, partie « Vidéos » : une bande par famille (`src/data/videoTypes.ts` : films et cinématiques, scénarisées, produit, motion design, institutionnelles) ; lecture au survol sur ordinateur, à l'écran sur mobile. Clients : Koulshy Service (motion design), Your Money (présentation d'application). Auto-promotion : O’Motion motion design, post animé. Démos : O’Cookies, O’Grills, Sprite, O’Miss, Milka Oreo, Nike, Under Armour, Tempête d’ambre ; concept visuel : L’envol de l’ange (cinématique de jeu) ; court métrage : Amour All. Liens YouTube et rôle de l'IA des vidéos : `[À COMPLÉTER]`.
+Vidéos en ligne (16 fiches, `category: video`) : extraits muets de 8 s dans `public/videos/*-preview.mp4`, image dans `src/assets/videos/`. Page Projets, partie « Vidéos » : une bande par famille (`src/data/videoTypes.ts` : films et cinématiques, scénarisées, produit, motion design, institutionnelles) ; lecture au survol sur ordinateur, à l'écran sur mobile. Clients : Koulshy Service (motion design), Your Money (présentation d'application). Auto-promotion : O’Motion motion design, post animé. Démos : O’Cookies, O’Grills, O’Céréals, Sprite (scénarisées) ; Tempête d’ambre, O’Miss, Milka Oreo, Nike, Under Armour (produit — Tempête d’ambre reste aussi film d’accueil) ; cinématiques : L’envol de l’ange, Le Roi inconnu (dossier « Empereur Dieu ») ; court métrage : Amour All. Liens YouTube et rôle de l'IA des vidéos : `[À COMPLÉTER]`.
 
 Honnêteté : chaque projet indique son contexte (`context` : `client`, `auto-promotion` ou `concept`). Une création de démonstration est toujours affichée comme telle, jamais présentée comme une commande client. Afficher le nom d'un client suppose son accord.
 

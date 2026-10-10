@@ -2,7 +2,7 @@
 title: "Nike, Determination"
 context: concept
 realBrand: true
-order: 9
+order: 11
 date: 2026-08-01
 category: video
 videoType: produit

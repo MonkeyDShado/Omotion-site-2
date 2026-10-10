@@ -3,7 +3,16 @@
  * Icônes maison, au trait arrondi et en dégradé violet → rose comme le symbole du logo.
  * Chaque tracé se dessine à l'apparition (data-reveal) ; un groupe .motion bouge au survol.
  */
-export type IconName = 'key-visual' | 'video-scenarisee' | 'video-institutionnelle' | 'ai' | 'clock' | 'message';
+export type IconName =
+  | 'key-visual'
+  | 'video-scenarisee'
+  | 'video-institutionnelle'
+  | 'ai'
+  | 'clock'
+  | 'message'
+  | 'motion'
+  | 'prompt'
+  | 'product';
 
 interface Props {
   name: IconName;
@@ -96,6 +105,38 @@ const stroke = `url(#${gradientId})`;
     )
   }
   {
+    name === 'motion' && (
+      <>
+        <circle class="draw" pathLength="1" cx="17" cy="24" r="9" />
+        <g class="motion">
+          <path class="draw" pathLength="1" d="M30 15c4 2 6 5.5 6 9s-2 7-6 9M37 10c6 3 9 8.5 9 14s-3 11-9 14" />
+        </g>
+      </>
+    )
+  }
+  {
+    name === 'prompt' && (
+      <>
+        <rect class="draw" pathLength="1" x="4" y="9" width="40" height="30" rx="5" />
+        <path class="draw" pathLength="1" d="M12 20l6 4-6 4" />
+        <g class="motion">
+          <path class="draw" pathLength="1" d="M22 29h12" />
+        </g>
+      </>
+    )
+  }
+  {
+    name === 'product' && (
+      <>
+        <path class="draw" pathLength="1" d="M18 6h12v7l4 5v22a3 3 0 01-3 3H17a3 3 0 01-3-3V18l4-5z" />
+        <path class="draw" pathLength="1" d="M14 26h20" />
+        <g class="motion">
+          <path class="draw" pathLength="1" d="M40 8v6M37 11h6" />
+        </g>
+      </>
+    )
+  }
+  {
     name === 'message' && (
       <>
         <path
@@ -151,6 +192,19 @@ const stroke = `url(#${gradientId})`;
 
   :global(.has-icon:hover) .icon-ai :global(.motion) {
     transform: rotate(45deg);
+  }
+
+  :global(.has-icon:hover) .icon-motion :global(.motion) {
+    transform: translateX(3px) scale(1.08);
+  }
+
+  :global(.has-icon:hover) .icon-prompt :global(.motion) {
+    transform: scaleX(0.4);
+    transform-origin: left;
+  }
+
+  :global(.has-icon:hover) .icon-product :global(.motion) {
+    transform: rotate(90deg) scale(1.2);
   }
 
   :global(.has-icon:hover) .icon-message :global(.motion) {

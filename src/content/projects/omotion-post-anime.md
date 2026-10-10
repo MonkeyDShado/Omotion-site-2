@@ -1,7 +1,7 @@
 ---
 title: "Graphiste designer, post animé"
 context: auto-promotion
-order: 14
+order: 15
 date: 2026-08-01
 category: video
 videoType: motion-design
