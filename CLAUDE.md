@@ -96,7 +96,9 @@ Inventaire fourni par le propriétaire (les fichiers arrivent via Google Drive, 
 
 - **Key visuals** (~20) : 4 pour des clients (2 clients, 2 visuels chacun), 2 d'auto-promotion, ~14 créations de démonstration (dont une dizaine en campagnes, le reste en visuels indépendants).
 - **Vidéos** (~10) : 1 pour un client, 1 d'auto-promotion, 2 vidéos produit, 2 en motion design 2D, 2 scénarisées, 2 films (les plus travaillés, sans visée publicitaire, pour montrer le savoir-faire).
-- **Films d'accueil** (`src/data/hero.ts`) : plein écran, sans cadre ni texte superposé (choix du propriétaire). Écran horizontal : extrait du court métrage « Amour All » (titre à confirmer), 16:9. Écran vertical : extrait de la publicité concept Zara #Tobacco, vertical. Texte et bouton devis sous le film.
+- **Films d'accueil** (`src/data/hero.ts`) : plein écran, sans cadre ni texte superposé (choix du propriétaire). Écran horizontal : extrait du court métrage « Amour All », 16:9. Écran vertical : extrait de « Tempête d’ambre », publicité concept (démo, non commandée) pour le parfum Zara #Tobacco, vertical. Texte et bouton devis sous le film.
+
+Musique : « Amour All » utilise « All I Know » (The Weeknd) sans licence. Sur le site, les extraits restent muets ; pour une version publique (YouTube), recommander une musique sous licence ou libre de droits.
 
 Honnêteté : chaque projet indique son contexte (`context` : `client`, `auto-promotion` ou `concept`). Une création de démonstration est toujours affichée comme telle, jamais présentée comme une commande client. Afficher le nom d'un client suppose son accord.
 

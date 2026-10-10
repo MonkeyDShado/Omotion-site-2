@@ -29,13 +29,14 @@ export interface HeroFilms {
 /** Mettre à null pour revenir au logo et aux formes animées */
 export const heroFilms: HeroFilms | null = {
   landscape: {
-    title: 'Amour All', // [À CONFIRMER] lu dans le générique du film
+    title: 'Amour All',
     credit: 'Court métrage, création O’Motion',
     mp4: '/videos/hero-film-landscape.mp4',
     webm: '/videos/hero-film-landscape.webm',
     poster: landscapePoster,
   },
   portrait: {
+    title: 'Tempête d’ambre',
     credit: 'Publicité concept, création de démonstration non commandée par la marque',
     mp4: '/videos/hero-film-portrait.mp4',
     webm: '/videos/hero-film-portrait.webm',
