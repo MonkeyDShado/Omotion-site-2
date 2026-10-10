@@ -5,7 +5,7 @@ import logoLight from '../assets/brand/omotion-logo-light.png';
 import { services } from '../data/services';
 import Icon from '../components/Icon.astro';
 import HeroFilm from '../components/HeroFilm.astro';
-import { heroFilm } from '../data/hero';
+import { heroFilms } from '../data/hero';
 ---
 
 <BaseLayout
@@ -14,8 +14,8 @@ import { heroFilm } from '../data/hero';
 >
   <h1 class="visually-hidden">O’Motion, key visuals et montage vidéo</h1>
   {
-    heroFilm ? (
-      <HeroFilm film={heroFilm} />
+    heroFilms ? (
+      <HeroFilm films={heroFilms} />
     ) : (
       <section class="hero on-night" aria-label="Showreel">
         <div class="hero-motion" aria-hidden="true">

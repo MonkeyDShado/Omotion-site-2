@@ -1,150 +1,190 @@
 ---
 import { getImage } from 'astro:assets';
 import QuoteButton from './QuoteButton.astro';
-import type { HeroFilm } from '../data/hero';
+import type { HeroFilm, HeroFilms } from '../data/hero';
 
 interface Props {
-  film: HeroFilm;
+  films: HeroFilms;
 }
 
-const { film } = Astro.props;
-const poster = await getImage({ src: film.poster, width: 720, format: 'webp' });
-const backdrop = await getImage({ src: film.poster, width: 64, format: 'webp' });
+const { films } = Astro.props;
+const [landscapePoster, portraitPoster] = await Promise.all([
+  getImage({ src: films.landscape.poster, width: 1600, format: 'webp' }),
+  getImage({ src: films.portrait.poster, width: 800, format: 'webp' }),
+]);
+
+const sources = (film: HeroFilm) => JSON.stringify({ mp4: film.mp4, webm: film.webm });
+const youtube = (film: HeroFilm) => film.youtubeId && `https://www.youtube.com/watch?v=${film.youtubeId}`;
 ---
 
-<section class="hero-film on-night" style={`--backdrop: url(${backdrop.src})`} aria-labelledby="hero-title">
-  <div class="inner container">
-    <figure class="film" style={`aspect-ratio: ${film.width} / ${film.height}`}>
-      <video
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster={poster.src}
-        width={film.width}
-        height={film.height}
-        data-hero-video
-        aria-hidden="true"
-      >
-        {film.loopWebm && <source src={film.loopWebm} type="video/webm" />}
-        <source src={film.loopMp4} type="video/mp4" />
-      </video>
-      <button type="button" class="toggle" data-hero-toggle aria-pressed="false">Pause</button>
-    </figure>
+<section
+  class="hero-film on-night"
+  style={`--poster-landscape: url(${landscapePoster.src}); --poster-portrait: url(${portraitPoster.src})`}
+  aria-labelledby="hero-title"
+>
+  <div class="screen">
+    <video
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-hidden="true"
+      data-hero-video
+      data-landscape={sources(films.landscape)}
+      data-portrait={sources(films.portrait)}
+    ></video>
+    <button type="button" class="toggle" data-hero-toggle aria-pressed="false" aria-label="Mettre le film en pause">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path class="icon-pause" d="M8 5v14M16 5v14" />
+        <path class="icon-play" d="M8 5l11 7-11 7z" />
+      </svg>
+    </button>
+  </div>
 
-    <div class="text">
-      <h2 id="hero-title">Des images au rendu studio, sans le budget d’un tournage.</h2>
-      <p class="lead">Key visuals et vidéos pour les PME et les entrepreneurs, créés avec l’IA et une vraie direction artistique.</p>
-      <div class="actions">
-        <QuoteButton />
-        {
-          film.youtubeId && (
-            <a class="watch" href={`https://www.youtube.com/watch?v=${film.youtubeId}`} target="_blank" rel="noopener">
-              Voir le film en entier
-            </a>
-          )
-        }
-      </div>
-      <p class="credit">
-        {film.title ?? <span class="placeholder">[À COMPLÉTER — titre du film]</span>}
-        <span>{film.credit}</span>
-      </p>
+  <div class="intro container">
+    <h2 id="hero-title">Des images au rendu studio, sans le budget d’un tournage.</h2>
+    <p class="lead">
+      Key visuals et vidéos pour les PME et les entrepreneurs, créés avec l’IA et une vraie direction artistique.
+    </p>
+    <div class="actions">
+      <QuoteButton />
     </div>
+    {
+      (['landscape', 'portrait'] as const).map((format) => {
+        const film = films[format];
+        const link = youtube(film);
+        return (
+          <p class={`credit credit-${format}`}>
+            <span class="credit-title">
+              {film.title ?? <span class="placeholder">[À COMPLÉTER — titre du film]</span>}
+            </span>
+            <span>{film.credit}</span>
+            {link && (
+              <a href={link} target="_blank" rel="noopener">
+                Voir le film en entier
+              </a>
+            )}
+          </p>
+        );
+      })
+    }
   </div>
 </section>
 
 <script>
   const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-hero-toggle]');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (video && toggle) {
+    // Même règle que le CSS : écran horizontal → film 16:9, sinon film vertical
+    const landscape = window.matchMedia('(min-aspect-ratio: 1/1)');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let userPaused = reduced;
+    let visible = false;
 
     const render = () => {
-      toggle.textContent = video.paused ? 'Lecture' : 'Pause';
       toggle.setAttribute('aria-pressed', String(video.paused));
+      toggle.setAttribute('aria-label', video.paused ? 'Lire le film' : 'Mettre le film en pause');
     };
 
-    const play = () => video.play().catch(() => {}).finally(render);
+    const update = () => {
+      if (visible && !userPaused) video.play().catch(() => {}).finally(render);
+      else video.pause();
+      render();
+    };
+
+    const load = () => {
+      const { mp4, webm } = JSON.parse((landscape.matches ? video.dataset.landscape : video.dataset.portrait) ?? '{}');
+      const src = webm && video.canPlayType('video/webm; codecs="vp9"') ? webm : mp4;
+      if (video.getAttribute('src') === src) return;
+      video.src = src;
+      video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+      video.classList.remove('is-playing');
+      update();
+    };
 
     toggle.addEventListener('click', () => {
       userPaused = !video.paused;
-      if (userPaused) video.pause();
-      else play();
-      render();
+      update();
     });
 
-    // Lecture uniquement quand le film est visible, jamais si le visiteur l'a mis en pause
+    landscape.addEventListener('change', load);
+
+    // Lecture uniquement quand le film est visible
     new IntersectionObserver(([entry]) => {
-      if (entry?.isIntersecting && !userPaused) play();
-      else video.pause();
-      render();
+      visible = Boolean(entry?.isIntersecting);
+      update();
     }).observe(video);
 
-    render();
+    load();
   }
 </script>
 
 <style>
-  .hero-film {
+  /* L'écran du film : plein cadre, entre l'en-tête et la barre de devis mobile */
+  .screen {
     position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    padding-block: var(--space-6) calc(var(--space-12) + 4.5rem);
-  }
-
-  /* Fond : l'image du film, très floutée, pour prolonger son ambiance */
-  .hero-film::before {
-    content: '';
-    position: absolute;
-    inset: -10%;
-    z-index: -1;
-    background: var(--backdrop) center / cover;
-    filter: blur(40px) brightness(0.45) saturate(1.2);
-  }
-
-  .inner {
-    display: grid;
-    gap: var(--space-8);
-    align-items: center;
-  }
-
-  .film {
-    position: relative;
-    margin: 0;
-    /* sur mobile, le film laisse apparaître le début du titre */
-    width: min(100%, 480px, 60svh * 720 / 894);
-    justify-self: center;
-    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.6);
+    height: calc(100svh - var(--header-height) - 4.5rem - env(safe-area-inset-bottom));
+    min-height: 420px;
+    background: var(--poster-portrait) center / cover no-repeat var(--color-night);
   }
 
   video {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0;
+    transition: opacity 600ms var(--ease-fluid);
+  }
+
+  video:global(.is-playing) {
+    opacity: 1;
   }
 
   .toggle {
     position: absolute;
-    right: var(--space-3);
-    bottom: var(--space-3);
-    min-height: 44px;
-    padding: var(--space-2) var(--space-4);
-    border: 1px solid rgb(255 255 255 / 0.7);
-    border-radius: 999px;
-    background: rgb(21 10 34 / 0.6);
+    right: var(--gutter);
+    bottom: var(--space-4);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(21 10 34 / 0.45);
     color: var(--color-paper);
-    font-family: var(--font-display);
-    font-size: var(--text-sm);
-    font-weight: 600;
     cursor: pointer;
     backdrop-filter: blur(6px);
   }
 
+  .toggle svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .toggle .icon-play,
+  .toggle[aria-pressed='true'] .icon-pause {
+    display: none;
+  }
+
+  .toggle[aria-pressed='true'] .icon-play {
+    display: block;
+    fill: currentColor;
+  }
+
+  .intro {
+    padding-block: var(--space-12) var(--space-16);
+  }
+
   h2 {
     font-size: var(--text-3xl);
-    max-width: 16ch;
+    max-width: 18ch;
   }
 
   .lead {
@@ -152,50 +192,64 @@ const backdrop = await getImage({ src: film.poster, width: 64, format: 'webp' })
   }
 
   .actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-4);
     margin-block: var(--space-6);
   }
 
-  .watch {
-    color: var(--color-paper);
-    font-family: var(--font-display);
-    font-weight: 600;
-  }
-
-  .watch:hover {
-    color: var(--color-paper);
-    text-decoration-color: var(--color-rose);
-  }
-
   .credit {
-    display: grid;
-    gap: var(--space-1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0;
     font-size: var(--text-sm);
     opacity: 0.85;
   }
 
+  .credit-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .credit a {
+    color: var(--color-paper);
+  }
+
+  .credit-landscape {
+    display: none;
+  }
+
+  @media (min-aspect-ratio: 1/1) {
+    .screen {
+      background-image: var(--poster-landscape);
+    }
+
+    .credit-landscape {
+      display: flex;
+    }
+
+    .credit-portrait {
+      display: none;
+    }
+  }
+
   @media (min-width: 48em) {
-    .hero-film {
-      min-height: calc(100svh - var(--header-height));
+    .screen {
+      height: calc(100svh - var(--header-height));
+    }
+
+    .intro {
       display: grid;
-      align-items: center;
-      padding-block: var(--space-12);
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      column-gap: var(--space-16);
+      align-items: end;
     }
 
-    .inner {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-      gap: var(--space-16);
+    .intro > :not(h2) {
+      grid-column: 2;
     }
 
-    .film {
-      order: 2;
-      max-width: none;
-      max-height: calc(100svh - var(--header-height) - var(--space-24));
-      width: auto;
-      height: calc(100svh - var(--header-height) - var(--space-24));
+    h2 {
+      grid-row: 1 / span 3;
+      margin: 0;
     }
   }
 </style>
