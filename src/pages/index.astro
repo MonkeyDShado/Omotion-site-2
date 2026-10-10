@@ -4,23 +4,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import logoLight from '../assets/brand/omotion-logo-light.png';
 import { services } from '../data/services';
 import Icon from '../components/Icon.astro';
+import HeroFilm from '../components/HeroFilm.astro';
+import { heroFilm } from '../data/hero';
 ---
 
 <BaseLayout
   title="O’Motion — Key visuals et montage vidéo"
   description="Key visuals et montage vidéo pour les PME et les entrepreneurs. Un rendu professionnel, assisté par l’IA, avec un budget maîtrisé."
 >
-  <section class="hero on-night" aria-label="Showreel">
-    <div class="hero-motion" aria-hidden="true">
-      <span class="blob blob-violet"></span>
-      <span class="blob blob-rose"></span>
-      <span class="drop drop-1"></span>
-      <span class="drop drop-2"></span>
-      <span class="drop drop-3"></span>
-    </div>
-    <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={259} height={210} loading="eager" />
-    <p class="placeholder">[À COMPLÉTER — showreel plein écran, boucle muette]</p>
-  </section>
+  <h1 class="visually-hidden">O’Motion, key visuals et montage vidéo</h1>
+  {
+    heroFilm ? (
+      <HeroFilm film={heroFilm} />
+    ) : (
+      <section class="hero on-night" aria-label="Showreel">
+        <div class="hero-motion" aria-hidden="true">
+          <span class="blob blob-violet"></span>
+          <span class="blob blob-rose"></span>
+          <span class="drop drop-1"></span>
+          <span class="drop drop-2"></span>
+          <span class="drop drop-3"></span>
+        </div>
+        <Image src={logoLight} densities={[1, 2]} alt="O’Motion" width={259} height={210} loading="eager" />
+        <p class="placeholder">[À COMPLÉTER — film d’accueil]</p>
+      </section>
+    )
+  }
 
   <section class="container section">
     <h2>Projets</h2>

@@ -89,15 +89,28 @@ public/videos/         aperçus vidéo courts
 docs/                  plan de design, notes
 ```
 
+## Portfolio disponible
+
+Inventaire fourni par le propriétaire (les fichiers arrivent dans `a-trier/`, à optimiser puis ranger) :
+
+- **Key visuals** (~20) : 4 pour des clients (2 clients, 2 visuels chacun), 2 d'auto-promotion, ~14 créations de démonstration (dont une dizaine en campagnes, le reste en visuels indépendants).
+- **Vidéos** (~10) : 1 pour un client, 1 d'auto-promotion, 2 vidéos produit, 2 en motion design 2D, 2 scénarisées, 2 films (les plus travaillés, sans visée publicitaire, pour montrer le savoir-faire).
+- **Film d'accueil** : l'un des deux films sert de « panneau d'entrée » plein écran sur l'accueil (`src/data/hero.ts`, extrait court muet en boucle + lien vers le film complet).
+
+Honnêteté : chaque projet indique son contexte (`context` : `client`, `auto-promotion` ou `concept`). Une création de démonstration est toujours affichée comme telle, jamais présentée comme une commande client. Afficher le nom d'un client suppose son accord.
+
 ## Modèle de contenu d'un projet
 
 Frontmatter de `src/content/projects/*.md` :
 
 ```yaml
 title: "Nom du projet"
-client: "Nom du client"        # ou "Projet personnel"
+context: client                # client | auto-promotion | concept
+client: "Nom du client"        # seulement si context = client
 date: 2026-05-01
 category: key-visual           # key-visual | video
+videoType: film                # optionnel : produit | motion-design | scenario | film | institutionnel
+campaign: "Nom de la campagne" # optionnel, regroupe des key visuals
 featured: true                 # affiché sur l'accueil
 cover: ../../assets/projects/xxx/cover.jpg
 coverAlt: "Description précise du visuel"

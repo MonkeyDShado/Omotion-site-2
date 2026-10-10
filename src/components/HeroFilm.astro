@@ -1,0 +1,158 @@
+---
+import { getImage } from 'astro:assets';
+import type { HeroFilm } from '../data/hero';
+
+interface Props {
+  film: HeroFilm;
+}
+
+const { film } = Astro.props;
+const poster = await getImage({ src: film.poster, width: 1600, format: 'webp' });
+---
+
+<section class="hero-film on-night" aria-label={`Film : ${film.title}`}>
+  <video
+    class="hero-video"
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={poster.src}
+    data-hero-video
+    aria-hidden="true"
+  >
+    {film.loopWebm && <source src={film.loopWebm} type="video/webm" />}
+    <source src={film.loopMp4} type="video/mp4" />
+  </video>
+
+  <div class="hero-content container">
+    <h2>{film.title}</h2>
+    <div class="hero-actions">
+      {
+        film.fullUrl ? (
+          <a class="watch" href={film.fullUrl} target="_blank" rel="noopener">
+            Voir le film en entier
+          </a>
+        ) : (
+          <span class="placeholder">[À COMPLÉTER — lien du film complet]</span>
+        )
+      }
+      <button type="button" class="toggle" data-hero-toggle aria-pressed="false">Pause</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-hero-toggle]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (video && toggle) {
+    let userPaused = reduced;
+
+    const render = () => {
+      toggle.textContent = video.paused ? 'Lecture' : 'Pause';
+      toggle.setAttribute('aria-pressed', String(video.paused));
+    };
+
+    const play = () => video.play().catch(() => {}).finally(render);
+
+    toggle.addEventListener('click', () => {
+      userPaused = !video.paused;
+      if (userPaused) video.pause();
+      else play();
+      render();
+    });
+
+    // Lecture uniquement quand le film est visible, jamais si l'utilisateur l'a mis en pause
+    new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting && !userPaused) play();
+      else video.pause();
+      render();
+    }).observe(video);
+
+    render();
+  }
+</script>
+
+<style>
+  .hero-film {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: calc(100svh - var(--header-height));
+    overflow: hidden;
+  }
+
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Dégradé night pour garder le texte lisible sur n'importe quelle image */
+  .hero-film::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--color-night) 0%, transparent 55%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    /* sur mobile, laisse la place à la barre « Demander un devis » */
+    padding-bottom: calc(var(--space-12) + 4.5rem);
+  }
+
+  @media (min-width: 48em) {
+    .hero-content {
+      padding-bottom: var(--space-16);
+    }
+  }
+
+  h2 {
+    max-width: 18ch;
+    font-size: var(--text-3xl);
+    color: var(--color-paper);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .watch,
+  .toggle {
+    min-height: 44px;
+    padding: var(--space-2) var(--space-6);
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .watch {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .watch:hover {
+    background: var(--color-mist);
+    color: var(--color-ink);
+  }
+
+  .toggle {
+    border: 2px solid var(--color-paper);
+    background: transparent;
+    color: var(--color-paper);
+    cursor: pointer;
+  }
+</style>
