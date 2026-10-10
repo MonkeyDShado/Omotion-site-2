@@ -5,6 +5,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
 import QuoteButton from '../../components/QuoteButton.astro';
 import YouTubePlayer from '../../components/YouTubePlayer.astro';
+import VideoLoop from '../../components/VideoLoop.astro';
+import { videoTypeLabels } from '../../data/videoTypes';
 import { themes } from '../../data/themes';
 import { contextLabel, countLabel } from '../../data/projects';
 
@@ -30,11 +32,28 @@ const aiPending = data.aiRole.startsWith('[À COMPLÉTER');
     <header>
       <h1>{data.title}</h1>
       <p class="meta">
-        <span>{themes[data.theme]}</span>
-        <span>{countLabel(project)}</span>
+        {data.videoType ? <span>{videoTypeLabels[data.videoType]}</span> : data.theme && <span>{themes[data.theme]}</span>}
+        {data.category === 'key-visual' && <span>{countLabel(project)}</span>}
       </p>
       <p class="context">{contextLabel(project)}</p>
     </header>
+
+    {
+      data.category === 'video' && (
+        <div class="player" style={`--ratio: ${data.cover.width / data.cover.height}`}>
+          {data.youtubeId ? (
+            <YouTubePlayer id={data.youtubeId} title={data.title} ratio={`${data.cover.width} / ${data.cover.height}`} />
+          ) : (
+            <>
+              <VideoLoop src={data.videoPreview!} poster={data.cover} width={1280} />
+              <p class="note">
+                Extrait muet. <span class="placeholder">[À COMPLÉTER — lien YouTube de la version complète]</span>
+              </p>
+            </>
+          )}
+        </div>
+      )
+    }
 
     <div class="intro">
       <div class="text"><Content /></div>
@@ -44,8 +63,7 @@ const aiPending = data.aiRole.startsWith('[À COMPLÉTER');
       </aside>
     </div>
 
-    {data.youtubeId && <YouTubePlayer id={data.youtubeId} title={data.title} />}
-
+    {data.category === 'key-visual' && (
     <ProjectGrid>
       {
         gallery.map((item, i) => (
@@ -61,6 +79,7 @@ const aiPending = data.aiRole.startsWith('[À COMPLÉTER');
         ))
       }
     </ProjectGrid>
+    )}
 
     <section class="cta" aria-labelledby="cta-title">
       <h2 id="cta-title">Un projet dans le même esprit ?</h2>
@@ -118,6 +137,17 @@ const aiPending = data.aiRole.startsWith('[À COMPLÉTER');
 
   .ai p {
     margin: 0;
+  }
+
+  /* Le lecteur garde le format d'origine sans dépasser la hauteur de l'écran */
+  .player {
+    width: min(100%, calc(80svh * var(--ratio)));
+    margin: var(--space-8) auto 0;
+  }
+
+  .note {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
   }
 
   figure {

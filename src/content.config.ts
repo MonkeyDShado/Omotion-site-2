@@ -18,8 +18,8 @@ const projects = defineCollection({
         order: z.number().int().default(99),
         date: z.coerce.date(),
         category: z.enum(['key-visual', 'video']),
-        theme: z.enum(themeIds),
-        videoType: z.enum(['produit', 'motion-design', 'scenario', 'film', 'institutionnel']).optional(),
+        theme: z.enum(themeIds).optional(),
+        videoType: z.enum(['film', 'cinematique', 'scenario', 'produit', 'motion-design', 'institutionnel']).optional(),
         featured: z.boolean().default(false),
         cover: image(),
         coverAlt: z.string().min(1),
@@ -30,6 +30,10 @@ const projects = defineCollection({
         tools: z.array(z.string()).default([]),
         // Obligatoire : ce qu'a fait l'IA, ce qui relève du travail humain
         aiRole: z.string().min(1),
+      })
+      .refine((p) => p.category !== 'video' || (Boolean(p.videoType) && Boolean(p.videoPreview)), {
+        message: 'Une vidéo a besoin de videoType et de videoPreview',
+        path: ['videoPreview'],
       })
       .refine((p) => p.context !== 'client' || Boolean(p.client), {
         message: 'Le nom du client est obligatoire pour un projet client',

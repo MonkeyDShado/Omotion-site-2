@@ -25,7 +25,8 @@ const titleId = `campagne-${project.id}`;
 
 <section
   class:list={['campaign', tone === 'dark' && 'on-night']}
-  data-theme={data.theme}
+  data-filterable
+  data-theme={data.theme ?? ''}
   data-category={data.category}
   aria-labelledby={titleId}
 >
@@ -33,7 +34,7 @@ const titleId = `campagne-${project.id}`;
     <div>
       <h2 id={titleId}><a href={href}>{data.title}</a></h2>
       <p class="meta">
-        <span>{themes[data.theme]}</span>
+        {data.theme && <span>{themes[data.theme]}</span>}
         <span>{countLabel(project)}</span>
       </p>
       <p class="context">{contextLabel(project)}</p>
