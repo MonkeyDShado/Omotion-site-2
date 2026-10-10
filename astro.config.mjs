@@ -6,6 +6,8 @@ export default defineConfig({
   // Adresse publique (Netlify) : sert au sitemap, aux liens canoniques et aux aperçus de partage
   site: 'https://omotion.netlify.app',
   trailingSlash: 'never',
+  // Pages en fichiers .html (ex. /contact.html) : Netlify les sert sans redirection vers /contact/
+  build: { format: 'file' },
   // Plan du site pour Google ; la page de remerciement du formulaire n'a pas à y figurer
   integrations: [sitemap({ filter: (page) => !page.includes('/merci') })],
 });
